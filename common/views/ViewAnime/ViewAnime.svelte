@@ -326,7 +326,7 @@
                 <hr class='w-full' />
               </div>
               <div class='font-size-16 pre-wrap pt-20 select-all'>
-                {staticMedia.description?.replace(/<[^>]*>/g, '')?.replace(/\.\.+/g, '.') || ''}
+                {staticMedia.description?.replace(/<[^>]*>/g, '')?.replace(/\.\.+(?=\s*$)/gm, '.') || ''}
               </div>
             {/if}
             <Following media={staticMedia} />
