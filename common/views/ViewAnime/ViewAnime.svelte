@@ -22,7 +22,7 @@
   import SmallCard from '@/components/cards/SmallCard.svelte'
   import SmallCardSk from '@/components/skeletons/SmallCardSk.svelte'
   import Helper from '@/modules/helper.js'
-  import { ArrowLeft, Clapperboard, TvMinimalPlay, ExternalLink, Users, Heart, Play, Share2, Timer, TrendingUp, Tv, Hash, ArrowDown01, ArrowUp10 } from 'lucide-svelte'
+  import { ArrowLeft, Clapperboard, TvMinimalPlay, Users, Heart, Play, Timer, TrendingUp, Tv, Hash, ArrowDown01, ArrowUp10 } from 'lucide-svelte'
 
   export let overlay
   const view = getContext('view')
@@ -295,11 +295,11 @@
                           <TvMinimalPlay size='1.7rem' />
                         </button>
                       {/if}
-                      <button class='btn bg-dark-light btn-lg btn-square d-flex align-items-center justify-content-center shadow-none border-0' data-toggle='tooltip' data-placement='top' data-target-breakpoint='md' data-title='Share to Clipboard' class:ml-10={Helper.isAuthorized() || (trailerUrl?.trailer?.id || trailerUrl?.data?.trailer?.youtube_id)} use:click={() => copyToClipboard(Helper.isAniAuth() || !staticMedia.idMal ? `https://anilist.co/anime/${staticMedia.id}` : `https://myanimelist.net/anime/${staticMedia.idMal}`)}>
-                        <Share2 size='1.7rem' />
+                      <button class='btn bg-dark-light btn-lg btn-square d-none align-items-center justify-content-center shadow-none border-0' class:d-flex={staticMedia.id} data-toggle='tooltip' data-placement='top' data-target-breakpoint='md' data-title='Share to Clipboard' class:ml-10={Helper.isAuthorized() || (trailerUrl?.trailer?.id || trailerUrl?.data?.trailer?.youtube_id)} use:click={() => copyToClipboard(`https://anilist.co/anime/${staticMedia.id}`)} on:contextmenu|preventDefault={() => openInBrowser(`https://anilist.co/anime/${staticMedia.id}`)}>
+                        <img class='rounded w-20' src='./anilist_icon.png' alt='Anilist'>
                       </button>
-                      <button class='btn bg-dark-light btn-lg btn-square d-flex align-items-center justify-content-center shadow-none border-0 ml-10' data-toggle='tooltip' data-placement='top' data-target-breakpoint='md' data-title={`View on ${Helper.isAniAuth() || !staticMedia.idMal ? 'Anilist' : 'MyAnimeList'}`} use:click={() => openInBrowser(Helper.isAniAuth() || !staticMedia.idMal ? `https://anilist.co/anime/${staticMedia.id}` : `https://myanimelist.net/anime/${staticMedia.idMal}`)}>
-                        <ExternalLink size='1.7rem' />
+                      <button class='btn bg-dark-light btn-lg btn-square d-none align-items-center justify-content-center shadow-none border-0' class:d-flex={staticMedia.idMal} data-toggle='tooltip' data-placement='top' data-target-breakpoint='md' data-title='Share to Clipboard' class:ml-10={Helper.isAuthorized() || (trailerUrl?.trailer?.id || trailerUrl?.data?.trailer?.youtube_id) || staticMedia.id} use:click={() => copyToClipboard(`https://myanimelist.net/anime/${staticMedia.idMal}`)} on:contextmenu|preventDefault={() => openInBrowser(`https://myanimelist.net/anime/${staticMedia.idMal}`)}>
+                        <img class='rounded w-20' src='./myanimelist_icon.png' alt='MyAnimeList'>
                       </button>
                     {/await}
                   </div>
