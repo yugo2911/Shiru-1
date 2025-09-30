@@ -279,7 +279,7 @@
                 <div class="unreleased-overlay position-absolute top-0 left-0 right-0 h-full pointer-events-none rounded-2" class:d-none={!unreleased}/>
                 {#if image}
                   <div class='d-flex'>
-                    <SmartImage class='img-cover h-full' images={[image, './404_episode.png']}/>
+                    <SmartImage class='img-cover {!SUPPORTS.isAndroid ? `h-150` : `h-165`} w-full w-sm-auto' images={[image, './404_episode.png']}/>
                     {#if resolvedHash}
                       <div class='position-relative torrent-button-container'>
                         <div class='position-absolute top-0 right-0 text-danger icon-padding icon-shadow'>
@@ -363,9 +363,6 @@
 </div>
 
 <style>
-  .h-165 {
-    height: 16.5rem !important
-  }
   .icon-padding {
     padding-top: .25rem;
     padding-right: .25rem;
@@ -377,7 +374,7 @@
     filter: blur(0) grayscale(20%);
   }
   .unreleased .summary {
-    color: var(--accent-color)
+    color: var(--accent-color);
   }
   .unreleased-overlay {
     background: repeating-linear-gradient(-45deg, hsla(var(--black-color-hsl), 0.3), hsla(var(--black-color-hsl), 0.3) 1rem, transparent 1rem, transparent 2rem);
@@ -423,7 +420,7 @@
       display: inline !important;
     }
   }
-  @media (max-width: 525px) {
+  @media (max-width: 576px) {
     .line-sm-3 {
       -webkit-line-clamp: 3 !important;
     }
