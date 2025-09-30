@@ -76,6 +76,13 @@ export default new class AnimeResolver {
       titles.add(modified)
     }
 
+    // Remove (OAV)
+    const oavMatch = modified.match(/\(oav\)/i) || modified.match(/oav/i)
+    if (oavMatch) {
+      modified = modified.replace(/\(oav\)/i, '').replace(/oav/i, '')
+      titles.add(modified)
+    }
+
     // Remove (ONA)
     const onaMatch = modified.match(/\(ona\)/i) || modified.match(/ona/i)
     if (onaMatch) {

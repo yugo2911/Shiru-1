@@ -201,6 +201,10 @@ export async function anitomyscript (...args) {
     }
     obj.anime_title = obj.anime_title.replace(/(?<=\s)-\s*|\s*-(?=\s)/g, '')
     if (Number(obj.anime_season) > 1) obj.anime_title += ' S' + Number(obj.anime_season)
+    if ((!obj.anime_type || ((Array.isArray(obj.anime_type) ? obj.anime_type[0] : obj.anime_type).toUpperCase()).includes('OAV')) && obj.anime_title.match(/\s*\(?oav\)?\s*$/i)) {
+      obj.anime_title = obj.anime_title.replace(/\s*\(?oav\)?\s*$/i, '')
+      if (!obj.anime_type) obj.anime_type = 'OAV'
+    }
   }
   debug('AnitoMyScript found titles:', JSON.stringify(parseObjs))
   return parseObjs
