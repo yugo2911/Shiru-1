@@ -22,6 +22,7 @@
     $: notWatching = ((!$mediaCache[file?.media?.media?.id]?.mediaListEntry?.progress) || ($mediaCache[file?.media?.media?.id]?.mediaListEntry?.progress === 0 && ($mediaCache[file?.media?.media?.id]?.mediaListEntry?.status !== 'CURRENT' || $mediaCache[file?.media?.media?.id]?.mediaListEntry?.status !== 'REPEATING' && $mediaCache[file?.media?.media?.id]?.mediaListEntry?.status !== 'COMPLETED')))
     $: behind = Helper.isAuthorized() && file?.media?.episode && !Array.isArray(file?.media?.episode) && (file?.media?.episode - 1) >= 1 && ($mediaCache[file?.media?.media?.id]?.mediaListEntry?.status !== 'COMPLETED' && (($mediaCache[file?.media?.media?.id]?.mediaListEntry?.progress || -1) < (file?.media?.episode - 1)))
     $: watched = !notWatching && !behind && file?.media?.episode && ($mediaCache[file?.media?.media?.id]?.mediaListEntry?.status === 'COMPLETED' || ($mediaCache[file?.media?.media?.id]?.mediaListEntry?.progress >= file?.media?.episode))
+    $: failed = file?.failed || file?.media?.failed
 
     let prompt = false
 
@@ -29,7 +30,7 @@
     let updateTimer = null
     $: episode = getEpisode()
     function getEpisode() {
-        const currentEpisode = (file?.media?.episodeRange && `${file.media.episodeRange.first}~${file.media.episodeRange.last}`) || (file?.media?.episode && (Array.isArray(file.media.episode) ? `${file.media.episode?.[0]}~${file.media.episode?.[1]}` : `${file?.media?.episode}`))
+        const currentEpisode = (file?.media?.episodeRange && `${file.media.episodeRange.first}~${file.media.episodeRange.last}`) || (file?.media?.episode && (Array.isArray(file.media.episode) ? `${file.media.episode?.[0]}~${file.media.episode?.[1]}` : (file?.media?.episode || file?.media?.episode === 0) ? `${file?.media?.episode}` : null))
         return /^\d+$/.test(currentEpisode) ? Number(currentEpisode) : currentEpisode
     }
     function updateEpisode(file, event) {
@@ -73,6 +74,7 @@
     }
     function verifySeries() {
         file.locked = true
+        file.media.failed = false
         setHash(file.infoHash, {
             fileHash: file.fileHash,
             mediaId: file.media.media?.id,
@@ -100,20 +102,20 @@
         <div class='d-flex'>
             <p class='file-title overflow-hidden font-weight-bold my-0 mt-10 mr-10 font-scale-18 {SUPPORTS.isAndroid ? `line-clamp-1` : `line-clamp-2`}'>{#if file?.media?.media}{anilistClient.title(file?.media.media)}{:else}{file?.media?.parseObject?.anime_title || file?.name || 'UNK'}{/if}</p>
             <button type='button' tabindex='-1' class='position-absolute f-safe-area top-0 right-0 h-50 bg-transparent border-0 shadow-none not-reactive z-1 {file?.locked || file?.media?.locked || !episode?.length ? `w-50` : `w-90`}' use:click={() => {}}/>
-          <button type='button' class='ml-auto verify-btn btn btn-square d-none align-items-center justify-content-center mr-5 px-5 z-1' class:d-flex={!(file?.locked || file?.media?.locked || !episode?.length)} title='Confirm this series as being correct' use:click={() => { prompt = false; verifySeries() } }><SquareCheckBig color='var(--tertiary-color)' size='1.7rem' strokeWidth='3'/></button>
-            <button type='button' class='ml-auto edit-btn btn btn-square d-flex align-items-center justify-content-center px-5 z-1' class:ml-auto={file?.locked || file?.media?.locked || !episode?.length} title='Opens a prompt to select the correct series' use:click={() => { prompt = false; fileEdit(file, files, file?.media?.media ? anilistClient.title(file?.media.media) : file?.media?.parseObject?.anime_title || '') } }><SquarePen size='1.7rem' strokeWidth='3'/></button>
+            <button type='button' class='ml-auto verify-btn btn btn-square d-none align-items-center justify-content-center mr-5 px-5 z-1' class:d-flex={!(file?.locked || file?.media?.locked || (!episode && file?.media?.media?.episodes > 1)) || (failed && (episode || file?.media?.media?.episodes <= 1))} title='Confirm this series as being correct' use:click={() => { prompt = false; verifySeries() } }><SquareCheckBig color='var(--tertiary-color)' size='1.7rem' strokeWidth='3'/></button>
+            <button type='button' class='ml-auto edit-btn btn btn-square d-flex align-items-center justify-content-center px-5 z-1' class:ml-auto={!(!(file?.locked || file?.media?.locked || (!episode && file?.media?.media?.episodes > 1)) || (failed && (episode || file?.media?.media?.episodes <= 1)))} title='Opens a prompt to select the correct series' use:click={() => { prompt = false; fileEdit(file, files, file?.media?.media ? anilistClient.title(file?.media.media) : file?.media?.parseObject?.anime_title || '') } }><SquarePen size='1.7rem' strokeWidth='3'/></button>
         </div>
         <p class='font-scale-12 my-5 mr-40 text-muted text-break-word overflow-hidden line-2'>{file?.name || 'UNK'}</p>
         <div class='d-flex align-items-center mt-5'>
             {#if playing}<span class='badge text-dark bg-duodenary' title='The current file'>Now Playing</span>{/if}
             {#if file?.locked || file?.media?.locked}<span class='badge text-dark bg-success' class:ml-5={playing} title='This series was manually set by the user'>Locked</span>{/if}
-            {#if file?.failed || file?.media?.failed}<span class='badge text-dark bg-danger-dim ml-auto h-27 mr-5 d-flex align-items-center justify-content-center' title='Failed to resolve the playing media based on the file name.'>Failed</span>{/if}
+            {#if failed}<span class='badge text-dark bg-danger-dim ml-auto h-27 mr-5 d-flex align-items-center justify-content-center' title='Failed to resolve the playing media based on the file name.'>Failed</span>{/if}
             {#if file?.media?.media?.format === 'MOVIE'}
-                <span class='badge text-dark bg-undenary h-27 mr-5 d-flex align-items-center justify-content-center' class:ml-auto={!(file?.failed || file?.media?.failed)}>Movie</span>
+                <span class='badge text-dark bg-undenary h-27 mr-5 d-flex align-items-center justify-content-center' class:ml-auto={!failed}>Movie</span>
             {:else if episode || episode === 0 || file?.media?.media.episodes > 1}
-                <span class='badge text-dark bg-undenary mr-5 d-flex align-items-center justify-content-center' class:ml-auto={!(file?.failed || file?.media?.failed)} title={`Episode {episode}`}>
+                <span class='badge text-dark bg-undenary mr-5 d-flex align-items-center justify-content-center' class:ml-auto={!failed} title={`Episode ${episode}`}>
                     <span class='mr-5'>Episode</span>
-                    <button type='button' tabindex='-1' class='position-absolute f-safe-area bottom-0 right-0 h-40 bg-transparent border-0 shadow-none not-reactive z-1' style='margin-bottom: -.5rem; margin-right: -1rem; width: calc(5.5rem + {(String(episode).length <= 10 ? String(episode).length : 10) * .7}rem) !important' use:click={() => {}}/>
+                    <button type='button' tabindex='-1' class='position-absolute f-safe-area bottom-0 right-0 h-40 bg-transparent border-0 shadow-none not-reactive z-1' style='margin-bottom: -.5rem; margin-right: -1rem; width: calc(5.5rem + {(episode && String(episode).length <= 10 ? String(episode).length : 2) * .7}rem) !important' use:click={() => {}}/>
                     <input
                         type='text'
                         inputmode='text'
@@ -122,15 +124,17 @@
                         use:click|stopPropagation
                         on:input={(event) => {
                             const targetValue = event.target.value.replace(/[^0-9~\-]/g, '')
-                            event.target.value = targetValue?.length ? targetValue : getEpisode()
+                            const value = targetValue?.length ? targetValue : getEpisode()
+                            event.target.value = value || null
                         }}
                         on:change={(event) => {
                             const targetValue = event.target.value.replace(/[^0-9~\-]/g, '')
-                            episode = targetValue?.length ? targetValue : getEpisode()
+                            const value = targetValue?.length ? targetValue : getEpisode()
+                            event.target.value = value || null
                             updateEpisode(file, event)
                         }}
                         class='episode-input input form-control h-20 text-left text-dark text-truncate font-weight-semi-bold font-size-12 justify-content-center z-1'
-                        style='background-color: var(--undenary-color-dim); width: calc(1.8rem + {(String(episode).length <= 10 ? String(episode).length : 10) * .7}rem) !important'
+                        style='background-color: {failed && !episode && episode !== 0 && file?.media?.media.episodes > 1 ? `var(--danger-color-dim)` : `var(--undenary-color-dim)`}; width: calc(1.8rem + {(episode && String(episode).length <= 10 ? String(episode).length : 2) * .7}rem) !important'
                         title='Episode Number(s)'/>
                 </span>
             {/if}
