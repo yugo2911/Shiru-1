@@ -20,7 +20,7 @@ function selectionChange(e) {
   const isTextInput = activeEl && (activeEl.tagName === 'INPUT' || activeEl.tagName === 'TEXTAREA' || activeEl.isContentEditable)
   if (!isTextInput && !e.target?.closest('.select-all')) window.getSelection()?.removeAllRanges()
   setTimeout(() => {
-    if (lastTapTarget !== e.target) {
+    if (lastTapTarget !== e.target && (!lastTapCurrent || !e.target || !e.target.contains(lastTapCurrent))) {
       lastTapElement?.(false)
       lastTapElement = null
       lastHoverElement?.(false)
@@ -208,6 +208,7 @@ export function hoverClick(node, [cb = noop, hoverUpdate = noop, rcb = noop]) {
       }
       hoverUpdate(true)
       lastHoverElement = hoverUpdate
+      lastTapCurrent = e.currentTarget
       pointerType = e.pointerType
     }
   })
