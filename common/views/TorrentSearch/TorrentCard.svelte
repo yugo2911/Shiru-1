@@ -38,6 +38,7 @@
   termMapping['DUAL AUDIO'] = termMapping.DUALAUDIO
   termMapping['DUAL-AUDIO'] = termMapping.DUALAUDIO
   termMapping['MULTI AUDIO'] = termMapping.DUALAUDIO
+  termMapping['MULTI-AUDIO'] = termMapping.DUALAUDIO
   termMapping['ENGLISH AUDIO'] = termMapping.ENGLISHAUDIO
   termMapping['ENGLISH DUB'] = termMapping.ENGLISHAUDIO
   termMapping['CN AUDIO'] = termMapping.CHINESEAUDIO
@@ -75,7 +76,10 @@
         if (title) {
           const words = title.split(/\s+/).filter(Boolean)
           for (let n = 3; n >= 1; n--) {
-            if (words.length >= n) fileName = fileName.replace(new RegExp(words.slice(0, n).join(' ').replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '')
+            if (words.length >= n) {
+              const piece = words.slice(0, n).join(' ')
+              if (piece.length >= 4) fileName = fileName.replace(new RegExp(piece.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'), '')
+            }
           }
         }
       }
