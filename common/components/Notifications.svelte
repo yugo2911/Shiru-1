@@ -170,11 +170,11 @@
   IPC.emit('notification-unread', hasUnreadNotifications.value)
 </script>
 
-<SoftModal class='m-0 w-1000 mw-0 mh-full d-flex flex-column rounded bg-very-dark pt-0 py-30 pl-20 pr-30 mx-20 scrollbar-none' bind:showModal={$notifyView} {close} id='notificationModal'>
+<SoftModal class='m-0 w-1000 mw-0 mh-full d-flex flex-column rounded bg-very-dark pt-0 py-30 pl-md-20 pr-md-30 mx-20 scrollbar-none' bind:showModal={$notifyView} {close} id='notificationModal'>
   {#if $notifyView}
     <div class='d-flex mt-30'>
       <h3 class='mb-0 font-weight-bold text-white title mr-5 font-size-24 ml-20'>Notifications</h3>
-      <button type='button' class='btn btn-square ml-auto d-flex align-items-center justify-content-center rounded-2 flex-shrink-0' use:click={close}><X size='1.7rem' strokeWidth='3'/></button>
+      <button type='button' class='btn btn-square ml-auto d-flex align-items-center justify-content-center rounded-2 flex-shrink-0 mr-20 mr-md-0' use:click={close}><X size='1.7rem' strokeWidth='3'/></button>
     </div>
     <div class='input-group mt-10 long-input' class:d-none={!$notifications?.length}>
       <Search size='2.6rem' strokeWidth='2.5' class='position-absolute z-10 text-dark-light h-full pl-10 ml-20 pointer-events-none' />
