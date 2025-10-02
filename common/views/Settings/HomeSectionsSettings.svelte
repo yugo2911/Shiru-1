@@ -1,35 +1,111 @@
 <script>
   import { click } from '@/modules/click.js'
   import { sections } from '@/modules/sections.js'
-  import { SUPPORTS } from '@/modules/support.js'
+  import { ArrowDownUp, Trash2 } from 'lucide-svelte'
   import CustomDropdown from '@/components/CustomDropdown.svelte'
-  import { ArrowDown, ArrowDownUp, ArrowUp, Trash2 } from 'lucide-svelte'
 
   $: allowedHomeSections = $sections.map(({ title, sort, format }) => [title, sort, format])
   export let homeSections
 
-  let mouseYCoordinate = null // pointer y coordinate within client
-  let distanceTopGrabbedVsPointer = null
-
+  let mouseYCoordinate = null
+  let controlDragging = false
   let draggingItem = null
   let draggingItemIndex = null
   let hoveredItemIndex = null
+  let lastProcessedHoverIndex = null
+  let distanceTopGrabbedVsPointer = null
 
   $: {
-    if (draggingItemIndex != null && hoveredItemIndex != null && draggingItemIndex !== hoveredItemIndex) {
+    if (draggingItemIndex != null && hoveredItemIndex != null && draggingItemIndex !== hoveredItemIndex && lastProcessedHoverIndex !== hoveredItemIndex) {
       swapItem(draggingItemIndex, hoveredItemIndex)
+      lastProcessedHoverIndex = hoveredItemIndex
       draggingItemIndex = hoveredItemIndex
     }
   }
 
-  function swapItem (a, b) {
-    b = Math.min(homeSections.length - 1, Math.max(0, b));
-    [homeSections[a], homeSections[b]] = [homeSections[b], homeSections[a]]
+  function swapItem(fromIndex, toIndex) {
+    toIndex = Math.min(homeSections.length - 1, Math.max(0, toIndex))
+    const [item] = homeSections.splice(fromIndex, 1)
+    homeSections.splice(toIndex, 0, item)
     homeSections = [...homeSections]
+  }
+
+  function updateGhostPosition() {
+    setTimeout(() => {
+      const element = document.querySelector(`[data-drag-index='${draggingItemIndex}']`)
+      if (element) {
+        const rowElement = element.closest('.d-flex')
+        if (rowElement) {
+          distanceTopGrabbedVsPointer = rowElement.offsetTop
+        }
+      }
+    })
+  }
+
+  function calculateHoverIndexFromY(clientY) {
+    let closestIndex = null
+    let closestDistance = Infinity
+    document.querySelectorAll('[data-drag-index]').forEach((el) => {
+      const rect = el.getBoundingClientRect()
+      const distance = Math.abs(clientY - (rect.top + rect.height / 2))
+      if (distance < closestDistance) {
+        closestDistance = distance
+        closestIndex = parseInt(el.getAttribute('data-drag-index'))
+      }
+    })
+    return closestIndex
+  }
+
+  function handleKeyDown(event, index, item) {
+    if (event.key === 'Escape' && controlDragging) {
+      event.preventDefault()
+      controlDragging = false
+      draggingItem = null
+      draggingItemIndex = null
+      hoveredItemIndex = null
+      lastProcessedHoverIndex = null
+      return
+    }
+
+    if (event.key === ' ' || event.key === 'Enter') {
+      event.preventDefault()
+      if (controlDragging && draggingItemIndex === index) {
+        controlDragging = false
+        draggingItem = null
+        draggingItemIndex = null
+        hoveredItemIndex = null
+        lastProcessedHoverIndex = null
+      } else {
+        controlDragging = true
+        mouseYCoordinate = null
+        draggingItem = item
+        draggingItemIndex = index
+        updateGhostPosition()
+      }
+      return
+    }
+
+    if (controlDragging && draggingItemIndex === index) {
+      if (event.key.startsWith('Arrow') || event.key === 'Tab' || event.key === 'Home' || event.key === 'End' || event.key === 'PageUp' || event.key === 'PageDown') {
+        event.preventDefault()
+        event.stopPropagation()
+      }
+      if (event.key === 'ArrowUp' && index > 0) {
+        swapItem(index, index - 1)
+        draggingItemIndex = index - 1
+        updateGhostPosition()
+        setTimeout(() => document.querySelector(`[data-drag-index='${draggingItemIndex}']`)?.focus())
+      } else if (event.key === 'ArrowDown' && index < homeSections.length - 1) {
+        swapItem(index, index + 1)
+        draggingItemIndex = index + 1
+        updateGhostPosition()
+        setTimeout(() => document.querySelector(`[data-drag-index='${draggingItemIndex}']`)?.focus())
+      }
+    }
   }
 </script>
 
-{#if mouseYCoordinate}
+{#if mouseYCoordinate || controlDragging}
   <div class='input-group mb-10 ghost w-full' style='top: {mouseYCoordinate + distanceTopGrabbedVsPointer}px;'>
     <div class='input-group-prepend'>
       <span class='input-group-text d-flex align-items-center px-5'><ArrowDownUp size='1.8rem' /></span>
@@ -51,15 +127,15 @@
       <div class='flex-shrink-1 font-size-16 text-center font-weight-bold' style='width: 3rem'>&nbsp;</div>
     </div>
   {/if}
-  <div class='d-flex mb-10 w-509 mw-full not-reactive' class:tp={draggingItem === item} role='menuitem' tabindex='0'>
-    <div class='input-group-prepend grab' class:d-none={SUPPORTS.isAndroid} class:tp={draggingItem === item} draggable='true' role='menuitem' tabindex='0' on:dragstart={({ clientY, target }) => { mouseYCoordinate = clientY; draggingItem = item; draggingItemIndex = index; distanceTopGrabbedVsPointer = target.offsetTop - clientY } } on:drag={e => { mouseYCoordinate = e.clientY }} on:dragover={() => { hoveredItemIndex = index }} on:dragend={() => { mouseYCoordinate = null; draggingItem = null; hoveredItemIndex = null; } }>
-      <span class='input-group-text d-flex align-items-center px-5'><ArrowDownUp size='1.8rem' /></span>
-    </div>
-    <div class='input-group-prepend' class:d-none={!SUPPORTS.isAndroid}>
-      <button use:click={() => swapItem(index, index - 1)} class='input-group-text d-flex align-items-center px-5 pointer'><ArrowUp size='1.8rem' /></button>
-    </div>
-    <div class='input-group-prepend' class:d-none={!SUPPORTS.isAndroid}>
-      <button use:click={() => swapItem(index, index + 1)} class='input-group-text d-flex align-items-center px-5 pointer'><ArrowDown size='1.8rem' /></button>
+  <div class='d-flex mb-10 w-509 mw-full not-reactive' class:tp={draggingItem === item} role='menuitem' tabindex='-1'>
+    <div class='input-group-prepend grab' class:tp={draggingItem === item} draggable='true' role='button' tabindex='0' data-drag-index={index} aria-label={controlDragging && draggingItemIndex === index ? 'Dragging. Use arrow keys to move, Space or Enter to drop, Escape to cancel' : 'Press Space or Enter to start dragging'}
+         on:dragstart={({ clientY, target }) => { mouseYCoordinate = clientY; draggingItem = item; draggingItemIndex = index; distanceTopGrabbedVsPointer = target.offsetTop - clientY }}
+         on:drag={e => { mouseYCoordinate = e.clientY; hoveredItemIndex = calculateHoverIndexFromY(e.clientY) }}
+         on:dragend={() => { mouseYCoordinate = null; draggingItem = null; hoveredItemIndex = null; lastProcessedHoverIndex = null }}
+         on:keydown={e => handleKeyDown(e, index, item)}>
+      <span class='input-group-text d-flex align-items-center px-5'>
+        <ArrowDownUp size='1.8rem' />
+      </span>
     </div>
     <div class='position-relative flex-shrink-1 mw-full'>
       <select class='form-control flex-shrink-1 bg-dark fix-border text-truncate' on:change={(event) => { if (event.target.value !== homeSections[index][0]) homeSections[index] = allowedHomeSections.find(([title]) => title === event.target.value) }} bind:value={homeSections[index][0]}>
@@ -110,18 +186,15 @@
   .w-509 {
     width: 50.9rem;
   }
-
   .fix-border {
     border-radius: 0 !important;
   }
-
   .ghost {
     margin-bottom: 10px;
     pointer-events: none;
     z-index: 9999;
     position: absolute !important;
   }
-
   .tp {
     opacity: 0;
   }
