@@ -457,26 +457,41 @@ export function fadeOut(node, { delay = 0, duration = 200, y = 1.2, endScale = 0
  */
 export function createListener(triggerClasses = []) {
   const reactive = writable(true)
+  let lastPointerType = null
+  let pointerTimeout = null
   let handling = false
   let bounds = false
   let pending = null
 
-  function handleDown({ target }) {
-    if (triggerClasses.some(className => target.closest(`.${className}`))) reactive.set(bounds)
+  function handleDown(event) {
+    const pointerType = event.pointerType ?? (event.type === 'touchstart' ? 'touch' : 'mouse')
+    if (!lastPointerType) {
+      lastPointerType = pointerType
+      if (pointerTimeout) clearTimeout(pointerTimeout)
+      pointerTimeout = setTimeout(() => {
+        lastPointerType = null
+        pointerTimeout = null
+      }, 5_000)
+    }
+    if (pointerType !== lastPointerType) return
+    if (triggerClasses.some(className => event.target.closest(`.${className}`))) reactive.set(bounds)
     else if (bounds) {
       pending = null
       reactive.set(false)
+      if (upTimeout) clearTimeout(upTimeout)
     }
   }
 
   let upTimeout = null
-  function handleUp() {
-    const handle = Math.random()
+  function handleUp(event) {
+    const pointerType = event.pointerType ?? (event.type === 'touchend' ? 'touch' : 'mouse')
+    if (pointerType !== lastPointerType) return
+    const handle = Symbol()
     pending = handle
     if (upTimeout) clearTimeout(upTimeout)
     upTimeout = setTimeout(() => {
       if (pending && pending === handle) reactive.set(true)
-    }, 20)
+    }, pointerType !== 'touch' ? 20 : 500)
   }
 
   function addListeners() {
