@@ -45,7 +45,7 @@ importers:
         version: 17.1.0(eslint-plugin-import@2.29.1(@typescript-eslint/parser@7.1.1(eslint@8.57.0)(typescript@5.5.4))(eslint@8.57.0))(eslint-plugin-n@16.6.2(eslint@8.57.0))(eslint-plugin-promise@6.6.0(eslint@8.57.0))(eslint@8.57.0)
       eslint-plugin-svelte:
         specifier: ^2.35.1
-        version: 2.35.1(eslint@8.57.0)(svelte@4.2.12)(ts-node@10.9.2(@types/node@22.5.0)(typescript@5.5.4))
+        version: 2.35.1(eslint@8.57.0)(svelte@4.2.20)(ts-node@10.9.2(@types/node@22.5.0)(typescript@5.5.4))
       fuse.js:
         specifier: ^7.0.0
         version: 7.0.0
@@ -167,7 +167,7 @@ importers:
         version: 4.1.5
       webpack-cli:
         specifier: ^6.0.1
-        version: 6.0.1(webpack-dev-server@5.2.2)(webpack@5.101.0)
+        version: 6.0.1(webpack-dev-server@5.2.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)(webpack-cli@6.0.1)(webpack@5.101.0))(webpack@5.101.0)
       webpack-merge:
         specifier: ^6.0.1
         version: 6.0.1
@@ -203,7 +203,7 @@ importers:
         version: 1.1.6
       lucide-svelte:
         specifier: ^0.455.0
-        version: 0.455.0(patch_hash=0609c957d625c84712d92a612c0fe92d6b06ae161e98c32f1b6b5694e5ff66ed)(svelte@4.2.12)
+        version: 0.455.0(patch_hash=0609c957d625c84712d92a612c0fe92d6b06ae161e98c32f1b6b5694e5ff66ed)(svelte@4.2.20)
       marked:
         specifier: ^16.3.0
         version: 16.3.0
@@ -226,20 +226,20 @@ importers:
         specifier: ^1.0.6
         version: 1.0.6
       svelte:
-        specifier: ^4.2.12
-        version: 4.2.12
+        specifier: ^4.2.20
+        version: 4.2.20
       svelte-keybinds:
         specifier: ^1.0.9
         version: 1.0.9
       svelte-loader:
         specifier: ^3.1.9
-        version: 3.1.9(svelte@4.2.12)
+        version: 3.1.9(svelte@4.2.20)
       svelte-persisted-store:
         specifier: ^0.11.0
-        version: 0.11.0(svelte@4.2.12)
+        version: 0.11.0(svelte@4.2.20)
       svelte-sonner:
         specifier: ^0.3.19
-        version: 0.3.19(svelte@4.2.12)
+        version: 0.3.19(svelte@4.2.20)
       video-deband:
         specifier: ^1.0.5
         version: 1.0.5
@@ -880,9 +880,6 @@ packages:
   '@types/eslint@8.56.10':
     resolution: {integrity: sha512-Shavhk87gCtY2fhXDctcfS3e6FdxWkCx1iUZ9eEUbh7rTqlZT0/IzOkCOVt0fCjcFuZ9FPYfuezTBImfHCDBGQ==}
 
-  '@types/estree@1.0.5':
-    resolution: {integrity: sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==}
-
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
 
@@ -1160,16 +1157,6 @@ packages:
   acorn-walk@8.3.3:
     resolution: {integrity: sha512-MxXdReSRhGO7VlFe1bRG/oI7/mdLV9B9JJT0N8vZOhF7gFRR5l3M8W9G8JxmKV+JC5mGqJ0QvqfSOLsCPa4nUw==}
     engines: {node: '>=0.4.0'}
-
-  acorn@8.11.3:
-    resolution: {integrity: sha512-Y9rRfJG5jcKOE0CLisYbojUjIrIEE7AGMzA/Sm4BslANhbS+cDMpgBdcPT91oJ7OuJ9hYJBx59RjbhxVnrF8Xg==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
-
-  acorn@8.12.1:
-    resolution: {integrity: sha512-tcpGyI9zbizT9JbV6oYE477V6mTlXvvi0T0G3SNIYE2apm/G5huBa1+K89VGeovbg+jycCrfhl3ADxErOuO6Jg==}
-    engines: {node: '>=0.4.0'}
-    hasBin: true
 
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
@@ -4995,8 +4982,8 @@ packages:
     peerDependencies:
       svelte: '>=3 <5'
 
-  svelte@4.2.12:
-    resolution: {integrity: sha512-d8+wsh5TfPwqVzbm4/HCXC783/KPHV60NvwitJnyTA5lWn1elhXMNWhXGCJ7PwPa8qFUnyJNIyuIRt2mT0WMug==}
+  svelte@4.2.20:
+    resolution: {integrity: sha512-eeEgGc2DtiUil5ANdtd8vPwt9AgaMdnuUFnPft9F5oMvU/FHu5IHFic+p1dR/UOB7XU2mX2yHW+NcTch4DCh5Q==}
     engines: {node: '>=16'}
 
   tapable@2.2.1:
@@ -6554,8 +6541,6 @@ snapshots:
       '@types/estree': 1.0.8
       '@types/json-schema': 7.0.15
 
-  '@types/estree@1.0.5': {}
-
   '@types/estree@1.0.8': {}
 
   '@types/express-serve-static-core@4.19.1':
@@ -6802,6 +6787,13 @@ snapshots:
       webpack: 5.101.0(webpack-cli@6.0.1)
       webpack-cli: 6.0.1(webpack-dev-server@5.2.2)(webpack@5.101.0)
 
+  '@webpack-cli/serve@3.0.1(webpack-cli@6.0.1)(webpack-dev-server@5.2.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)(webpack-cli@6.0.1)(webpack@5.101.0))(webpack@5.101.0)':
+    dependencies:
+      webpack: 5.101.0(webpack-cli@6.0.1)
+      webpack-cli: 6.0.1(webpack-dev-server@5.2.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)(webpack-cli@6.0.1)(webpack@5.101.0))(webpack@5.101.0)
+    optionalDependencies:
+      webpack-dev-server: 5.2.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)(webpack-cli@6.0.1)(webpack@5.101.0)
+
   '@webpack-cli/serve@3.0.1(webpack-cli@6.0.1)(webpack-dev-server@5.2.2)(webpack@5.101.0)':
     dependencies:
       webpack: 5.101.0(webpack-cli@6.0.1)
@@ -6867,17 +6859,13 @@ snapshots:
     dependencies:
       acorn: 8.15.0
 
-  acorn-jsx@5.3.2(acorn@8.12.1):
+  acorn-jsx@5.3.2(acorn@8.15.0):
     dependencies:
-      acorn: 8.12.1
+      acorn: 8.15.0
 
   acorn-walk@8.3.3:
     dependencies:
       acorn: 8.15.0
-
-  acorn@8.11.3: {}
-
-  acorn@8.12.1: {}
 
   acorn@8.15.0: {}
 
@@ -7573,9 +7561,9 @@ snapshots:
 
   code-red@1.0.4:
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.4.15
-      '@types/estree': 1.0.5
-      acorn: 8.12.1
+      '@jridgewell/sourcemap-codec': 1.5.0
+      '@types/estree': 1.0.8
+      acorn: 8.15.0
       estree-walker: 3.0.3
       periscopic: 3.1.0
 
@@ -8430,7 +8418,7 @@ snapshots:
     dependencies:
       eslint: 8.57.0
 
-  eslint-plugin-svelte@2.35.1(eslint@8.57.0)(svelte@4.2.12)(ts-node@10.9.2(@types/node@22.5.0)(typescript@5.5.4)):
+  eslint-plugin-svelte@2.35.1(eslint@8.57.0)(svelte@4.2.20)(ts-node@10.9.2(@types/node@22.5.0)(typescript@5.5.4)):
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.57.0)
       '@jridgewell/sourcemap-codec': 1.4.15
@@ -8444,9 +8432,9 @@ snapshots:
       postcss-safe-parser: 6.0.0(postcss@8.4.38)
       postcss-selector-parser: 6.1.0
       semver: 7.6.2
-      svelte-eslint-parser: 0.36.0(svelte@4.2.12)
+      svelte-eslint-parser: 0.36.0(svelte@4.2.20)
     optionalDependencies:
-      svelte: 4.2.12
+      svelte: 4.2.20
     transitivePeerDependencies:
       - supports-color
       - ts-node
@@ -8508,8 +8496,8 @@ snapshots:
 
   espree@9.6.1:
     dependencies:
-      acorn: 8.12.1
-      acorn-jsx: 5.3.2(acorn@8.12.1)
+      acorn: 8.15.0
+      acorn-jsx: 5.3.2(acorn@8.15.0)
       eslint-visitor-keys: 3.4.3
 
   esquery@1.5.0:
@@ -8526,7 +8514,7 @@ snapshots:
 
   estree-walker@3.0.3:
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.8
 
   esutils@2.0.3: {}
 
@@ -9310,7 +9298,7 @@ snapshots:
 
   is-reference@3.0.2:
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.8
 
   is-regex@1.1.4:
     dependencies:
@@ -9603,15 +9591,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  lucide-svelte@0.455.0(patch_hash=0609c957d625c84712d92a612c0fe92d6b06ae161e98c32f1b6b5694e5ff66ed)(svelte@4.2.12):
+  lucide-svelte@0.455.0(patch_hash=0609c957d625c84712d92a612c0fe92d6b06ae161e98c32f1b6b5694e5ff66ed)(svelte@4.2.20):
     dependencies:
-      svelte: 4.2.12
+      svelte: 4.2.20
 
   magic-bytes.js@1.12.1: {}
 
   magic-string@0.30.10:
     dependencies:
-      '@jridgewell/sourcemap-codec': 1.4.15
+      '@jridgewell/sourcemap-codec': 1.5.0
 
   magnet-uri@7.0.7:
     dependencies:
@@ -10191,7 +10179,7 @@ snapshots:
 
   periscopic@3.1.0:
     dependencies:
-      '@types/estree': 1.0.5
+      '@types/estree': 1.0.8
       estree-walker: 3.0.3
       is-reference: 3.0.2
 
@@ -11016,7 +11004,7 @@ snapshots:
 
   svelte-dev-helper@1.1.9: {}
 
-  svelte-eslint-parser@0.36.0(svelte@4.2.12):
+  svelte-eslint-parser@0.36.0(svelte@4.2.20):
     dependencies:
       eslint-scope: 7.2.2
       eslint-visitor-keys: 3.4.3
@@ -11024,36 +11012,36 @@ snapshots:
       postcss: 8.4.38
       postcss-scss: 4.0.9(postcss@8.4.38)
     optionalDependencies:
-      svelte: 4.2.12
+      svelte: 4.2.20
 
-  svelte-hmr@0.14.12(svelte@4.2.12):
+  svelte-hmr@0.14.12(svelte@4.2.20):
     dependencies:
-      svelte: 4.2.12
+      svelte: 4.2.20
 
   svelte-keybinds@1.0.9: {}
 
-  svelte-loader@3.1.9(svelte@4.2.12):
+  svelte-loader@3.1.9(svelte@4.2.20):
     dependencies:
       loader-utils: 2.0.4
-      svelte: 4.2.12
+      svelte: 4.2.20
       svelte-dev-helper: 1.1.9
-      svelte-hmr: 0.14.12(svelte@4.2.12)
+      svelte-hmr: 0.14.12(svelte@4.2.20)
 
-  svelte-persisted-store@0.11.0(svelte@4.2.12):
+  svelte-persisted-store@0.11.0(svelte@4.2.20):
     dependencies:
-      svelte: 4.2.12
+      svelte: 4.2.20
 
-  svelte-sonner@0.3.19(svelte@4.2.12):
+  svelte-sonner@0.3.19(svelte@4.2.20):
     dependencies:
-      svelte: 4.2.12
+      svelte: 4.2.20
 
-  svelte@4.2.12:
+  svelte@4.2.20:
     dependencies:
       '@ampproject/remapping': 2.3.0
-      '@jridgewell/sourcemap-codec': 1.4.15
+      '@jridgewell/sourcemap-codec': 1.5.0
       '@jridgewell/trace-mapping': 0.3.25
-      '@types/estree': 1.0.5
-      acorn: 8.11.3
+      '@types/estree': 1.0.8
+      acorn: 8.15.0
       aria-query: 5.3.0
       axobject-query: 4.0.0
       code-red: 1.0.4
@@ -11236,7 +11224,7 @@ snapshots:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 22.5.0
-      acorn: 8.12.1
+      acorn: 8.15.0
       acorn-walk: 8.3.3
       arg: 4.1.3
       create-require: 1.1.1
@@ -11458,6 +11446,25 @@ snapshots:
 
   webidl-conversions@4.0.2:
     optional: true
+
+  webpack-cli@6.0.1(webpack-dev-server@5.2.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)(webpack-cli@6.0.1)(webpack@5.101.0))(webpack@5.101.0):
+    dependencies:
+      '@discoveryjs/json-ext': 0.6.3
+      '@webpack-cli/configtest': 3.0.1(webpack-cli@6.0.1)(webpack@5.101.0)
+      '@webpack-cli/info': 3.0.1(webpack-cli@6.0.1)(webpack@5.101.0)
+      '@webpack-cli/serve': 3.0.1(webpack-cli@6.0.1)(webpack-dev-server@5.2.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)(webpack-cli@6.0.1)(webpack@5.101.0))(webpack@5.101.0)
+      colorette: 2.0.20
+      commander: 12.1.0
+      cross-spawn: 7.0.3
+      envinfo: 7.14.0
+      fastest-levenshtein: 1.0.16
+      import-local: 3.2.0
+      interpret: 3.1.1
+      rechoir: 0.8.0
+      webpack: 5.101.0(webpack-cli@6.0.1)
+      webpack-merge: 6.0.1
+    optionalDependencies:
+      webpack-dev-server: 5.2.2(bufferutil@4.0.8)(utf-8-validate@6.0.4)(webpack-cli@6.0.1)(webpack@5.101.0)
 
   webpack-cli@6.0.1(webpack-dev-server@5.2.2)(webpack@5.101.0):
     dependencies:
