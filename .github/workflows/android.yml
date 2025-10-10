@@ -40,9 +40,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-        env:
-          NAPI_VERSION: "10"
-          npm_config_napi_version: "10"
 
       - name: Install node-pre-gyp
         run: pnpm install -g node-pre-gyp

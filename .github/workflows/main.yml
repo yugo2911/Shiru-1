@@ -37,9 +37,6 @@ jobs:
         run: |
           cd electron
           pnpm install --frozen-lockfile
-        env:
-          NAPI_VERSION: "10"
-          npm_config_napi_version: "10"
 
       - name: Build and Publish
         env:
@@ -70,9 +67,6 @@ jobs:
         run: |
           cd electron
           pnpm install --frozen-lockfile
-        env:
-          NAPI_VERSION: "10"
-          npm_config_napi_version: "10"
 
       - name: Build and Publish
         env:
@@ -106,9 +100,6 @@ jobs:
         run: |
           cd electron
           pnpm install --frozen-lockfile
-        env:
-          NAPI_VERSION: "10"
-          npm_config_napi_version: "10"
 
       - name: Build and Publish
         env:
