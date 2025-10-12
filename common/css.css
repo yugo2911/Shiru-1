@@ -102,6 +102,7 @@
   --dm-input-border-color: none;
   --dm-link-text-color: var(--dm-muted-text-color) !important;
   --dm-link-text-color-hover: var(--dm-text-color) !important;
+  --skeleton-swipe-background: var(--dark-color-light);
   --sidebar-gradient: linear-gradient(90deg, var(--dark-color) 15.62%, hsla(var(--dark-color-hsl), 0.92) 36.46%, hsla(var(--dark-color-hsl), 0.62) 70.83%, hsla(var(--black-color-hsl), 0) 100%);
   --banner-gradient-bottom: linear-gradient(0deg, var(--dark-color) 0%, hsla(var(--dark-color-hsl), 0) 15%, hsla(var(--dark-color-hsl), 0) 100%);
   --banner-gradient-left: linear-gradient(90deg, var(--dark-color) 0%, rgba(23, 25, 29, 0.5) 75%, rgba(25, 28, 32, 0) 100%);
@@ -757,6 +758,10 @@ img[src=''], img[src=' '] {
 @keyframes skeleton-swipe {
   0% { transform: translateX(-100%) }
   100% { transform: translateX(100%) }
+}
+
+.bg-ske {
+  background-color: var(--skeleton-swipe-background) !important;
 }
 
 .skeloader {

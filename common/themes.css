@@ -22,4 +22,5 @@
   --danger-color-light: hsl(var(--danger-color-light-hsl));
   --danger-color-dim-hsl: var(--red-color-base-hue), var(--red-color-base-saturation), 40%;
   --danger-color-dim: hsl(var(--danger-color-dim-hsl));
+  --skeleton-swipe-background: var(--dark-color-very-light);
 }
