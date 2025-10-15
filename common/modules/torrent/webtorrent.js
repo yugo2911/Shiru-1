@@ -250,7 +250,7 @@ export default class TorrentClient extends WebTorrent {
       while (await this.get(structuredClone(id)) !== null) await new Promise(resolve => setTimeout(resolve, 50))
     }
 
-    const torrent = await this.add(structuredClone((!cache?.legacy ? cache : cache.info) ?? id), {
+    const torrent = await this.add(structuredClone(cache ?? id), {
       path: this.settings.torrentPathNew || undefined,
       announce: ANNOUNCE,
       bitfield: cache?._bitfield,
@@ -285,8 +285,7 @@ export default class TorrentClient extends WebTorrent {
     const torrentStore = this.torrentCache
     const cacheBitfield = async (task = true) => {
       if (torrent.destroyed) clearInterval(interval)
-      if (torrent.destroyed || (!cache?.legacy && task && (torrentProgress === torrent.progress || torrent.progress === 1))) return
-      if (cache?.legacy) cache.legacy = false
+      if (torrent.destroyed || (task && (torrentProgress === torrent.progress || torrent.progress === 1))) return
       dataStored = {
         info: torrent.info,
         'url-list': torrent.urlList ?? [],

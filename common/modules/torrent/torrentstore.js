@@ -3,12 +3,11 @@ import { mkdir, readFile, writeFile, unlink, access, readdir } from 'fs/promises
 import parseTorrent from 'parse-torrent'
 import bencode from 'bencode'
 
-const binaryKeys = new Set(['bitfield'])
 export default class TorrentStore {
 
   /**
    * Creates a new TorrentStore instance with a cache folder inside the given torrent path.
-   * @param {string} torrentPath - Base path where the cache folder will be created, this SHOULD be where webtorrent is storing its files!
+   * @param {string} torrentPath - Base path where the cache folder will be created, this SHOULD be where WebTorrent is storing its files!
    */
   constructor(torrentPath) {
     const targetPath = join(torrentPath, 'shiru-cache')
@@ -25,36 +24,13 @@ export default class TorrentStore {
     try {
       const data = await readFile(join(await this.cacheFolder, key))
       if (!data.length) return null
-      let decoded
-      try {
-        decoded = bencode.decode(data)
-      } catch {
-        decoded = JSON.parse(data.toString('utf-8')) // fallback for JSON data.
+      const parsed = await parseTorrent(data)
+      const customFields = {}
+      for (const [key, value] of Object.entries(bencode.decode(data))) {
+        if (!(key in parsed)) customFields[key] = value
       }
-      try {
-        const parsed = await parseTorrent(data)
-        const customFields = {}
-        for (const [key, value] of Object.entries(decoded)) {
-          if (!(key in parsed)) {
-            customFields[key] = value
-          }
-        }
-        const { announce, urlList, ...safeParsed } = { ...parsed, ...customFields }
-        return safeParsed
-      } catch (error) { // legacy cache format (will be removed at a later date).
-        const store = this.#decodeStore(decoded)
-        const { announce, urlList, ...safeStore } = store
-        let cleanedTorrent = Buffer.from(store.torrentFile, 'base64')
-        try { // fix for torrents getting stuck.
-          const decodedTorrent = bencode.decode(cleanedTorrent)
-          delete decodedTorrent.urlList
-          delete decodedTorrent.announce
-          delete decodedTorrent['announce-list'] // shouldn't exist in legacy cache...
-          delete decodedTorrent['url-list'] // shouldn't exist in legacy cache...
-          cleanedTorrent = bencode.encode(decodedTorrent)
-        } catch {}
-        return { ...safeStore, _bitfield: store.bitfield, info: Uint8Array.from(cleanedTorrent), legacy: true } // fallback for base64 torrentFile.
-      }
+      const { announce, urlList, ...safeParsed } = { ...parsed, ...customFields }
+      return safeParsed
     } catch {
       return null
     }
@@ -78,7 +54,7 @@ export default class TorrentStore {
   /**
    * Deletes a stored entry by key.
    * @param {string} key - The key (filename) to delete.
-   * @param {string|Promise<string>} [path] - Optional path to override the default cache folder, typically for the webtorrent folder.
+   * @param {string|Promise<string>} [path] - Optional path to override the default cache folder, typically for the WebTorrent folder.
    * @returns {Promise<void|null>}
    */
   async delete(key, path = null) {
@@ -92,7 +68,7 @@ export default class TorrentStore {
   /**
    * Checks if a stored entry exists by key.
    * @param {string} key - The key (filename) to check.
-   * @param {string|Promise<string>} [path] - Optional path to override the default cache folder, typically for the webtorrent folder.
+   * @param {string|Promise<string>} [path] - Optional path to override the default cache folder, typically for the WebTorrent folder.
    * @returns {Promise<boolean>} True if exists, false otherwise.
    */
   async exists(key, path = null) {
@@ -131,24 +107,5 @@ export default class TorrentStore {
     } catch {
       return []
     }
-  }
-
-  /**
-   * Decodes a bencoded object from storage, converting Uint8Arrays to strings or numbers as needed.
-   * @param {Object} decoded - The bencoded decoded object.
-   * @returns {Object} Processed object with proper types.
-   * @private
-   */
-  #decodeStore(decoded) {
-    const obj = {}
-    for (const [key, value] of Object.entries(decoded)) {
-      if (binaryKeys.has(key)) obj[key] = value
-      else if (value instanceof Uint8Array) {
-        let str = Buffer.from(value).toString()
-        if (/^-?\d+$/.test(str)) str = Number(str)
-        obj[key] = str
-      } else obj[key] = value
-    }
-    return obj
   }
 }
