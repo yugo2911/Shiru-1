@@ -7,6 +7,7 @@ settings:
 overrides:
   node-abi: 3.77.0
   node-datachannel: 0.30.0
+  bittorrent-tracker: ^11.2.2
 
 patchedDependencies:
   '@capacitor/android':
@@ -76,8 +77,8 @@ importers:
         version: 2.8.4
     devDependencies:
       '@cloudflare/workers-types':
-        specifier: ^4.20251004.0
-        version: 4.20251004.0
+        specifier: ^4.20251011.0
+        version: 4.20251011.0
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
@@ -194,8 +195,8 @@ importers:
         specifier: ^4.4.2
         version: 4.4.2
       dompurify:
-        specifier: ^3.2.7
-        version: 3.2.7
+        specifier: ^3.3.0
+        version: 3.3.0
       fast-deep-equal:
         specifier: ^3.1.3
         version: 3.1.3
@@ -285,8 +286,8 @@ importers:
         specifier: ^5.4.3
         version: 5.4.3
       electron-updater:
-        specifier: ^6.6.8
-        version: 6.6.8
+        specifier: ^6.7.0
+        version: 6.7.0
       webpack-merge:
         specifier: ^6.0.1
         version: 6.0.1
@@ -380,8 +381,8 @@ packages:
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
-  '@cloudflare/workers-types@4.20251004.0':
-    resolution: {integrity: sha512-FkTBHEyOBwphbW4SLQ2XLCgNntD2wz0v1Si7NwJeN0JAPW/39/w6zhsKy3rsh+203tuSfBgsoP34+Os4RaySOw==}
+  '@cloudflare/workers-types@4.20251011.0':
+    resolution: {integrity: sha512-gQpih+pbq3sP4uXltUeCSbPgZxTNp2gQd8639SaIbQMwgA6oJNHLhIART1fWy6DQACngiRzDVULA2x0ohmkGTQ==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -891,9 +892,6 @@ packages:
 
   '@thaunknown/simple-peer@10.0.11':
     resolution: {integrity: sha512-A5MdmtZ6HUzRa4gwPOS4jG+09HvpTv2rFo4kk7Vwveo2ELm+WmbO124ZrJrQnZc2D7z2Q3AWKSitjl9OKXO88g==}
-
-  '@thaunknown/simple-peer@9.12.1':
-    resolution: {integrity: sha512-IS5BXvXx7cvBAzaxqotJf4s4rJCPk5JABLK6Gbnn7oAmWVcH4hYABabBBrvvJtv/xyUqR4v/H3LalnGRJJfEog==}
 
   '@thaunknown/simple-websocket@9.1.3':
     resolution: {integrity: sha512-pf/FCJsgWtLJiJmIpiSI7acOZVq3bIQCpnNo222UFc8Ph1lOUOTpe6LoYhhiOSKB9GUaWJEVUtZ+sK1/aBgU5Q==}
@@ -1510,13 +1508,8 @@ packages:
     resolution: {integrity: sha512-PN4F0wpkU/Ud0gyvAcdtTqTcq2Sg2FdCn20/dxHpW7cyHmXFgPJnCYBigU728NO4iw8gYVla2cs2nHqfUoLFxA==}
     engines: {node: '>=12.20.0'}
 
-  bittorrent-tracker@10.0.12:
-    resolution: {integrity: sha512-EYQEwhOYkrRiiwkCFcM9pbzJInsAe7UVmUgevW133duwlZzjwf5ABwDE7pkkmNRS6iwN0b8LbI/94q16dYqiow==}
-    engines: {node: '>=12.20.0'}
-    hasBin: true
-
-  bittorrent-tracker@11.2.1:
-    resolution: {integrity: sha512-SffBgHzNrhn+HBwdRD2st+TYJOs2LhF3ljJFPCYGv592LpGtPxw41UZHTUeY5muWnQl+wopcU8qXM9UEk2WKrA==}
+  bittorrent-tracker@11.2.2:
+    resolution: {integrity: sha512-pVjpd6tPtLByrYwtDOo+cVx9zQZ2XUvlaWrlm57+9yvVDKHuNL+TFEAtyfXuIutghG7Bde/uWXGfoVWpPYY+8A==}
     engines: {node: '>=16.0.0'}
     hasBin: true
 
@@ -1610,8 +1603,8 @@ packages:
     resolution: {integrity: sha512-2/egrNDDnRaxVwK3A+cJq6UOlqOdedGA7JPqCeJjN2Zjk1/QB/6QUi3b714ScIGS7HafFXTyzJEOr5b44I3kvQ==}
     engines: {node: '>=12.0.0'}
 
-  builder-util-runtime@9.4.0:
-    resolution: {integrity: sha512-omkpaKbutPYqC0nwLEeGq540xND1YPhfVzwT6CFyCFzxhNDt/X+fykr17Yo3jxiuwI3zaAnY/1tKFoRN+FeHhg==}
+  builder-util-runtime@9.5.0:
+    resolution: {integrity: sha512-7qmRMH8X/IzDM+1TysKNFo5cNWBbfacdLX4EqkuE5aiRTECAlYiKHSqEc6cc3c4Lrmpgk0utbxOPkj0iYaWAWQ==}
     engines: {node: '>=12.0.0'}
 
   builder-util@24.13.1:
@@ -1788,10 +1781,6 @@ packages:
 
   clone@1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
-    engines: {node: '>=0.8'}
-
-  clone@2.1.2:
-    resolution: {integrity: sha512-3Pe/CF1Nn94hyhIYpjtiLhdCoEoz0DqQ+988E9gmeEdQZlojxnOb74wctFyuwWQHzqyf9X7C7MG8juUpqBJT8w==}
     engines: {node: '>=0.8'}
 
   code-red@1.0.4:
@@ -2289,8 +2278,8 @@ packages:
     resolution: {integrity: sha512-GrwoxYN+uWlzO8uhUXRl0P+kHE4GtVPfYzVLcUxPL7KNdHKj66vvlhiweIHqYYXWlw+T8iLMp42Lm67ghw4WMQ==}
     engines: {node: '>= 4'}
 
-  dompurify@3.2.7:
-    resolution: {integrity: sha512-WhL/YuveyGXJaerVlMYGWhvQswa7myDG17P7Vu65EWC05o8vfeNbvNf4d/BOvH99+ZW+LlQsc1GDKMa1vNK6dw==}
+  dompurify@3.3.0:
+    resolution: {integrity: sha512-r+f6MYR1gGN1eJv0TVQbhA7if/U7P87cdPl3HN5rikqaBSBxLiCb/b9O+2eG0cxz0ghyU+mU1QkbsOwERMYlWQ==}
 
   domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
@@ -2352,8 +2341,8 @@ packages:
   electron-to-chromium@1.5.234:
     resolution: {integrity: sha512-RXfEp2x+VRYn8jbKfQlRImzoJU01kyDvVPBmG39eU2iuRVhuS6vQNocB8J0/8GrIMLnPzgz4eW6WiRnJkTuNWg==}
 
-  electron-updater@6.6.8:
-    resolution: {integrity: sha512-n8FeXRc7Q7BBweS85+H5h4/uzBz8hSSOYhDnwOumpbIhYdPk9EEzWLKDyoArMyf4RebywqWBUE96QDn9TETRhQ==}
+  electron-updater@6.7.0:
+    resolution: {integrity: sha512-j8ejBZCkp5kvv1MxJNoQaSjNvEbr/ZHSeQdwm0jbZGgVm+Z6ExqRpqE8oRxDsDacxQfk7l8hlBAnlq4qAk2wfw==}
 
   electron@36.2.1:
     resolution: {integrity: sha512-mm1Y+Ms46xcOTA69h8hpqfX392HfV4lga9aEkYkd/Syx1JBStvcACOIouCgGrnZpxNZPVS1jM8NTcMkNjuK6BQ==}
@@ -2841,9 +2830,6 @@ packages:
   fuse.js@7.1.0:
     resolution: {integrity: sha512-trLf4SzuuUxfusZADLINj+dE8clK1frKdmqiJNb1Es75fmI5oY6X2mxLVUciLLjxqw/xr72Dhy+lER6dGd02FQ==}
     engines: {node: '>=10'}
-
-  get-browser-rtc@1.1.0:
-    resolution: {integrity: sha512-MghbMJ61EJrRsDe7w1Bvqt3ZsBuqhce5nrn/XAwgwOXhcsz53/ltdxOse1h/8eKXj5slzxdsz56g5rzOFSGwfQ==}
 
   get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
@@ -4885,6 +4871,11 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  semver@7.7.2:
+    resolution: {integrity: sha512-RF0Fw+rO5AMf9MAyaRXI4AV0Ulj5lMHqVxxdSgiVbixSCXoEmmX/jk0CuJw4+3SqroYO9VoUh+HcuJivvtJemA==}
+    engines: {node: '>=10'}
+    hasBin: true
+
   send@0.19.0:
     resolution: {integrity: sha512-dW41u5VfLXu8SJh5bwRmyYUbAoSB3c9uQh6L8h/KtsFREPWpbX1lrljJo186Jc4nmci/sGUZ9a0a0J2zgfq2hw==}
     engines: {node: '>= 0.8.0'}
@@ -5562,10 +5553,6 @@ packages:
     resolution: {integrity: sha512-isVTbp2TKGoMOu+4Zh/i6ijpYr0VG83xjRPgCXaUjKzgXXndjCMWg32/9kZjubD+kxEXcmXMkoS8IttS9FZE8g==}
     engines: {node: '>=12.20.0'}
 
-  utf-8-validate@5.0.10:
-    resolution: {integrity: sha512-Z6czzLq4u8fPOyx7TU6X3dvUZVvoJmxSQ+IcrlmagKhilxlhZgxPK6C5Jqbkw1IDUmFTM+cz9QDnnLTwDz/2gQ==}
-    engines: {node: '>=6.14.2'}
-
   utf-8-validate@6.0.4:
     resolution: {integrity: sha512-xu9GQDeFp+eZ6LnCywXN/zBancWvOpUMzgjLPSjy4BRHSmTelvn2E0DG0o1sTiw5hkCKBHo8rwSKncfRfv2EEQ==}
     engines: {node: '>=6.14.2'}
@@ -6020,7 +6007,7 @@ snapshots:
     dependencies:
       '@capacitor/core': 6.1.2
 
-  '@cloudflare/workers-types@4.20251004.0': {}
+  '@cloudflare/workers-types@4.20251011.0': {}
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -6084,7 +6071,7 @@ snapshots:
       make-fetch-happen: 10.2.1
       nopt: 6.0.0
       proc-log: 2.0.1
-      semver: 7.6.3
+      semver: 7.7.2
       tar: 6.2.1
       which: 2.0.2
     transitivePeerDependencies:
@@ -6732,7 +6719,7 @@ snapshots:
   '@npmcli/fs@2.1.2':
     dependencies:
       '@gar/promisify': 1.1.3
-      semver: 7.6.3
+      semver: 7.7.2
 
   '@npmcli/fs@3.1.1':
     dependencies:
@@ -6787,36 +6774,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@thaunknown/simple-peer@9.12.1':
-    dependencies:
-      debug: 4.4.1
-      err-code: 3.0.1
-      get-browser-rtc: 1.1.0
-      queue-microtask: 1.2.3
-      streamx: 2.22.1
-      uint8-util: 2.2.5
-    transitivePeerDependencies:
-      - supports-color
-
-  '@thaunknown/simple-websocket@9.1.3(bufferutil@4.0.8)(utf-8-validate@5.0.10)':
-    dependencies:
-      debug: 4.4.1
-      queue-microtask: 1.2.3
-      streamx: 2.22.1
-      uint8-util: 2.2.5
-      ws: 8.18.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
   '@thaunknown/simple-websocket@9.1.3(bufferutil@4.0.8)(utf-8-validate@6.0.4)':
     dependencies:
       debug: 4.4.1
       queue-microtask: 1.2.3
       streamx: 2.22.1
       uint8-util: 2.2.5
-      ws: 8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.4)
+      ws: 8.18.3(bufferutil@4.0.8)(utf-8-validate@6.0.4)
     transitivePeerDependencies:
       - bufferutil
       - supports-color
@@ -7359,7 +7323,7 @@ snapshots:
       minimatch: 5.1.6
       read-config-file: 6.3.2
       sanitize-filename: 1.6.3
-      semver: 7.6.3
+      semver: 7.7.2
       tar: 6.2.1
       temp-file: 3.4.0
     transitivePeerDependencies:
@@ -7614,37 +7578,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  bittorrent-tracker@10.0.12:
-    dependencies:
-      '@thaunknown/simple-peer': 9.12.1
-      '@thaunknown/simple-websocket': 9.1.3(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-      bencode: 4.0.0
-      bittorrent-peerid: 1.3.6
-      chrome-dgram: 3.0.6
-      clone: 2.1.2
-      compact2string: 1.4.1
-      debug: 4.4.1
-      ip: 1.1.9
-      lru: 3.1.0
-      minimist: 1.2.8
-      once: 1.4.0
-      queue-microtask: 1.2.3
-      random-iterate: 1.0.1
-      run-parallel: 1.2.0
-      run-series: 1.1.9
-      simple-get: 4.0.1
-      socks: 2.8.3
-      string2compact: 2.0.1
-      uint8-util: 2.2.5
-      unordered-array-remove: 1.0.2
-      ws: 8.18.0(bufferutil@4.0.8)(utf-8-validate@5.0.10)
-    optionalDependencies:
-      bufferutil: 4.0.8
-      utf-8-validate: 5.0.10
-    transitivePeerDependencies:
-      - supports-color
-
-  bittorrent-tracker@11.2.1:
+  bittorrent-tracker@11.2.2:
     dependencies:
       '@thaunknown/simple-peer': 10.0.11
       '@thaunknown/simple-websocket': 9.1.3(bufferutil@4.0.8)(utf-8-validate@6.0.4)
@@ -7785,7 +7719,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  builder-util-runtime@9.4.0:
+  builder-util-runtime@9.5.0:
     dependencies:
       debug: 4.4.1
       sax: 1.4.1
@@ -7839,7 +7773,7 @@ snapshots:
 
   builtins@5.1.0:
     dependencies:
-      semver: 7.6.3
+      semver: 7.7.2
 
   bundle-name@4.1.0:
     dependencies:
@@ -8052,8 +7986,6 @@ snapshots:
       mimic-response: 1.0.1
 
   clone@1.0.4: {}
-
-  clone@2.1.2: {}
 
   code-red@1.0.4:
     dependencies:
@@ -8605,7 +8537,7 @@ snapshots:
     dependencies:
       domelementtype: 2.3.0
 
-  dompurify@3.2.7:
+  dompurify@3.3.0:
     optionalDependencies:
       '@types/trusted-types': 2.0.7
 
@@ -8700,15 +8632,15 @@ snapshots:
 
   electron-to-chromium@1.5.234: {}
 
-  electron-updater@6.6.8:
+  electron-updater@6.7.0:
     dependencies:
-      builder-util-runtime: 9.4.0
+      builder-util-runtime: 9.5.0
       fs-extra: 10.1.0
       js-yaml: 4.1.0
       lazy-val: 1.0.5
       lodash.escaperegexp: 4.1.2
       lodash.isequal: 4.5.0
-      semver: 7.6.3
+      semver: 7.7.2
       tiny-typed-emitter: 2.1.0
     transitivePeerDependencies:
       - supports-color
@@ -8860,7 +8792,7 @@ snapshots:
   eslint-compat-utils@0.5.1(eslint@9.37.0):
     dependencies:
       eslint: 9.37.0
-      semver: 7.6.3
+      semver: 7.7.2
 
   eslint-config-standard@17.1.0(eslint-plugin-import@2.29.1(@typescript-eslint/parser@8.45.0(eslint@9.37.0)(typescript@5.5.4))(eslint@9.37.0))(eslint-plugin-n@16.6.2(eslint@9.37.0))(eslint-plugin-promise@6.6.0(eslint@9.37.0))(eslint@9.37.0):
     dependencies:
@@ -8934,7 +8866,7 @@ snapshots:
       is-core-module: 2.15.0
       minimatch: 3.1.2
       resolve: 1.22.8
-      semver: 7.6.3
+      semver: 7.7.2
 
   eslint-plugin-promise@6.6.0(eslint@9.37.0):
     dependencies:
@@ -9320,8 +9252,6 @@ snapshots:
   functions-have-names@1.2.3: {}
 
   fuse.js@7.1.0: {}
-
-  get-browser-rtc@1.1.0: {}
 
   get-caller-file@2.0.5: {}
 
@@ -10692,7 +10622,7 @@ snapshots:
 
   p2pt@https://codeload.github.com/ThaUnknown/p2pt/tar.gz/9ad7a56ed6ee43f5664ebad33b803702ee349316:
     dependencies:
-      bittorrent-tracker: 10.0.12
+      bittorrent-tracker: 11.2.2
       uint8-util: 2.2.5
     optionalDependencies:
       wrtc: 0.4.7
@@ -11282,6 +11212,8 @@ snapshots:
 
   semver@7.6.3: {}
 
+  semver@7.7.2: {}
+
   send@0.19.0:
     dependencies:
       debug: 2.6.9
@@ -11855,7 +11787,7 @@ snapshots:
     dependencies:
       bittorrent-dht: 11.0.10
       bittorrent-lsd: 2.0.0
-      bittorrent-tracker: 11.2.1
+      bittorrent-tracker: 11.2.2
       debug: 4.4.1
       run-parallel: 1.2.0
     transitivePeerDependencies:
@@ -12054,11 +11986,6 @@ snapshots:
       bencode: 4.0.0
       compact2string: 1.4.1
       string2compact: 2.0.1
-
-  utf-8-validate@5.0.10:
-    dependencies:
-      node-gyp-build: 4.8.1
-    optional: true
 
   utf-8-validate@6.0.4:
     dependencies:
@@ -12367,11 +12294,6 @@ snapshots:
     optionalDependencies:
       domexception: 1.0.1
     optional: true
-
-  ws@8.18.0(bufferutil@4.0.8)(utf-8-validate@5.0.10):
-    optionalDependencies:
-      bufferutil: 4.0.8
-      utf-8-validate: 5.0.10
 
   ws@8.18.0(bufferutil@4.0.8)(utf-8-validate@6.0.4):
     optionalDependencies:
