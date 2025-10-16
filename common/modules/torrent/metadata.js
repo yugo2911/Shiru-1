@@ -61,6 +61,7 @@ export const stringifyQuery = obj => {
 export const encodeStreamURL = (streamURL) => {
   if (!streamURL?.length || !SUPPORTS.isAndroid) return streamURL
   return streamURL.replace(/\\/g, '/').split('/').map(segment => {
+    if (!segment) return segment
     return encodeURIComponent(decodeURIComponent(segment))
       .replace(/%5B/g, '[')
       .replace(/%5D/g, ']')
@@ -90,6 +91,7 @@ export async function getProgressAndSize(cache) {
   try {
     let parsed = cache
     if (cache.legacy) parsed = await parseTorrent(cache.info)
+    if (!parsed?.pieces?.length || !cache._bitfield) return { progress: 0, size: parsed?.length || 0 }
     const bits = new Uint8Array(cache._bitfield)
     let pieces = 0
     for (let i = 0; i < parsed.pieces.length; i++) {

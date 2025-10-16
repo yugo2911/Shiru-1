@@ -3,7 +3,7 @@ import { mkdir, readFile, writeFile, unlink, access, readdir } from 'fs/promises
 import parseTorrent from 'parse-torrent'
 import bencode from 'bencode'
 
-export default class TorrentStore {
+export default class Cache {
 
   /**
    * Creates a new TorrentStore instance with a cache folder inside the given torrent path.
