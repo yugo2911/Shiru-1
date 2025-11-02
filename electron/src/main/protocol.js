@@ -55,6 +55,15 @@ export default class Protocol {
       else ipcMain.once('webtorrent-heartbeat', () => this.handleTorrentFile(path))
     })
 
+    // Handle locally loaded extensions (test extensions)
+    protocol.registerFileProtocol('extension', (request, callback) => {
+      // Extract path after 'extension://'
+      let filePath = request.url.replace('extension://', '')
+      // Fix drive paths
+      if (/^[A-Z]\//i.test(filePath)) filePath = filePath.charAt(0) + ':' + filePath.slice(1)
+      callback({ path: filePath })
+    })
+
     if (process.argv.length >= 2 && !process.defaultApp) {
       ipcMain.on('version', () => {
         for (const line of process.argv) {

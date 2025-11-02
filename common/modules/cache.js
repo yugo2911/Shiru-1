@@ -424,7 +424,6 @@ class Cache {
     this.user_lists = null
     this.notifications = null
     this.history = null
-    this.isCurrent = false
     debug(`Cache with ID ${this.cacheID} has been destroyed.`)
   }
 
@@ -552,6 +551,29 @@ class Cache {
       query[key] = typeof data === 'function' ? data(current) : data
       return query
     })
+  }
+
+  /**
+   * Deletes a cache entry for a specific key.
+   *
+   * @param {keyof typeof caches} cache The name of the cache (object store).
+   * @param {string} key The key to delete from the cache.
+   * @returns {Promise<void>} Resolves when the entry has been successfully deleted.
+   */
+  async deleteEntry(cache, key) {
+    const dataEntry = cache === caches.GENERAL ? this.general : cache === caches.NOTIFICATIONS ? this.notifications : cache === caches.HISTORY ? this.history : cache === caches.USER_LISTS ? this.user_lists : cache === caches.MAPPINGS ? this.mappings : cache === caches.MEDIA_CACHE ? mediaCache : null
+    const store = dataEntry || this.queries
+    store.update((query) => {
+      const updated = { ...query }
+      if (dataEntry) delete updated[key]
+      else if (updated[cache.key]) {
+        updated[cache.key] = { ...updated[cache.key] }
+        delete updated[cache.key][key]
+      }
+      return updated
+    })
+    this.#pending.delete(`${cache.key}:${key}`)
+    debug(`Deleted cache entry ${cache.key}:${key}`)
   }
 
   /**

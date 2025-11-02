@@ -71,18 +71,18 @@ export async function getResultsFromExtensions({ media, episode, batch, movie, r
     const source = Object.values(settings.value.sourcesNew).find(entry => key === `${entry.locale || (entry.update + '/')}${entry.id}`)
     if (!source?.nsfw || settings.value.adult !== 'none') {
       const promise = worker.query(options, { movie, batch }, status.value !== 'offline', settings.value.extensionsNew?.[key]).then(async ({ results, errors }) => {
-            if (errors?.length && !JSON.stringify(errors)?.match(/no anidb[ae]id provided/i)) throw new Error(errors?.map(error => (error?.message || JSON.stringify(error)).replace(/\\n/g, ' ').replace(/"/g, '')).join('\n') || 'Unknown error')
-            else if (errors?.length) throw new Error('Source ' + source.id + ' found no results.')
-            debug(`Extension ${key} found ${results?.length} results with ${errors?.length} errors`)
-            const deduped = dedupe(results)
-            if (!deduped.length) return []
-            const parseObjects = await anitomyscript(deduped.map(r => r.title))
-            deduped.forEach((r, i) => r.parseObject = parseObjects[i])
-            return await updatePeerCounts(deduped)
-          }).catch(error => {
-            debug(`Extension ${key} failed: ${error}`)
-            return { results: [], errors: [{ message: error?.[0]?.message || error?.message }] }
-          })
+        if (errors?.length && !JSON.stringify(errors)?.match(/no anidb[ae]id provided/i)) throw new Error(errors?.map(error => (error?.message || JSON.stringify(error)).replace(/\\n/g, ' ').replace(/"/g, '')).join('\n') || 'Unknown error')
+        else if (errors?.length) throw new Error('Source ' + source.id + ' found no results.')
+        debug(`Extension ${key} found ${results?.length} results with ${errors?.length} errors`)
+        const deduped = dedupe(results)
+        if (!deduped.length) return []
+        const parseObjects = await anitomyscript(deduped.map(r => r.title))
+        deduped.forEach((r, i) => r.parseObject = parseObjects[i])
+        return await updatePeerCounts(deduped)
+      }).catch(error => {
+        debug(`Extension ${key} failed: ${error}`)
+        return { results: [], errors: [{ message: error?.[0]?.message || error?.message }] }
+      })
       promises.set(key, { name: source?.name || source?.id, icon: source?.icon, promise })
     }
   }

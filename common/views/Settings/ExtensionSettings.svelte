@@ -1,4 +1,5 @@
 <script context='module'>
+  import { SUPPORTS } from '@/modules/support.js'
   import Debug from 'debug'
   const debug = Debug('ui:extensions-view')
 
@@ -6,7 +7,7 @@
   window.addEventListener('online', () => availableSources = getSources())
   async function getSources() {
     try {
-      const sources = await (await fetch(atob('aHR0cHM6Ly9lc20uc2gvZ2gvUm9ja2luQ2hhb3MvU2hpcnUtRXh0ZW5zaW9ucy9pbmRleC5qc29u'))).json()
+      const sources = SUPPORTS.extensions && await (await fetch(atob('aHR0cHM6Ly9lc20uc2gvZ2gvUm9ja2luQ2hhb3MvU2hpcnUtRXh0ZW5zaW9ucy9pbmRleC5qc29u'))).json()
       return Array.isArray(sources) ? sources.reduce((acc, source) => {
         if (source.main) acc.push(source.main)
         return acc
@@ -170,8 +171,8 @@
               <div class='d-flex flex-wrap align-items-end'>
                 <span class='badge border-0 bg-light pl-10 pr-10 mt-10 font-scale-16'>{extension?.version}</span>
                 {#if extension?.type}<span class='badge border-0 bg-light pl-10 pr-10 ml-10 mt-10 font-scale-16'>{capitalize(extension?.type)}</span>{/if}
-                {#if extension?.speed}<span class='badge border-0 bg-light pl-10 pr-10 ml-10 mt-10 font-scale-16'>{capitalize(extension?.speed)} Speed</span>{/if}
-                {#if extension?.accuracy}<span class='badge border-0 bg-light pl-10 pr-10 ml-10 mt-10 font-scale-16'>{capitalize(extension?.accuracy)} Accuracy</span>{/if}
+                {#if extension?.speed}<span class='badge border-0 bg-light pl-10 pr-10 ml-10 mt-10 font-scale-16'>{capitalize(extension?.speed)}</span>{/if}
+                {#if extension?.accuracy}<span class='badge border-0 bg-light pl-10 pr-10 ml-10 mt-10 font-scale-16'>{capitalize(extension?.accuracy)}</span>{/if}
                 {#if extension?.nsfw}
                   <div class='d-flex align-items-center' title='Query results include adult content'><Adult class='ml-10 mt-10' size='2.2rem' /></div>
                 {/if}

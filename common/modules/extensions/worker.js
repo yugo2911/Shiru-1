@@ -19,7 +19,7 @@ class Worker {
   async initialize(id, module, opts) {
     try {
       let source
-      if (id.startsWith('file:')) source = (await import(/* webpackIgnore: true */ module)).default
+      if (id.startsWith('extension:')) source = (await import(/* webpackIgnore: true */ module)).default
       else {
         const blob = new Blob([module], { type: 'application/javascript' })
         const blobUrl = URL.createObjectURL(blob)
