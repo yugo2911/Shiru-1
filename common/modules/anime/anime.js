@@ -205,6 +205,17 @@ export async function anitomyscript (...args) {
       obj.anime_title = obj.anime_title.replace(/\s*\(?oav\)?\s*$/i, '')
       if (!obj.anime_type) obj.anime_type = 'OAV'
     }
+    const trailerRegex = /(^|\s|[[(-_])trailer(?=$|\s|[\]))-_])/i
+    if (obj.file_name && trailerRegex.test(obj.file_name)) {
+      if (!obj.anime_type) obj.anime_type = 'Trailer'
+      else if (Array.isArray(obj.anime_type)) {
+        if (!obj.anime_type.some(type => type.toUpperCase() === 'TRAILER')) obj.anime_type.push('Trailer')
+      } else if (typeof obj.anime_type === 'string') {
+        const typeArray = [obj.anime_type]
+        if (!typeArray.some(type => type.toUpperCase() === 'TRAILER')) typeArray.push('Trailer')
+        obj.anime_type = typeArray
+      }
+    }
   }
   debug('AnitoMyScript found titles:', JSON.stringify(parseObjs))
   return parseObjs
