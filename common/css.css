@@ -573,6 +573,10 @@ body {
   background: var(--black-color);
 }
 
+.text-octonary {
+  color: var(--octonary-color) !important;
+}
+
 .text-warning-very-dim {
   color: var(--warning-color-very-dim) !important;
 }

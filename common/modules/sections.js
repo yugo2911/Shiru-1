@@ -53,13 +53,21 @@ export default class SectionsManager {
     return (page = 1, perPage = 50, search = variables) => {
       const res = (search.hideSubs ? malDubs.dubLists.value : Promise.resolve()).then(dubLists => {
         const hideSubs = search.hideSubs ? { idMal: dubLists?.dubbed } : {}
-        return (search.hideMyAnime && Helper.isAuthorized()) ? Helper.userLists(search).then(_res => {
-          if (!_res?.data && _res?.errors) throw _res.errors[0]
-          // anilist queries do not support mix and match, you have to use the same id includes as excludes, id_not_in cannot be used with idMal_in.
-          const hideMyAnime = Helper.isAniAuth() ? { [Object.keys(hideSubs).length > 0 ? 'idMal_not' : 'id_not']: Array.from(new Set(_res.data.MediaListCollection.lists.filter(({ status }) => search.hideStatus.includes(status)).flatMap(list => list.entries.map(({ media }) => (Object.keys(hideSubs).length > 0 ? media.idMal : media.id))))) }
-                : {idMal_not: _res.data.MediaList.filter(({ node }) => search.hideStatus.includes(Helper.statusMap(node.my_list_status.status))).map(({ node }) => node.id)}
-          return anilistClient.search({ page, perPage, ...hideSubs, ...hideMyAnime, ...SectionsManager.sanitiseObject(search) })
-        }) : anilistClient.search({ page, perPage, ...hideSubs, ...SectionsManager.sanitiseObject(search) })
+        if ((search.hideMyAnime || search.showMyAnime) && Helper.isAuthorized()) {
+          return Helper.userLists(search).then(_res => {
+            if (!_res?.data && _res?.errors) throw _res.errors[0]
+            let animeFilter = {}
+            const hasHideSubs = Object.keys(hideSubs).length > 0
+            const targetLists = Helper.isAniAuth() ? _res.data.MediaListCollection.lists : _res.data.MediaList
+            const statusFilter = search.hideMyAnime ? search.hideStatus : search.showStatus
+            const userAnimeIds = Array.from(new Set(Helper.isAniAuth() ? targetLists.filter(({ status }) => statusFilter.includes(status)).flatMap(list => list.entries.map(({ media }) => hasHideSubs ? media.idMal : media.id)) : targetLists.filter(({ node }) => statusFilter.includes(Helper.statusMap(node.my_list_status.status))).map(({ node }) => node.id)))
+            // anilist queries do not support mix and match, you have to use the same id includes as excludes, id_not_in cannot be used with idMal_in.
+            if (search.hideMyAnime) animeFilter = Helper.isAniAuth() ? { [hasHideSubs ? 'idMal_not' : 'id_not']: userAnimeIds } : { idMal_not: userAnimeIds }
+            else if (search.showMyAnime) animeFilter = { id: userAnimeIds }
+            return anilistClient.search({ page, perPage, ...hideSubs, ...animeFilter, ...SectionsManager.sanitiseObject(search) })
+          })
+        }
+        return anilistClient.search({ page, perPage, ...hideSubs, ...SectionsManager.sanitiseObject(search) })
       })
       return SectionsManager.wrapResponse(res, perPage, type)
     }

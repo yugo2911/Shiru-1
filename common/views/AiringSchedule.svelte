@@ -24,15 +24,14 @@
         const media = variables.hideSubs ? entry.media?.media : entry
         return media?.id ? { id: media.id, idMal: media.idMal ?? null } : null
     }).filter(item => item !== null)
-    // Hide My Anime
-    if (variables.hideMyAnime && Helper.isAuthorized()) {
-      const hideIds = await Helper.userLists(variables).then(res => {
+    // Hide My Anime / Show My Anime
+    if ((variables.hideMyAnime || variables.showMyAnime) && Helper.isAuthorized()) {
+      const userIds = await Helper.userLists(variables).then(res => {
         if (!res?.data && res?.errors) throw res.errors[0]
-          return Helper.isAniAuth()
-            ? Array.from(new Set(res.data.MediaListCollection.lists.filter(({ status }) => variables.hideStatus.includes(status)).flatMap(list => list.entries.map(({ media }) => media.id))))
-            : res.data.MediaList.filter(({ node }) => variables.hideStatus.includes(Helper.statusMap(node.my_list_status.status))).map(({ node }) => node.id)
+        if (Helper.isAniAuth()) return Array.from(new Set(res.data.MediaListCollection.lists.filter(({ status }) => (variables.hideMyAnime ? variables.hideStatus : variables.showStatus).includes(status)).flatMap(list => list.entries.map(({ media }) => media.id))))
+        else return res.data.MediaList.filter(({ node }) => (variables.hideMyAnime ? variables.hideStatus : variables.showStatus).includes(Helper.statusMap(node.my_list_status.status))).map(({ node }) => node.id)
       })
-      ids = ids.filter(({ id, idMal }) => Helper.isAniAuth() ? !hideIds.includes(id) : !hideIds.includes(idMal))
+      ids = ids.filter(({ id, idMal }) => Helper.isAniAuth() ? variables.hideMyAnime ? !userIds.includes(id) : userIds.includes(id) : variables.hideMyAnime ? !userIds.includes(idMal) : userIds.includes(idMal))
     }
     const res = await anilistClient.searchAllIDS({ id: ids.map(({ id }) => id), ...SectionsManager.sanitiseObject(variables), page: 1, perPage: 50 })
     if (!res?.data && res?.errors) throw res.errors[0]

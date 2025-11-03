@@ -1,6 +1,6 @@
 <script context='module'>
-  const badgeKeys = ['title', 'search', 'genre', 'genre_not', 'tag', 'tag_not', 'season', 'year', 'format', 'format_not', 'status', 'status_not', 'sort', 'hideSubs', 'hideMyAnime', 'hideStatus']
-  const badgeDisplayNames = { title: BookUser, search: Type, genre: Hash, genre_not: Hash, tag: Hash, tag_not: Hash, season: CalendarRange, year: Leaf, format: Tv, format_not: MonitorUp, status: MonitorPlay, status_not: MonitorX, sort: ArrowDownWideNarrow, hideMyAnime: EyeOff, hideSubs: Mic }
+  const badgeKeys = ['title', 'search', 'genre', 'genre_not', 'tag', 'tag_not', 'season', 'year', 'format', 'format_not', 'status', 'status_not', 'sort', 'hideSubs', 'hideMyAnime', 'hideStatus', 'showMyAnime', 'showStatus']
+  const badgeDisplayNames = { title: BookUser, search: Type, genre: Hash, genre_not: Hash, tag: Hash, tag_not: Hash, season: CalendarRange, year: Leaf, format: Tv, format_not: MonitorUp, status: MonitorPlay, status_not: MonitorX, sort: ArrowDownWideNarrow, hideMyAnime: EyeOff, showMyAnime: Hourglass, hideSubs: Mic }
   const sortOptions = { TITLE_ROMAJI: 'Title', START_DATE_DESC: 'Release Date', SCORE_DESC: 'Score', POPULARITY_DESC: 'Popularity', UPDATED_AT_DESC: 'Date Updated', UPDATED_TIME_DESC: 'Last Updated', STARTED_ON_DESC: 'Start Date', FINISHED_ON_DESC: 'Completed Date', PROGRESS_DESC: 'Your Progress', USER_SCORE_DESC: 'Your Score' }
   const formatOptions = { TV: 'TV Show', MOVIE: 'Movie', TV_SHORT: 'TV Short', SPECIAL: 'Special', OVA: 'OVA', ONA: 'ONA' }
 
@@ -13,12 +13,13 @@
   import { traceAnime, genreIcons, genreList, tagList } from '@/modules/anime/anime.js'
   import { currentYear } from '@/modules/anilist.js'
   import { settings } from '@/modules/settings.js'
+  import { SUPPORTS } from '@/modules/support.js'
   import { click } from '@/modules/click.js'
   import { page } from '@/App.svelte'
   import { toast } from 'svelte-sonner'
   import Helper from '@/modules/helper.js'
   import CustomDropdown from '@/components/CustomDropdown.svelte'
-  import { BookUser, Type, Leaf, CalendarRange, MonitorPlay, MonitorUp, MonitorX, Tv, ArrowDownWideNarrow, Filter, FilterX, X, Tags, Hash, SlidersHorizontal, EyeOff, Mic, ImageUp, Search, Grid3X3, Grid2X2 } from 'lucide-svelte'
+  import { BookUser, Type, Leaf, CalendarRange, MonitorPlay, MonitorUp, MonitorX, Tv, ArrowDownWideNarrow, Filter, FilterX, X, Tags, Hash, SlidersHorizontal, EyeOff, Hourglass, Mic, ImageUp, Search, Grid3X3, Grid2X2 } from 'lucide-svelte'
 
   export let clearNow
   export let search
@@ -94,6 +95,7 @@
       }
     } else if ((badge.key.startsWith('genre') || badge.key.startsWith('tag')) && !search.userList) delete search.title
     else if (badge.key === 'hideMyAnime') delete search.hideStatus
+    else if (badge.key === 'showMyAnime') delete search.showStatus
     if (Array.isArray(search[badge.key])) {
       search[badge.key] = search[badge.key].filter((item) => item !== badge.value)
       if (badge.key.startsWith('tag') || badge.key.startsWith('genre')) {
@@ -106,8 +108,20 @@
   }
 
   function toggleHideMyAnime() {
+    if (search.disableHide || search.disableSearch || !Helper.isAuthorized()) return
     search.hideMyAnime = !search.hideMyAnime
     search.hideStatus = search.hideMyAnime ? ['CURRENT', 'COMPLETED', 'DROPPED', 'PAUSED', 'REPEATING'] : ''
+    search.showMyAnime = false
+    search.showStatus = ''
+    form.dispatchEvent(new Event('input', { bubbles: true }))
+  }
+
+  function toggleShowMyAnime() {
+    if (search.disableHide || search.disableSearch || !Helper.isAuthorized()) return
+    search.showMyAnime = !search.showMyAnime
+    search.showStatus = search.showMyAnime ? ['CURRENT', 'COMPLETED', 'DROPPED', 'PAUSED', 'REPEATING'] : ''
+    search.hideMyAnime = false
+    search.hideStatus = ''
     form.dispatchEvent(new Event('input', { bubbles: true }))
   }
 
@@ -157,7 +171,7 @@
   }
 </script>
 
-<form class='container-fluid py-20 px-md-50 bg-dark pb-0 position-sticky top-0 search-container z-40' class:bg-very-dark={search.fileEdit} on:input bind:this={form}>
+<form class='container-fluid py-20 px-md-50 bg-dark pb-0 position-sticky top-0 search-container z-40' class:mt-20={!SUPPORTS.isAndroid && !search.fileEdit} class:mt-md-0={!SUPPORTS.isAndroid && !search.fileEdit} class:bg-very-dark={search.fileEdit} on:input bind:this={form}>
   <div class='row'>
     <div class='col-lg col-4 p-10 d-flex flex-column justify-content-end' class:d-advanced-title={advancedSearch}>
       <div class='pb-10 font-weight-semi-bold d-flex align-items-center {advancedSearch} font-scale-24'>
@@ -271,9 +285,9 @@
     {#if !search.fileEdit}
       <div class='col-auto p-10 d-flex'>
         <div class='align-self-end'>
-          <button class='btn btn-square bg-dark-light px-5 align-self-end border-0 z-1' type='button' data-toggle='tooltip' data-placement='bottom' data-target-breakpoint='md' data-title='Hide My Anime' use:click={toggleHideMyAnime} disabled={search.disableHide || search.disableSearch || !Helper.isAuthorized()} class:text-primary={search.hideMyAnime}>
+          <button class='btn btn-square bg-dark-light px-5 align-self-end border-0 z-1' type='button' data-toggle='tooltip' data-placement='bottom' data-target-breakpoint='md' data-title='{search.showMyAnime ? `Show My Anime` : `Hide My Anime`}' use:click={toggleHideMyAnime} on:contextmenu|preventDefault={toggleShowMyAnime} disabled={search.disableHide || search.disableSearch || !Helper.isAuthorized()} class:text-primary={search.hideMyAnime} class:text-octonary={search.showMyAnime}>
             <label for='hide-my-anime' class='pointer mb-0 d-flex align-items-center justify-content-center'>
-              <EyeOff size='1.625rem' />
+              <svelte:component this={search.showMyAnime ? badgeDisplayNames['showMyAnime'] : badgeDisplayNames['hideMyAnime']} size='1.625rem' />
             </label>
           </button>
         </div>
@@ -314,7 +328,7 @@
     <form>
       <div class='not-reactive' role='button' tabindex='0'>
         {#if sanitisedSearch?.length}
-          {@const filteredBadges = sanitisedSearch.filter(badge => badge.key !== 'hideStatus' && (search.userList || badge.key !== 'title'))}
+          {@const filteredBadges = sanitisedSearch.filter(badge => badge.key !== 'hideStatus' && badge.key !== 'showStatus' && (search.userList || badge.key !== 'title'))}
           <div class='d-flex flex-wrap flex-row align-items-center'>
             {#if filteredBadges.length > 0}
               <Tags class='text-dark-light mr-20 block-scale-30 mb-5'/>
@@ -322,10 +336,10 @@
           {#each badgeKeys as key}
             {@const matchingBadges = filteredBadges.filter(badge => badge.key === key)}
             {#each matchingBadges as badge}
-              {#if badge.key === key && (badge.key !== 'hideStatus' && (search.userList || badge.key !== 'title')) && !(badge.key === 'sort' && badge.value === 'TRENDING_DESC')}
+              {#if badge.key === key && (badge.key !== 'hideStatus' && badge.key !== 'showStatus' && (search.userList || badge.key !== 'title')) && !(badge.key === 'sort' && badge.value === 'TRENDING_DESC')}
                 <div use:click={() => removeBadge(badge)} class='badge border-0 py-5 px-10 text-capitalize mr-10 text-white text-nowrap d-flex align-items-center mb-5' class:bg-dark-light={!badge.key.includes('_not')} class:bg-danger-very-dim={badge.key.includes('_not')}>
                   <svelte:component this={badge.key === 'genre' ? genreIcons[badge.value] || badgeDisplayNames[badge.key] : badgeDisplayNames[badge.key]} class='mr-5 square-scale-18'/>
-                  <span>{badge.key === 'sort' ? getSortDisplayName(badge.value) : (badge.key === 'format' || badge.key === 'format_not') ? getFormatDisplayName(badge.value) : (badge.key === 'hideMyAnime' ? 'Hide My Anime' : badge.key === 'hideSubs' ? 'Dubbed' : ('' + badge.value).replace(/_/g, ' ').toLowerCase())}</span>
+                  <span>{badge.key === 'sort' ? getSortDisplayName(badge.value) : (badge.key === 'format' || badge.key === 'format_not') ? getFormatDisplayName(badge.value) : (badge.key === 'hideMyAnime' ? 'Hide My Anime' : badge.key === 'showMyAnime' ? 'Show My Anime' : badge.key === 'hideSubs' ? 'Dubbed' : ('' + badge.value).replace(/_/g, ' ').toLowerCase())}</span>
                   <button on:click={() => removeBadge(badge)} class='pointer bg-transparent border-0 icon text-white position-relative pl-0 pr-0 pt-0 x-filter d-flex align-items-center z-1' type='button' data-toggle='tooltip' data-placement='bottom' data-target-breakpoint='md' data-title='Remove Filter'><X size='1.3rem' strokeWidth='3'/></button>
                 </div>
               {/if}
