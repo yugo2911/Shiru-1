@@ -47,18 +47,12 @@
   export function findInCurrent (obj) {
     if (!settings.value.rssAutofile) return false
     const oldNowPlaying = nowPlaying.value
-    if (!oldNowPlaying.media?.id || (oldNowPlaying.media?.id === obj.media?.id && oldNowPlaying.episode === obj.episode)) return false
-
+    if ((oldNowPlaying.media?.id === obj.media?.id && oldNowPlaying.episode === obj.episode)) return false
     const fileList = sortFiles(processedFiles?.value?.length >= 1 ? processedFiles.value : files.value, oldNowPlaying)
-    let targetFile = fileList.find(file => file.media?.media?.id === obj.media?.id &&
-        (Number(file.media?.parseObject?.episode_number || 0) === obj.episode || obj.media?.episodes === 1 || (!obj.media?.episodes && (obj.episode === 1 || !obj.episode) && (oldNowPlaying.episode === 1 || !oldNowPlaying.episode))) // movie check
-    )
-    if (!targetFile) targetFile = fileList.find(file => file.media?.media?.id === obj.media.id &&
-        (file.media?.episode === obj.episode || obj.media?.episodes === 1 || (!obj.media?.episodes && (obj.episode === 1 || !obj.episode) && (oldNowPlaying.episode === 1 || !oldNowPlaying.episode))) // movie check
-    )
-
+    let targetFile = fileList.find(file => file.media?.media?.id === obj.media?.id && (Number(file.media?.parseObject?.episode_number || 0) === obj.episode || obj.media?.episodes === 1 || (!obj.media?.episodes && (obj.episode === 1 || !obj.episode) && (oldNowPlaying.episode === 1 || !oldNowPlaying.episode)))) // movie check
+    if (!targetFile) targetFile = fileList.find(file => file.media?.media?.id === obj.media.id && (file.media?.episode === obj.episode || obj.media?.episodes === 1 || (!obj.media?.episodes && (obj.episode === 1 || !obj.episode) && (oldNowPlaying.episode === 1 || !oldNowPlaying.episode)))) // movie check
     if (!targetFile) {
-      const resolvedHash = getHash(obj.media?.id, { episode: obj.episode, client: true }, false, true)
+      const resolvedHash = getHash(obj.media?.id, { episode: obj.episode, client: true, batchGuess: true }, false, true)
       if (resolvedHash) { // We have a cached and active hash with the requested media and episode, its predicted we should use this.
           window.dispatchEvent(new CustomEvent('add', { detail: { resolvedHash, search: { media: obj.media, episode: obj.episode } } }))
           return true

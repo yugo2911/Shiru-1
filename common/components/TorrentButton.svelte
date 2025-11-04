@@ -7,7 +7,7 @@
 
     export function playActive(hash, search, magnet, prompt = true) {
         const autoFile = settings.value.rssAutofile
-        const resolvedHash = getHash(search?.media?.id, { episode: search?.episode, client: true }, false, true)
+        const resolvedHash = getHash(search?.media?.id, { episode: search?.episode, client: true, batchGuess: true }, false, true)
         const activeHash = autoFile && getActiveHash([...(hash && hash !== resolvedHash ? [hash] : []), ...(resolvedHash ? [resolvedHash] : [])], false)
         if (activeHash && loadedTorrent.value?.infoHash !== activeHash && loadedTorrent.value?.fileHash !== activeHash) { // We have a cached and active hash with the requested media and episode, its predicted we should use this.
             window.dispatchEvent(new CustomEvent('add', { detail: { resolvedHash: activeHash, search } }))

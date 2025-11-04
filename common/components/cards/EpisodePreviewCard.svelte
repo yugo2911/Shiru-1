@@ -35,7 +35,7 @@
     $view = media
   }
 
-  $: resolvedHash = getHash(media?.id, { episode: data?.episode, client: true }, false, true)
+  $: resolvedHash = getHash(media?.id, { episode: data?.episode, client: true, batchGuess: true }, false, true)
 </script>
 
 <div class='position-absolute w-400 mh-400 absolute-container top-0 m-auto bg-dark-light z-30 rounded overflow-hidden pointer d-flex flex-column fade-change' in:fadeIn out:fadeOut bind:this={element}>

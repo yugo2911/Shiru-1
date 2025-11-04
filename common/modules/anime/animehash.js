@@ -91,12 +91,12 @@ export function getHash(mediaId, data, ignoreCached = false, ignoreExpiry = fals
     const cacheDuration = mediaCache.value?.[mediaId]?.status === 'FINISHED' ? 7 * 24 * 60 * 60 * 1000 : 24 * 60 * 60 * 1000
     for (const item of filtered) {
         if (item.mediaId === mediaId && item.episode === (Number.isFinite(Number(data.episode)) ? Number(data.episode) : data.episode) && (item.parseObject || data.client) && (ignoreExpiry || item.locked || (item.updatedAt >= Date.now() - cacheDuration))) return item.hash // Root match
-        else if (Array.isArray(item.files)) {
+        else if (Array.isArray(item.files) && item.files?.length) {
             const semiMatch = item.files.find(file => item.mediaId === mediaId && file.episode === (Number.isFinite(Number(data.episode)) ? Number(data.episode) : data.episode) && (item.parseObject || data.client)) // Semi file-level match: item-level mediaId
             if (semiMatch && (ignoreExpiry || item.locked || (item.updatedAt >= Date.now() - cacheDuration))) return item.hash
             const fullMatch = item.files.find(file => file.mediaId === mediaId && file.episode === (Number.isFinite(Number(data.episode)) ? Number(data.episode) : data.episode) && (file.parseObject || data.client)) // Full file-level match: file-level mediaId
             if (fullMatch && (ignoreExpiry || fullMatch.locked || (fullMatch.updatedAt >= Date.now() - cacheDuration))) return item.hash
-        }
+        } else if (data.batchGuess && item.mediaId === mediaId && !item.episode && item.episode !== 0 && (item.parseObject || data.client) && (ignoreExpiry || item.locked || (item.updatedAt >= Date.now() - cacheDuration))) return item.hash
     }
     return null
 }
