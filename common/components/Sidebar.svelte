@@ -12,8 +12,9 @@
   import { toast } from 'svelte-sonner'
   import Helper from '@/modules/helper.js'
   import IPC from '@/modules/ipc.js'
+  import { goBack, goForward, canGoBack, canGoForward } from '@/modules/history.js'
   import SidebarLink from '@/components/SidebarLink.svelte'
-  import { CalendarSearch, Download, CloudDownload, Heart, Home, Search, ListVideo, History, TvMinimalPlay, LogIn, Settings, Users, Bell, BellDot } from 'lucide-svelte'
+  import { MoveLeft, MoveRight, CalendarSearch, Download, CloudDownload, Heart, Home, Search, ListVideo, History, TvMinimalPlay, LogIn, Settings, Users, Bell, BellDot } from 'lucide-svelte'
 
   const view = getContext('view')
   const btnSize = !SUPPORTS.isAndroid ? '3.1rem' : '3.6rem'
@@ -37,7 +38,17 @@
   <div class='sidebar-overlay z--1 pointer-events-none h-full position-absolute' />
   <div class='sidebar-menu h-full d-flex flex-column m-0 pb-5 animate' class:br-10={!$settings.expandingSidebar}>
     <div class='w-50 m-10 p-5 mb-0 top-0 flex-shrink-0 pointer-events-none {_status === `offline` ? `h-80` : `h-50`}' class:status-transition={statusTransition} class:d-none={SUPPORTS.isAndroid}/>
-    <SidebarLink click={() => { page = 'home'; if ($view) $view = null }} _page='home' text='Home' css='{!SUPPORTS.isAndroid ? `mt-auto` : ``}' {page} overlay={($view || $profileView || $notifyView || $actionPrompt || $rss) && 'active'} let:active>
+    {#if !SUPPORTS.isAndroid}
+      <div class='d-flex align-items-center justify-content-center m-0 p-0 mt-5' style='width: var(--sidebar-width)'>
+        <SidebarLink click={goBack} icon='moveleft' css='p-0 m-0 ml-5 h-auto w-30' innerCss='rounded-left-block' {page}>
+          <MoveLeft size={'2.5rem'} class='flex-shrink-0 rounded m-0' strokeWidth='2.5' color={$canGoBack ? 'currentColor' : 'var(--gray-color-very-dim)'} />
+        </SidebarLink>
+        <SidebarLink click={goForward} icon='moveright' css='p-0 m-0 h-auto w-30' innerCss='rounded-right-block' {page} overlay={($view || $profileView || $notifyView || $actionPrompt || $rss) && 'active'}>
+          <MoveRight size={'2.5rem'} class='flex-shrink-0 rounded m-0' strokeWidth='2.5' color={$canGoForward ? 'currentColor' : 'var(--gray-color-very-dim)'} />
+        </SidebarLink>
+      </div>
+    {/if}
+    <SidebarLink click={() => { page = 'home'; if ($view) $view = null }} _page='home' icon='home' text='Home' css='{!SUPPORTS.isAndroid ? `mt-auto` : ``}' {page} overlay={($view || $profileView || $notifyView || $actionPrompt || $rss) && 'active'} let:active>
       <Home size={btnSize} class='flex-shrink-0 p-5 m-5 rounded' strokeWidth='2.5' color={active ? 'currentColor' : 'var(--gray-color-very-dim)'} />
     </SidebarLink>
     <SidebarLink click={() => { page = 'search'; if ($view) $view = null }} _page='search' icon='search' text='Search' {page} overlay={($view || $profileView || $notifyView || $actionPrompt || $rss) && 'active'} let:active>
@@ -70,20 +81,20 @@
       <Download size={btnSize} class='flex-shrink-0 p-5 m-5 rounded' strokeWidth='2.5' color={active ? 'currentColor' : 'var(--gray-color-very-dim)'} />
     </SidebarLink>
     {#if $settings.donate && !SUPPORTS.isAndroid}
-      <SidebarLink click={() => { IPC.emit('open', 'https://github.com/sponsors/RockinChaos/') }} icon='favorite' text='Support This App' css='{!SUPPORTS.isAndroid ? `mt-auto` : ``}' {page} let:active>
+      <SidebarLink click={() => { IPC.emit('open', 'https://github.com/sponsors/RockinChaos/') }} icon='favorite' text='Support This App' css='mt-auto d-sm-h-none' {page} let:active>
         <Heart size={btnSize} class='flex-shrink-0 p-5 m-5 rounded donate' strokeWidth='2.5' fill='currentColor' />
       </SidebarLink>
     {/if}
     {#if $updateState === 'downloading'}
-      <SidebarLink click={() => { toast('Update is downloading...', { description: 'This may take a moment, the update will be ready shortly.' }) }} icon='download' text='Update Downloading...' css='{!$settings.donate ? `mt-auto` : ``} d-sm-h-none' {page} let:active>
+      <SidebarLink click={() => { toast('Update is downloading...', { description: 'This may take a moment, the update will be ready shortly.' }) }} icon='download' text='Update Downloading...' css='{!$settings.donate && !SUPPORTS.isAndroid ? `mt-auto` : ``} d-sm-h-none' {page} let:active>
         <CloudDownload size={btnSize} class='flex-shrink-0 p-5 m-5 rounded' strokeWidth='2.5' color='var(--tertiary-color-light)' />
       </SidebarLink>
     {:else if $updateState === 'ready' || $updateState === 'ignored'}
-      <SidebarLink click={() => { $updateState = 'ready' }} icon='download' text='Update Available!' css='{!$settings.donate ? `mt-auto` : ``} d-sm-h-none' {page} let:active>
+      <SidebarLink click={() => { $updateState = 'ready' }} icon='download' text='Update Available!' css='{!$settings.donate && !SUPPORTS.isAndroid ? `mt-auto` : ``} d-sm-h-none' {page} let:active>
         <CloudDownload size={btnSize} class='flex-shrink-0 p-5 m-5 rounded update' strokeWidth='2.5' color='currentColor' />
       </SidebarLink>
     {/if}
-    <SidebarLink click={() => { $notifyView = !$notifyView }} icon='bell' text='Notifications' css='{!$settings.donate && $updateState !== `downloading` && $updateState !== `ready` && $updateState !== `ignored` ? `mt-auto` : ``}' {page} overlay={!$actionPrompt && $notifyView && 'notify'} nowPlaying={$view} let:active>
+    <SidebarLink click={() => { $notifyView = !$notifyView }} icon='bell' text='Notifications' css='{!$settings.donate && $updateState !== `downloading` && $updateState !== `ready` && $updateState !== `ignored` && !SUPPORTS.isAndroid ? `mt-auto` : ``}' {page} overlay={!$actionPrompt && $notifyView && 'notify'} nowPlaying={$view} let:active>
       {#if $hasUnreadNotifications && $hasUnreadNotifications > 0}
         <BellDot size={btnSize} class='flex-shrink-0 p-5 m-5 rounded notify {$notifyView ? `` : `notify-color`}' strokeWidth='2.5' color='currentColor' />
       {:else}

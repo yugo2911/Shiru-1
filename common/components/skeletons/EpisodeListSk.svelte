@@ -19,9 +19,6 @@
   .w-266 {
     width: 26.6rem !important;
   }
-  .w-30 {
-    width: 3rem !important;
-  }
   .episode-title {
     max-width: 40rem !important;
     margin-right: 4rem;

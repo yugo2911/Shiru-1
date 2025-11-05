@@ -5,29 +5,11 @@
   import { profileView } from '@/components/Profiles.svelte'
   import { notifyView, hasUnreadNotifications } from '@/components/Notifications.svelte'
   import { actionPrompt } from '@/components/MinimizeTray.svelte'
-  import { SUPPORTS } from '@/modules/support.js'
   import NavbarLink from '@/components/NavbarLink.svelte'
-  import { onDestroy, onMount } from 'svelte'
   import { Home, Search, Users, Download, CalendarSearch, Settings, Bell, BellDot, ListVideo, History, TvMinimalPlay } from 'lucide-svelte'
   const view = getContext('view')
   export let page
   export let playPage
-  onMount(() => {
-    if (SUPPORTS.isAndroid) {
-      window.Capacitor.Plugins.App.addListener('backButton', () => {
-        if (!($profileView || $notifyView || $actionPrompt || $rss)) window.history.back()
-        else {
-          $profileView = false
-          $notifyView = false
-          $actionPrompt = false
-          $rss = null
-        }
-      })
-    }
-  })
-  onDestroy(() => {
-    if (SUPPORTS.isAndroid) window.Capacitor.Plugins.App.removeAllListeners()
-  })
 </script>
 
 <nav class='navbar z-80 navbar-fixed-bottom d-block d-md-none border-0 bg-dark bt-10'>

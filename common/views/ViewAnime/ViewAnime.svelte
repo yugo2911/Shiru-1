@@ -4,7 +4,6 @@
   import { playAnime } from '@/views/TorrentSearch/TorrentModal.svelte'
   import { settings } from '@/modules/settings.js'
   import { mediaCache } from '@/modules/cache.js'
-  import { SUPPORTS } from '@/modules/support.js'
   import { add } from '@/modules/torrent/torrent.js'
   import { toast } from 'svelte-sonner'
   import { anilistClient } from '@/modules/anilist.js'
@@ -27,25 +26,9 @@
   const view = getContext('view')
   function close () {
     $view = null
-    mediaList = []
     setTimeout(() => {
       if (overlay.includes('viewanime') && !$view) overlay = overlay.filter(item => item !== 'viewanime')
     })
-  }
-
-  $: mediaList = []
-  function back () {
-    if (mediaList.length > 1) {
-      const prevMedia = mediaList[mediaList.length - 2]
-      mediaList.splice(mediaList.length - 2, 2)
-      $view = prevMedia
-    }
-  }
-  function saveMedia () {
-    if (mediaList.length > 0) {
-      const lastMedia = mediaList[mediaList.length - 1]
-      if (media !== lastMedia) mediaList = [...mediaList, media]
-    } else mediaList = [...mediaList, media]
   }
 
   let modal
@@ -83,7 +66,7 @@
       }
     })
   })()
-  $: staticMedia && (modal?.focus(), setOverlay(), saveMedia(), (container && container.scrollTo({top: 0, behavior: 'smooth'})))
+  $: staticMedia && (modal?.focus(), setOverlay(), (container && container.scrollTo({top: 0, behavior: 'smooth'})))
   $: staticMedia && (overlay.length === 1 && overlay.includes('viewanime') && modal?.focus())
   $: !staticMedia && close()
   $: {
@@ -198,9 +181,6 @@
 <div class='modal modal-full z-50' class:show={staticMedia} on:keydown={checkClose} tabindex='-1' role='button' bind:this={modal}>
   <div class='h-full modal-content bg-dark p-0 overflow-y-auto position-relative' bind:this={container}>
     {#if staticMedia}
-      <button class='close back pointer z-30 bg-dark-light top-20 left-0 position-fixed' class:d-none={(mediaList.length <= 1) || SUPPORTS.isAndroid} use:click={back}>
-        <ArrowLeft size='1.8rem' />
-      </button>
       <button class='close pointer z-30 bg-dark-light top-20 right-0 position-fixed' type='button' use:click={() => close()}> &times; </button>
       <SmartImage class='w-full cover-img anime-details position-absolute' images={[
         staticMedia.bannerImage,
@@ -220,7 +200,7 @@
               <div class='cover d-flex flex-row align-items-sm-end align-items-center justify-content-center mw-full mb-sm-0 mb-20 w-full' style='max-height: 50vh;'>
                 <div class='position-relative h-full'>
                   <SmartImage class='rounded cover-img overflow-hidden h-full w-full' color={media.coverImage.color || 'var(--tertiary-color)'} images={[staticMedia.coverImage?.extraLarge, staticMedia.coverImage?.medium, './404_cover.png']}/>
-                  <AudioLabel media={staticMedia} smallCard={false} viewAnime={true} />
+                  <AudioLabel media={staticMedia} viewAnime={true} />
                 </div>
               </div>
               <div class='pl-sm-20 ml-sm-20'>
@@ -383,11 +363,6 @@
     left: unset !important;
     right: 3rem !important;
   }
-  .back {
-    top: 5rem !important;
-    left: 2.5rem !important;
-    right: unset !important;
-  }
   .order {
     top: 7rem !important;
     left: -5rem !important;
@@ -407,9 +382,6 @@
     padding-top: 12rem !important
   }
   @media (min-width: 769px) {
-    .back {
-      left: 9rem !important;
-    }
     .row  {
       padding: 0 10rem;
     }

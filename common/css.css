@@ -182,7 +182,7 @@
   width: 2rem;
 }
 .w-30 {
-  width: 3rem;
+  width: 3rem !important;
 }
 .w-40 {
   width: 4rem;
@@ -216,6 +216,14 @@
 }
 .w-1000 {
   width: 100rem
+}
+
+.rounded-left-block {
+  border-radius: var(--base-border-radius) 0 0 var(--base-border-radius) !important;
+}
+
+.rounded-right-block {
+  border-radius: 0 var(--base-border-radius) var(--base-border-radius) 0 !important;
 }
 
 .mh-full {

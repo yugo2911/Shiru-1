@@ -9,6 +9,7 @@
   export let page
   export let _page = ''
   export let css = ''
+  export let innerCss = ''
   export let text = ''
   export let icon = ''
   export let nowPlaying = false
@@ -16,20 +17,20 @@
 
   const btnSize = !SUPPORTS.isAndroid ? '3.1rem' : '3.6rem'
   function handleOverlays() {
-    if ((!icon.includes("login") && !icon.includes("bell") && !icon.includes("favorite")) || (!overlay && !icon.includes("favorite"))) { window.dispatchEvent(new CustomEvent('overlay-check', { detail: { nowPlaying: !overlay && nowPlaying } })) }
+    if (!icon.includes('moveleft') && !icon.includes('moveright') && ((!icon.includes("login") && !icon.includes("bell") && !icon.includes("favorite")) || (!overlay && !icon.includes("favorite")))) { window.dispatchEvent(new CustomEvent('overlay-check', { detail: { nowPlaying: !overlay && nowPlaying } })) }
   }
 </script>
 
 <div role='button' tabindex='0' class='sidebar-link sidebar-link-with-icon pointer overflow-hidden {css} {SUPPORTS.isAndroid ? `my-auto pl-12` : `pl-14`}' title={text} use:click={() => { handleOverlays(); _click() } } on:contextmenu|preventDefault={() => { if (rbClick) { handleOverlays(); rbClick() } } }>
   <span class='text-nowrap d-flex align-items-center w-full h-full'>
     {#if image}
-      <span class='rounded d-flex'>
+      <span class='rounded d-flex {innerCss}'>
         <img src={image} class='h-30 w-30 rounded' class:img-noselect={(overlay !== 'profile')} style='height: {btnSize} !important; width: {btnSize} !important' alt='logo' />
       </span>
       <span class='text ml-20' class:font-weight-bolder={overlay === 'profile'} class:font-size-16={overlay === 'profile'}>{text}</span>
     {:else}
       {@const active = (page === _page && overlay !== 'active') || overlay === 'notify' || (overlay === 'active' && nowPlaying)}
-      <span class='rounded d-flex'>
+      <span class='rounded d-flex {innerCss}'>
         <slot active={active}>{icon}</slot>
       </span>
       <span class='text ml-20' class:font-weight-bolder={active} class:font-size-16={active}>{text}</span>

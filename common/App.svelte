@@ -3,11 +3,8 @@
   import { writable } from 'simple-store-svelte'
   import { anilistClient } from '@/modules/anilist.js'
   import IPC from '@/modules/ipc.js'
-  import { rss } from '@/views/TorrentSearch/TorrentModal.svelte'
-  import { files } from '@/views/Player/MediaHandler.svelte'
+  import { enableHistory, destroyHistory } from '@/modules/history.js'
   import { settings } from '@/modules/settings.js'
-  import { SUPPORTS } from '@/modules/support.js'
-
   export const page = writable('home')
   export const overlay = writable([])
   export const playPage = writable(settings.value.disableMiniplayer || false)
@@ -19,55 +16,12 @@
   }
   IPC.on('open-anime', handleAnime)
   window.addEventListener('open-anime', (event) => handleAnime(event.detail))
-  IPC.on('schedule', () => {
-    page.set('schedule')
-  })
+  IPC.on('schedule', () => page.set('schedule'))
   window.addEventListener('player', () => page.set('player'))
-
-  let ignoreNext = false
-  function addPage (value, type) {
-    if (ignoreNext) {
-      ignoreNext = false
-      return
-    }
-    history.pushState({ type, value }, '', location.origin + location.pathname + '?id=' + Math.trunc(Math.random() * Number.MAX_SAFE_INTEGER).toString())
-  }
-  page.subscribe((value) => {
-    if (value !== null) addPage(value, 'page')
-  })
-  view.subscribe((value) => {
-    if (value !== null) addPage(value, 'view')
-  })
   playPage.subscribe((value) => {
     const currentSettings = settings.value
     currentSettings.disableMiniplayer = value
     settings.value = currentSettings
-  })
-
-  let minimizeApp
-  window.addEventListener('popstate', e => {
-    const { state } = e
-    if (!state) {
-      addPage('home', 'page')
-      if (minimizeApp) {
-        minimizeApp = false
-        if (SUPPORTS.isAndroid) window.Capacitor.Plugins.App.minimizeApp() // any type of force exit of the app causes WebView to crash... this IS a CHROME bug! So the next time the user tries to open the app, it will close requiring them to open it again... #minimizeApp is a paused state so this is preferred instead.
-      } else {
-        minimizeApp = true
-        setTimeout(() => minimizeApp = false, 1000)
-      }
-      return
-    }
-    ignoreNext = true
-    view.set(null)
-    rss.set(null)
-    if (document.fullscreenElement) document.exitFullscreen()
-    if (state.type === 'page' && state.value === 'player' && (!files?.value || files?.value?.length === 0)) {
-      window.history.back()
-      return
-    }
-    if (state.type === 'page') page.set(state.value)
-    else view.set(state.value)
   })
 </script>
 
@@ -85,7 +39,7 @@
   import Status from '@/components/Status.svelte'
   import { status } from '@/modules/networking.js'
   import { Toaster } from 'svelte-sonner'
-  import { onDestroy } from 'svelte'
+  import { onMount, onDestroy } from 'svelte'
 
   setContext('view', view)
   IPC.emit('main-ready')
@@ -103,7 +57,9 @@
     }
   })
 
+  onMount(() => enableHistory())
   onDestroy(() => {
+    destroyHistory()
     unsubscribeMonitor()
     clearTimeout(transitionTimer)
   })
