@@ -17,8 +17,8 @@ import Debug from './debugger.js'
 
 export default class App {
   icon = nativeImage.createFromPath(join(__dirname, process.platform === 'darwin' ? '/icon_filled.png' : '/icon_filled.ico'))
-  trayIcon = process.platform === 'darwin' ? nativeImage.createFromPath(join(__dirname, '/iconTemplate.png')) : this.icon
-  trayNotifyIcon = nativeImage.createFromPath(join(__dirname, process.platform === 'darwin' ? '/iconNotifyTemplate.png' : '/icon_filled_notify.ico'))
+  trayIcon = process.platform === 'darwin' ? nativeImage.createFromPath(join(__dirname, '/icon_filled_macos.png')) : this.icon
+  trayNotifyIcon = nativeImage.createFromPath(join(__dirname, process.platform === 'darwin' ? '/icon_filled_notify_macos.png' : '/icon_filled_notify.ico'))
 
   torrentLoad = null
   webtorrentWindow = this.makeWebTorrentWindow()
