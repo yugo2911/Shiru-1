@@ -15,3 +15,6 @@ encryption_public_key.pem
 package-lock.json
 .env
 .DS_Store
+
+/android/app/src/main/assets
+android/capacitor-cordova-android-plugins

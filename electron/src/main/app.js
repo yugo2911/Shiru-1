@@ -16,14 +16,8 @@ import Dialog from './dialog.js'
 import Debug from './debugger.js'
 
 export default class App {
-  logo = process.platform === 'win32'
-      ? join(__dirname, '/icon_filled.ico')  // Windows
-      : join(__dirname, '/icon_filled.png')  // macOS & Linux
-  trayLogo = process.platform === 'win32'
-      ? join(__dirname, '/icon_filled.ico')  // Windows
-      : process.platform === 'darwin'
-      ? join(__dirname, '/tray_icon_filled.png') // macOS
-      : join(__dirname, '/icon_filled.png')  // Linux
+  icon = nativeImage.createFromPath(join(__dirname, '/icon_filled.ico'))
+  trayNotify = nativeImage.createFromPath(join(__dirname, '/icon_filled_notify.ico'))
 
   torrentLoad = null
   webtorrentWindow = this.makeWebTorrentWindow()
@@ -47,7 +41,7 @@ export default class App {
       backgroundThrottling: false,
       preload: join(__dirname, '/preload.js')
     },
-    icon: this.logo,
+    icon: this.icon,
     show: false
   })
 
@@ -55,7 +49,7 @@ export default class App {
   protocol = new Protocol(this.mainWindow)
   updater = new Updater(this.mainWindow, () => this.webtorrentWindow)
   dialog = new Dialog()
-  tray = new Tray(this.trayLogo)
+  tray = new Tray(this.icon)
   imageDir = join(app.getPath('userData'), 'Cache', 'Image_Data')
   debug = new Debug()
   close = false
@@ -194,7 +188,7 @@ export default class App {
             allowRunningInsecureContent: false,
             partition: partitionName
           },
-          icon: this.logo,
+          icon: this.icon,
           title: 'Login',
           backgroundColor: '#17191c',
           autoHideMenuBar: true
@@ -325,40 +319,19 @@ export default class App {
       fs.unlink(imagePath, (err) => {
         if (!err) this.imageCache.delete(cacheKey)
       })
-    }, 90000)
+    }, 90_000)
     return imagePath
   }
 
   notificationCount = 0
   setTrayIcon(notificationCount, verify) {
     if (!verify) this.notificationCount = notificationCount
-    const baseIcon = nativeImage.createFromPath(this.trayLogo)
     if (this.notificationCount <= 0 || !this.notificationCount) {
-      this.tray.setImage(baseIcon)
+      this.tray.setImage(this.icon)
       this.mainWindow.setOverlayIcon(null, '')
     } else {
-      const badgePath = join(__dirname, `/icon_filled_notify_${this.notificationCount < 10 ? this.notificationCount : `filled`}.png`)
-      this.mainWindow.setOverlayIcon(badgePath, `${this.notificationCount} Unread Notifications`)
-
-      const baseSize = baseIcon.getSize()
-      const badgeSize = Math.round(baseSize.width * 0.55)
-      const baseBitmap = baseIcon.toBitmap()
-      const badgeBitmap = nativeImage.createFromPath(badgePath).resize({ width: badgeSize, height: badgeSize }).toBitmap()
-      const mergedImage = Buffer.alloc(baseBitmap.length)
-      baseBitmap.copy(mergedImage)
-
-      for (let y = 0; y < badgeSize; y++) {
-        for (let x = 0; x < badgeSize; x++) {
-          const baseIndex = (y * baseSize.width + (x + (baseSize.width - badgeSize))) * 4
-          const badgeIndex = (y * badgeSize + x) * 4
-          const alpha = badgeBitmap[badgeIndex + 3] / 255
-          mergedImage[baseIndex] = mergedImage[baseIndex] * (1 - alpha) + badgeBitmap[badgeIndex] * alpha
-          mergedImage[baseIndex + 1] = mergedImage[baseIndex + 1] * (1 - alpha) + badgeBitmap[badgeIndex + 1] * alpha
-          mergedImage[baseIndex + 2] = mergedImage[baseIndex + 2] * (1 - alpha) + badgeBitmap[badgeIndex + 2] * alpha
-          mergedImage[baseIndex + 3] = Math.max(mergedImage[baseIndex + 3], badgeBitmap[badgeIndex + 3])
-        }
-      }
-      this.tray.setImage(nativeImage.createFromBuffer(mergedImage, { width: baseSize.width, height: baseSize.height }))
+      this.mainWindow.setOverlayIcon(nativeImage.createFromPath(join(__dirname, `/icon_filled_notify_${this.notificationCount < 10 ? this.notificationCount : `filled`}.png`)), `${this.notificationCount} Unread Notifications`)
+      this.tray.setImage(this.trayNotify)
     }
   }
 
