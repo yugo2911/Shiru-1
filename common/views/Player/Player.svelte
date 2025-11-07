@@ -240,6 +240,7 @@
 
   let externalReadyListener
   async function handleCurrent (file) {
+    canPlay = false
     externalPlayerReady = false
     if (file) {
       if (thumbnailData.video?.src) URL.revokeObjectURL(video?.src)
@@ -930,7 +931,9 @@
     immersed = !immersed
   }
 
+  let canPlay = !!src
   function hideBuffering () {
+    canPlay = !!src
     if (bufferTimeout) {
       clearTimeout(bufferTimeout)
       bufferTimeout = null
@@ -1437,7 +1440,7 @@
 
 <div
   class='player w-full h-full d-flex flex-column overflow-hidden position-relative'
-  class:ratio-16-9={!src || externalPlayback}
+  class:ratio-16-9={!canPlay || !src || externalPlayback}
   class:pointer={miniplayer}
   class:rounded-top-10={miniplayer}
   class:miniplayer
