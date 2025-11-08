@@ -119,7 +119,7 @@
             {:else if !Array.isArray(data.episode)}
               Episode {Number(data.episode) || data.episode?.replace(/\D/g, '')}
             {/if}
-          {:else if media?.format === 'MOVIE' }
+          {:else if media?.format === 'MOVIE'}
             Movie
           {:else if data.parseObject?.anime_title?.match(/S(\d{2})/)}
             Season {parseInt(data.parseObject.anime_title.match(/S(\d{2})/)[1], 10)}

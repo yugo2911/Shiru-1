@@ -155,7 +155,7 @@ class RSSMediaManager {
           detail: {
             id: media?.id,
             title: anilistClient.title(media) || parseObject.anime_title,
-            message: `${media?.format === 'MOVIE' ? `The Movie` : episode ? `${media?.episodes === Number(highestEp) ? `The wait is over! ` : ``}Episode ${Number(episode) || episode}` : parseObject?.anime_title?.match(/S(\d{2})/) ? `Season ${parseInt(parseObject.anime_title.match(/S(\d{2})/)[1], 10)}` : `Batch`} (${dubbed ? 'Dub' : 'Sub'}) ${Number(episode) || media?.format === 'MOVIE' ? `is out${media?.format !== 'MOVIE' && media?.episodes === Number(highestEp) ? `, this season is now ready to binge` : ``}!` : `is now ready to binge!`}`,
+            message: `${media?.format === 'MOVIE' && (media?.episodes ?? 0) <= 1 ? `The Movie` : episode ? `${media?.episodes === Number(highestEp) ? `The wait is over! ` : ``}Episode ${Number(episode) || episode}` : parseObject?.anime_title?.match(/S(\d{2})/) ? `Season ${parseInt(parseObject.anime_title.match(/S(\d{2})/)[1], 10)}` : `Batch`} (${dubbed ? 'Dub' : 'Sub'}) ${Number(episode) || media?.format === 'MOVIE' ? `is out${media?.format !== 'MOVIE' && media?.episodes === Number(highestEp) ? `, this season is now ready to binge` : ``}!` : `is now ready to binge!`}`,
             icon: media?.coverImage.medium,
             iconXL: media?.coverImage?.extraLarge,
             heroImg: media?.bannerImage || (media?.trailer?.id && `https://i.ytimg.com/vi/${media?.trailer?.id}/hqdefault.jpg`),

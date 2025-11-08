@@ -173,7 +173,7 @@
         zeroEpisode,
         episode: ep,
         episodeRange,
-        episodeTitle: (streamingEpisode && (episodeRx.exec(streamingEpisode.title)?.[2] || episodeRx.exec(streamingEpisode.title))) || ((media?.format === 'MOVIE') ? 'The Movie' : ''),
+        episodeTitle: (streamingEpisode && (episodeRx.exec(streamingEpisode.title)?.[2] || episodeRx.exec(streamingEpisode.title))) || ((media?.format === 'MOVIE' && (media?.episodes ?? 0) <= 1) ? 'The Movie' : ''),
         thumbnail: media?.coverImage?.extraLarge
       }
 
@@ -369,11 +369,9 @@
           parseObject.season = failedSeason
           if (parseObject.parseObject) parseObject.parseObject.season_number = failedSeason
         }
-        if (parseObject?.failed) {
-          if (parseObject?.failed) { // hacky fix to remove the episode number when it failed to resolved, when using the torrent name + file name the resolver has a bias toward detecting the video resolution as the episode number.
-            if (parseObject?.parseObject?.episode_number && (String(parseObject?.parseObject?.episode_number || '') === String(failedEntry?.parseObject?.video_resolution || '').replace('p', ''))) delete parseObject.parseObject.episode_number
-            if (parseObject?.episode && (String(parseObject?.episode || '') === String(failedEntry?.parseObject?.video_resolution || '').replace('p', ''))) delete parseObject.episode
-          }
+        if (parseObject?.failed) { // hacky fix to remove the episode number when it failed to resolved, when using the torrent name + file name the resolver has a bias toward detecting the video resolution as the episode number.
+          if (parseObject?.parseObject?.episode_number && (String(parseObject?.parseObject?.episode_number || '') === String(failedEntry?.parseObject?.video_resolution || '').replace('p', ''))) delete parseObject.parseObject.episode_number
+          if (parseObject?.episode && (String(parseObject?.episode || '') === String(failedEntry?.parseObject?.video_resolution || '').replace('p', ''))) delete parseObject.episode
         }
         file.media = parseObject
         setHash(file.infoHash, {
@@ -456,7 +454,7 @@
               if (seasonA === undefined && seasonB === undefined) return 0
               if (seasonA === undefined) return 1
               if (seasonB === undefined) return -1
-              return  seasonA - seasonB
+              return seasonA - seasonB
           })
       } else result.sort((a, b) => Number(a.media?.parseObject?.episode_number ?? 1) - Number(b.media?.parseObject?.episode_number ?? 1)).sort((a, b) => Number(b.media?.parseObject?.anime_season ?? 1) - Number(a.media?.parseObject?.anime_season ?? 1))
       result.sort((a, b) => a.media?.episode - b.media?.episode)

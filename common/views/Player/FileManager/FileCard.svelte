@@ -110,7 +110,7 @@
             {#if playing}<span class='badge text-dark bg-duodenary' title='The current file'>Now Playing</span>{/if}
             {#if file?.locked || file?.media?.locked}<span class='badge text-dark bg-success' class:ml-5={playing} title='This series was manually set by the user'>Locked</span>{/if}
             {#if failed}<span class='badge text-dark bg-danger-dim ml-auto h-27 mr-5 d-flex align-items-center justify-content-center' title='Failed to resolve the playing media based on the file name.'>Failed</span>{/if}
-            {#if file?.media?.media?.format === 'MOVIE'}
+            {#if file?.media?.media?.format === 'MOVIE' && (file?.media?.media?.episodes ?? 0) <= 1}
                 <span class='badge text-dark bg-undenary h-27 mr-5 d-flex align-items-center justify-content-center' class:ml-auto={!failed}>Movie</span>
             {:else if episode || episode === 0 || file?.media?.media?.episodes > 1}
                 <span class='badge text-dark bg-undenary mr-5 d-flex align-items-center justify-content-center' class:ml-auto={!failed} title={`Episode ${episode}`}>

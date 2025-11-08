@@ -459,9 +459,7 @@ class AnimeSchedule {
                 }))
                 return true
             }
-            if (res.media?.format === 'MOVIE') {
-                delete res.episode
-            }
+            if (res.media?.format === 'MOVIE' && (res.media?.episodes ?? 0) <= 1) delete res.episode
             return res
         })
     }

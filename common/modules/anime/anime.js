@@ -8,6 +8,7 @@ import { page } from '@/App.svelte'
 import clipboard from '@/modules/clipboard.js'
 import { playAnime } from '@/views/TorrentSearch/TorrentModal.svelte'
 import { animeSchedule } from '@/modules/anime/animeschedule.js'
+import { episodesList } from '@/modules/episodes.js'
 import { settings } from '@/modules/settings.js'
 import { cache, caches } from '@/modules/cache.js'
 import { status } from '@/modules/networking.js'
@@ -757,14 +758,47 @@ export function setStatus (status, other = {}, media) {
   return Helper.entry(media, variables)
 }
 
+// TODO: If data exists from ani.zip but we are lacking some important info, pull from kitsu and merge.
 const episodeMetadataMap = new Map()
 export async function getEpisodeMetadataForMedia (media) {
-  if (episodeMetadataMap.has(`${media?.id}`)) {
-    return episodeMetadataMap.get(`${media?.id}`)
-  }
-  const promiseData = (async () => (await getAniMappings(media?.id) || {})?.episodes)()
+  if (episodeMetadataMap.has(`${media?.id}`)) return episodeMetadataMap.get(`${media?.id}`)
+  const promiseData = (async () => {
+    const aniMappings = (await getAniMappings(media?.id) || {})?.episodes
+    if (!aniMappings || !Object.keys(aniMappings).length) return kitsuToAniEpisodes(await episodesList.getKitsuEpisodes(media?.id))
+    else return aniMappings
+  })()
   episodeMetadataMap.set(`${media?.id}`, promiseData)
   return promiseData
+}
+
+function kitsuToAniEpisodes(data) {
+  if (!data?.data) return {}
+  const episodes = {}
+  data.data.forEach((episode) => {
+    const attributes = episode.attributes
+    const episodeNumber = attributes.number
+    if (!episodeNumber) return
+    episodes[episodeNumber] = {
+      episode: episodeNumber.toString(),
+      seasonNumber: attributes.seasonNumber || 1,
+      episodeNumber: episodeNumber,
+      absoluteEpisodeNumber: episodeNumber,
+      title: {
+        en: attributes.canonicalTitle || attributes.titles?.en || null,
+        ja: attributes.titles?.ja || null,
+        "x-jat": attributes.titles?.["x-jat"] || attributes.titles?.ja_jp || null
+      },
+      airDate: attributes.airdate || null,
+      airdate: attributes.airdate || null,
+      length: attributes.length || null,
+      runtime: attributes.length || null,
+      overview: attributes.synopsis || attributes.description || null,
+      summary: attributes.description || attributes.synopsis || null,
+      image: attributes.thumbnail?.original || attributes.thumbnail?.large || null,
+      kitsuId: episode.id
+    }
+  })
+  return episodes
 }
 
 export function getAiringInfo(airingAt) {

@@ -178,7 +178,7 @@ export default class TorrentClient extends WebTorrent {
     const timeout = setTimeout(() => {
       if (this.destroyed || torrent.destroyed) return
       if (torrent.progress !== 1) {
-        if (torrent.numPeers === 0 && this.networking !== 'offline') this.dispatchError('No peers found for torrent, try using a different torrent.')
+        if (torrent.numPeers === 0 && this.networking !== 'offline') this.dispatchError('No peers found, try using a different torrent.')
       }
     }, 30_000)
     this.timeouts.push(timeout)
@@ -279,7 +279,7 @@ export default class TorrentClient extends WebTorrent {
     this.bumpTorrent(torrent)
     const timeout = setTimeout(() => {
       const seeders = torrent?.wires?.filter(wire => wire.isSeeder)?.length
-      if (!this.destroyed && !torrent.destroyed && torrent.current && !torrent.progress && !torrent.ready && torrent.numPeers === 0 && this.networking !== 'offline') this.dispatchError('No peers found for torrent, try using a different torrent.')
+      if (!this.destroyed && !torrent.destroyed && torrent.current && !torrent.progress && !torrent.ready && torrent.numPeers === 0 && this.networking !== 'offline') this.dispatchError('No peers found, try using a different torrent.')
       else if (!this.destroyed && !torrent.destroyed && torrent.current && torrent.progress < .95 && !isNaN(seeders) && seeders.length < 5 && !isNaN(torrent.numPeers) && torrent.numPeers < 25 && this.networking !== 'offline') this.dispatch('info', 'Availability Warning! This release is poorly seeded and likely will have playback issues such as buffering!')
     }, 30_000)
     this.timeouts.push(timeout)

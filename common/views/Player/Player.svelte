@@ -1379,7 +1379,7 @@
       } : undefined
        activity = {
         details,
-        state: (details && (np.media?.format === 'MOVIE' ? 'The Movie' : (np.episode ? 'Episode: ' + np.episode + (np.media?.episodes ? ' of ' + np.media.episodes : '') : 'Streaming the Universe'))),
+        state: (details && (np.media?.format === 'MOVIE' && (np.media?.episodes ?? 0) <= 1 ? 'The Movie' : (np.episode ? 'Episode: ' + np.episode + (np.media?.episodes ? ' of ' + np.media.episodes : '') : 'Streaming the Universe'))),
         timestamps,
         party: {
           size: (np.episode && np.media?.episodes && [np.episode, np.media.episodes]) || undefined
