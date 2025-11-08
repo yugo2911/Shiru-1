@@ -10,53 +10,16 @@ body:
       description: The operating system you are running the app on.
       options:
         - Windows
-        - Linux
-        - macOS
-        - Android
+        - Linux (X11)
+        - Linux (Wayland)
+        - macOS (Intel)
+        - macOS (Apple Silicon)
+        - Android (arm64-v8a)
+        - Android (armeabi-v7a)
+        - Android (x86)
+        - Android (universal)
     validations:
       required: true
-
-  - type: dropdown
-    id: macos_architecture
-    attributes:
-      label: MacOS Architecture
-      description: Select your Mac's architecture.
-      options:
-        - x64 (Intel)
-        - arm64 (Apple Silicon)
-      visible:
-        - operating_system
-        - macOS
-    validations:
-      required: true
-
-  - type: dropdown
-    id: android_architecture
-    attributes:
-      label: Android Architecture
-      description: Select your Android device's architecture.
-      options:
-        - arm64-v8a
-        - armeabi-v7a
-        - x86
-        - universal
-      visible:
-        - operating_system
-        - Android
-    validations:
-      required: true
-
-  - type: input
-    id: android_device
-    attributes:
-      label: Android Device Model
-      description: Your device manufacturer and model (if applicable).
-      placeholder: Samsung Galaxy S23
-      visible:
-        - operating_system
-        - Android
-    validations:
-      required: false
 
   - type: input
     attributes:

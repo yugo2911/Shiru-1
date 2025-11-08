@@ -7,7 +7,6 @@ body:
     attributes:
       label: Which Platforms Should This Feature Apply To?
       description: Select all platforms where this feature would be relevant.
-      multiple: true
       options:
         - label: Android
         - label: Windows
