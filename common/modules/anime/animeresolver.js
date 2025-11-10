@@ -308,12 +308,12 @@ export default new class AnimeResolver {
     // Fail if the release year doesn't match (Must be the expected year or later)
     if (parseObj?.anime_year && media?.seasonYear < Number(parseObj?.anime_year)) return false
 
-    // Fail if anime_type is ONA or OVA and the matched media isn't that format, also fail if media format is OVA, but it's missing from file name.
+    // Fail if anime_type is ONA or OVA and the matched media isn't that format.
     if (parseObj.anime_type?.length) {
       const types = parseObj.anime_type ? (Array.isArray(parseObj.anime_type) ? parseObj.anime_type : [parseObj.anime_type]).map(t => String(t).toUpperCase()) : []
       if (types.includes('ONA') && mediaFormat !== 'ONA') return false
       if (types.includes('OVA') && mediaFormat !== 'OVA') return false
-    } else if (media?.format === 'OVA' && !parseObj.anime_type && !parseObj.anime_title.match(/OVA/i) && !parseObj.file_name.match(/ OVA /i)) return false
+    }
 
     // Prepare title variations for matching
     const baseTitle = parseObj?.anime_title?.replace(/S\d+|season-\d+/gi, '')?.trim()
