@@ -89,15 +89,13 @@ export const encodeStreamURL = (streamURL) => {
 export async function getProgressAndSize(cache) {
   if (!cache) return null
   try {
-    let parsed = cache
-    if (cache.legacy) parsed = await parseTorrent(cache.info)
-    if (!parsed?.pieces?.length || !cache._bitfield) return { progress: 0, size: parsed?.length || 0 }
+    if (!cache?.pieces?.length || !cache._bitfield) return { progress: 0, size: cache?.length || 0 }
     const bits = new Uint8Array(cache._bitfield)
     let pieces = 0
-    for (let i = 0; i < parsed.pieces.length; i++) {
+    for (let i = 0; i < cache.pieces.length; i++) {
       if (bits[i >> 3] & (1 << (7 - (i & 7)))) pieces++
     }
-    return { progress: (pieces / parsed.pieces.length) || 0, size: parsed.length || 0 }
+    return { progress: (pieces / cache.pieces.length) || 0, size: cache.length || 0 }
   } catch {
     return { progress: 0, size: 0}
   }
@@ -112,10 +110,8 @@ export async function getProgressAndSize(cache) {
 export async function hasIntegrity(cache, torrentPath) {
   if (!cache || torrentPath == null) return null
   try {
-    let parsed = cache
-    if (cache.legacy) parsed = await parseTorrent(cache.info)
-    if (parsed.files && parsed.files.length) {
-      for (const file of parsed.files?.filter(file => videoRx.test(file.name))) {
+    if (cache.files && cache.files.length) {
+      for (const file of cache.files?.filter(file => videoRx.test(file.name))) {
         const stats = await stat(path.join(torrentPath, file.path))
         if (stats.size !== file.length) return false
       }
