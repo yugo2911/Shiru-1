@@ -252,9 +252,7 @@ export default class TorrentClient extends WebTorrent {
         existing.seeding = false
         existing.current = current
         this.bumpTorrent(existing)
-        const data = await this.torrentCache.get(existing.infoHash)
-        const { _bitfield, updatedAt, cachedAt, ...id } = data ?? {}
-        this.dispatch('loaded', { id: Object.keys(id).length ? id : existing.torrentFile, infoHash: existing.infoHash })
+        this.dispatch('loaded', { id: existing.magnetURI, ...(existing.local ? { local: true } : {}), infoHash: existing.infoHash })
         if (existing.ready) this.torrentReady(existing)
       } else if (!rescan) this.dispatch('info', 'This torrent is already queued and downloading in the background...')
       return
@@ -332,9 +330,7 @@ export default class TorrentClient extends WebTorrent {
     }
     this.bindTracker(torrent)
     if (torrent.current) {
-      const data = await this.torrentCache.get(torrent.infoHash)
-      const { _bitfield, updatedAt, cachedAt, ...id } = data ?? {}
-      this.dispatch('loaded', { id: Object.keys(id).length ? id : torrent.torrentFile, infoHash: torrent.infoHash })
+      this.dispatch('loaded', { id: torrent.magnetURI, ...(torrent.local ? { local: true } : {}), infoHash: torrent.infoHash })
       this.torrentReady(torrent)
     } else if (torrent.staging && torrent.progress < 1) this.dispatch('staging', torrent.infoHash)
 
