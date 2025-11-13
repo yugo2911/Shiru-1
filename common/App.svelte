@@ -57,11 +57,20 @@
     }
   })
 
-  onMount(() => enableHistory())
+  let isFullscreen = !!document.fullscreenElement
+  function updateFullscreen() {
+    isFullscreen = !!document.fullscreenElement
+  }
+
+  onMount(() => {
+    enableHistory()
+    document.addEventListener('fullscreenchange', updateFullscreen)
+  })
   onDestroy(() => {
     destroyHistory()
     unsubscribeMonitor()
     clearTimeout(transitionTimer)
+    document.removeEventListener('fullscreenchange', updateFullscreen)
   })
 </script>
 
@@ -72,7 +81,7 @@
   <Sidebar bind:page={$page} bind:playPage={$playPage} />
   <Navbar bind:page={$page} bind:playPage={$playPage} />
   <div class='overflow-hidden content-wrapper h-full' class:status-transition={statusTransition}>
-    <Toaster visibleToasts={2} position='top-right' theme='dark' richColors duration={10_000} closeButton toastOptions={{class: $page === 'settings' ? 'mt-70 mt-lg-0' : ''}} />
+    <Toaster visibleToasts={2} position='top-right' theme='dark' richColors duration={10_000} closeButton toastOptions={{class: `${$page === 'settings' ? 'mt-70 mt-lg-0' : ''} ${isFullscreen ? 'd-none' : ''}`}} />
     <ViewAnime bind:overlay={$overlay} />
     <TorrentModal bind:overlay={$overlay} />
     <Notifications bind:overlay={$overlay} />
