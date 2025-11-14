@@ -155,7 +155,8 @@ export default class App {
         } else {
           app.relaunch()
         }
-        app.quit()
+        if (process.platform === 'linux') process.kill(process.pid, 'SIGKILL') // Electron v39 Linux bug workaround - process won't quit gracefully
+        else app.quit()
       }
     })
 
@@ -273,7 +274,10 @@ export default class App {
   destroyed = false
   async destroy(forceRunAfter = false) {
     if (this.destroyed) return
-    this.updater.destroyed = true
+    this.close = true
+    this.destroyed = true
+    this.mainWindow.hide()
+    this.tray.destroy()
     try {
       if (this.webtorrentWindow && !this.webtorrentWindow.isDestroyed()) { // WebTorrent shouldn't ever be destroyed before main, but it's better to be safe.
         this.webtorrentWindow.webContents.postMessage('destroy', null)
@@ -283,9 +287,11 @@ export default class App {
         })
       }
     } catch {} // WebTorrent crashed... prevents hanging infinitely.
-    this.close = true
-    this.destroyed = true
     if (!this.updater.install(forceRunAfter)) app.quit()
+    if (!this.updater.install(forceRunAfter)) {
+      if (process.platform === 'linux') process.kill(process.pid, 'SIGKILL') // Electron v39 Linux bug workaround - process won't quit gracefully
+      else app.quit()
+    }
   }
 
   imageCache = new Map()

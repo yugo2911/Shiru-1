@@ -30,7 +30,6 @@ app.commandLine.appendSwitch('use-angle', store.get('angle') || 'default')
 
 ipcMain.on('open', (event, url) => shell.openExternal(url))
 ipcMain.on('set:angle', (e, data) => store.set('angle', data))
-ipcMain.on('close', () => app.quit())
 ipcMain.on('version', ({ sender }) => sender.send('version', app.getVersion()))
 ipcMain.handle('get:angle', () => store.get('angle') || 'default')
 ipcMain.on('doh', (event, dns) => {
