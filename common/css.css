@@ -311,7 +311,7 @@
 }
 
 .status-transition {
-  transition: height, padding .3s ease 2s;
+  transition: height .3s ease 2s, padding .3s ease 2s;
 }
 
 .scrollbar-none {

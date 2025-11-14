@@ -77,7 +77,7 @@
 <UpdateModal bind:overlay={$overlay} />
 <div class='page-wrapper with-transitions bg-dark position-relative' data-sidebar-type='overlayed-all'>
   <Status />
-  <Menubar bind:page={$page} />
+  <Menubar />
   <Sidebar bind:page={$page} bind:playPage={$playPage} />
   <Navbar bind:page={$page} bind:playPage={$playPage} />
   <div class='overflow-hidden content-wrapper h-full' class:status-transition={statusTransition}>
@@ -104,8 +104,5 @@
     margin-left: var(--sidebar-minimised) !important;
     width: calc(100% - var(--sidebar-minimised)) !important;
     height: calc(100% - var(--wrapper-offset, 0rem)) !important;
-  }
-  .status-transition {
-    transition: height .3s ease 2s;
   }
 </style>

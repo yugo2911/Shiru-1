@@ -120,7 +120,7 @@
 </script>
 
 <Tabs>
-  <div class='d-flex w-full h-full position-relative settings root flex-md-row flex-column status-transition' style='padding-top: max(var(--safe-area-top), var(--safe-bar-top))'>
+  <div class='d-flex w-full h-full position-relative settings root flex-md-row flex-column status-transition' style='padding-top: {SUPPORTS.isAndroid ? `var(--safe-area-top)` : `var(--safe-bar-top)`}'>
     <div class='d-flex flex-column h-lg-full bg-dark position-absolute position-lg-relative bb-10 w-full w-lg-300 z-10 flex-lg-shrink-0'>
       <div class='px-20 py-5 font-size-24 font-weight-semi-bold position-absolute d-none d-lg-block'>Settings</div>
       <div class='mt-lg-20 py-lg-20 py-10 d-flex flex-lg-column flex-row justify-content-center justify-content-lg-start align-items-center align-items-lg-start'>

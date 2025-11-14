@@ -9,6 +9,7 @@
   import { settings } from '@/modules/settings.js'
   import { SUPPORTS } from '@/modules/support.js'
   import { status } from '@/modules/networking.js'
+  import { click } from '@/modules/click.js'
   import { toast } from 'svelte-sonner'
   import Helper from '@/modules/helper.js'
   import IPC from '@/modules/ipc.js'
@@ -37,11 +38,11 @@
 
 <div class='sidebar z-80 d-md-block' class:animated={$settings.expandingSidebar}>
   <div class='z--1 pointer-events-none h-full bg-dark position-absolute' style='width: var(--sidebar-width)'/>
-  <div class='sidebar-overlay z--1 pointer-events-none h-full position-absolute' />
+  <div class='sidebar-overlay z--1 pointer-events-none h-full position-absolute' class:animated={$settings.expandingSidebar} />
   <div class='sidebar-menu h-full d-flex flex-column m-0 pb-5 animate' class:br-10={!$settings.expandingSidebar}>
-    <div class='w-50 m-10 p-5 mb-0 top-0 flex-shrink-0 pointer-events-none {_status === `offline` ? `h-80` : `h-50`}' class:status-transition={statusTransition} class:d-none={SUPPORTS.isAndroid}/>
+  <div class='w-50 top-0 flex-shrink-0 pointer-events-none {_status?.match(/offline/i) ? `h-25` : `${window.version?.platform === `darwin` && !fullscreen ? `h-25` : `h-0`}`}' class:status-transition={statusTransition}/>
     {#if !SUPPORTS.isAndroid}
-      <div class='d-flex align-items-center justify-content-center m-0 p-0 mt-5' style='width: var(--sidebar-width); margin-top:{window.version?.platform === `darwin` ? fullscreen ? `1.5rem` : `2.5rem` : `.5rem`} !important'>
+      <div class='d-flex align-items-center justify-content-center z-102' style='width: var(--sidebar-width); margin-top:{`1rem`} !important'>
         <SidebarLink click={goBack} icon='moveleft' css='p-0 m-0 ml-5 h-auto w-30' innerCss='rounded-left-block' {page}>
           <MoveLeft size={'2.5rem'} class='flex-shrink-0 rounded m-0' strokeWidth='2.5' color={$canGoBack ? 'currentColor' : 'var(--gray-color-very-dim)'} />
         </SidebarLink>
@@ -49,8 +50,9 @@
           <MoveRight size={'2.5rem'} class='flex-shrink-0 rounded m-0' strokeWidth='2.5' color={$canGoForward ? 'currentColor' : 'var(--gray-color-very-dim)'} />
         </SidebarLink>
       </div>
+      <img src='./icon_filled.png' tabindex='-1' class='w-50 h-50 m-10 pointer d-sm-h-none p-5' alt='ico' use:click={() => { $view = null; window.dispatchEvent(new Event('overlay-check')); page = 'home' }} />
     {/if}
-    <SidebarLink click={() => { page = 'home'; if ($view) $view = null }} _page='home' icon='home' text='Home' css='{!SUPPORTS.isAndroid ? `mt-auto` : ``}' {page} overlay={($view || $profileView || $notifyView || $actionPrompt || $rss) && 'active'} let:active>
+    <SidebarLink click={() => { page = 'home'; if ($view) $view = null }} _page='home' icon='home' text='Home' css='{!SUPPORTS.isAndroid ? `mt-md-h-auto` : ``}' {page} overlay={($view || $profileView || $notifyView || $actionPrompt || $rss) && 'active'} let:active>
       <Home size={btnSize} class='flex-shrink-0 p-5 m-5 rounded' strokeWidth='2.5' color={active ? 'currentColor' : 'var(--gray-color-very-dim)'} />
     </SidebarLink>
     <SidebarLink click={() => { page = 'search'; if ($view) $view = null }} _page='search' icon='search' text='Search' {page} overlay={($view || $profileView || $notifyView || $actionPrompt || $rss) && 'active'} let:active>
@@ -83,20 +85,20 @@
       <Download size={btnSize} class='flex-shrink-0 p-5 m-5 rounded' strokeWidth='2.5' color={active ? 'currentColor' : 'var(--gray-color-very-dim)'} />
     </SidebarLink>
     {#if $settings.donate && !SUPPORTS.isAndroid}
-      <SidebarLink click={() => { IPC.emit('open', 'https://github.com/sponsors/RockinChaos/') }} icon='favorite' text='Support This App' css='mt-auto d-sm-h-none' {page} let:active>
+      <SidebarLink click={() => { IPC.emit('open', 'https://github.com/sponsors/RockinChaos/') }} icon='favorite' text='Support This App' css='mt-md-h-auto d-sm-h-none' {page} let:active>
         <Heart size={btnSize} class='flex-shrink-0 p-5 m-5 rounded donate' strokeWidth='2.5' fill='currentColor' />
       </SidebarLink>
     {/if}
     {#if $updateState === 'downloading'}
-      <SidebarLink click={() => { toast('Update is downloading...', { description: 'This may take a moment, the update will be ready shortly.' }) }} icon='download' text='Update Downloading...' css='{!$settings.donate && !SUPPORTS.isAndroid ? `mt-auto` : ``} d-sm-h-none' {page} let:active>
+      <SidebarLink click={() => { toast('Update is downloading...', { description: 'This may take a moment, the update will be ready shortly.' }) }} icon='download' text='Update Downloading...' css='{!$settings.donate && !SUPPORTS.isAndroid ? `mt-md-h-auto` : ``} d-sm-h-none' {page} let:active>
         <CloudDownload size={btnSize} class='flex-shrink-0 p-5 m-5 rounded' strokeWidth='2.5' color='var(--tertiary-color-light)' />
       </SidebarLink>
     {:else if $updateState === 'ready' || $updateState === 'ignored'}
-      <SidebarLink click={() => { $updateState = 'ready' }} icon='download' text='Update Available!' css='{!$settings.donate && !SUPPORTS.isAndroid ? `mt-auto` : ``} d-sm-h-none' {page} let:active>
+      <SidebarLink click={() => { $updateState = 'ready' }} icon='download' text='Update Available!' css='{!$settings.donate && !SUPPORTS.isAndroid ? `mt-md-h-auto` : ``} d-sm-h-none' {page} let:active>
         <CloudDownload size={btnSize} class='flex-shrink-0 p-5 m-5 rounded update' strokeWidth='2.5' color='currentColor' />
       </SidebarLink>
     {/if}
-    <SidebarLink click={() => { $notifyView = !$notifyView }} icon='bell' text='Notifications' css='{!$settings.donate && $updateState !== `downloading` && $updateState !== `ready` && $updateState !== `ignored` && !SUPPORTS.isAndroid ? `mt-auto` : ``}' {page} overlay={!$actionPrompt && $notifyView && 'notify'} nowPlaying={$view} let:active>
+    <SidebarLink click={() => { $notifyView = !$notifyView }} icon='bell' text='Notifications' css='{!$settings.donate && $updateState !== `downloading` && $updateState !== `ready` && $updateState !== `ignored` && !SUPPORTS.isAndroid ? `mt-md-h-auto` : ``}' {page} overlay={!$actionPrompt && $notifyView && 'notify'} nowPlaying={$view} let:active>
       {#if $hasUnreadNotifications && $hasUnreadNotifications > 0}
         <BellDot size={btnSize} class='flex-shrink-0 p-5 m-5 rounded notify {$notifyView ? `` : `notify-color`}' strokeWidth='2.5' color='currentColor' />
       {:else}
@@ -176,18 +178,19 @@
   }
 
   .sidebar {
-    transition: width .8s cubic-bezier(0.25, 0.8, 0.25, 1), left .8s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     background: none !important;
     overflow-y: unset;
     overflow-x: visible;
     left: unset;
+  }
+  .sidebar.animated, .sidebar-overlay.animated {
+    transition: width .8s cubic-bezier(0.25, 0.8, 0.25, 1), left .8s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
   }
   .sidebar.animated:hover {
     width: 22rem
   }
   .sidebar-overlay {
     width: var(--sidebar-width);
-    transition: width .8s cubic-bezier(0.25, 0.8, 0.25, 1), left .8s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
     background: var(--sidebar-gradient);
     backdrop-filter: blur(2px);
   }

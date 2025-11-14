@@ -107,6 +107,16 @@
   .d-sm-h-block {
     display: block !important;
   }
+  .my-sm-h-auto {
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+  }
+}
+
+@media (min-height: 501px) {
+  .mt-md-h-auto {
+    margin-top: auto !important;
+  }
 }
 
 @media (min-width: 769px) {
