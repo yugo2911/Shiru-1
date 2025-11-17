@@ -94,7 +94,7 @@
     if (!incomingNotifications.length) return
     const { localNotifications, systemNotifications } = splitLocalAndSystem(dedupeNotifications(incomingNotifications))
     for (const notification of localNotifications) addNotification(notification)
-    systemNotifications.forEach((notification, i) => setTimeout(() => IPC.emit('notification', notification), 80 * (i + 1)))
+    systemNotifications.forEach((notification, i) => setTimeout(() => IPC.emit('notification', notification), 5 * (i + 1)))
     incomingNotifications.length = 0
   }
 
