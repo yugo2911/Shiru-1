@@ -7,6 +7,7 @@
   import ChangelogSk from '@/components/skeletons/ChangelogSk.svelte'
   import SoftModal from '@/components/SoftModal.svelte'
   import { changeLog, markdownToHtml } from '@/views/Settings/Changelog.svelte'
+  import { settings } from '@/modules/settings.js'
   import { page } from '@/App.svelte'
   import IPC from '@/modules/ipc.js'
   import Debug from 'debug'
@@ -37,15 +38,17 @@
         latestLog = getChangelog(version)
         updateVersion = version
         updateState.value = 'ready'
-        IPC.emit('notification', {
-          title: 'Update Available!',
-          message: `An update to v${version} ${SUPPORTS.isAndroid ? 'is available for download and installation' : 'has been downloaded and is ready for installation'}.`,
-          button: [{ text: 'Update Now', activation: 'shiru://update/' }, { text: `What's New`, activation: 'shiru://changelog/' }],
-          activation: {
-            type: 'protocol',
-            launch: 'shiru://show/'
-          }
-        })
+        if (settings.value.systemNotify || SUPPORTS.isAndroid) {
+          IPC.emit('notification', {
+            title: 'Update Available!',
+            message: `An update to v${version} ${SUPPORTS.isAndroid ? 'is available for download and installation' : 'has been downloaded and is ready for installation'}.`,
+            button: [{ text: 'Update Now', activation: 'shiru://update/' }, { text: `What's New`, activation: 'shiru://changelog/' }],
+            activation: {
+              type: 'protocol',
+              launch: 'shiru://show/'
+            }
+          })
+        }
       }
     }
   })
