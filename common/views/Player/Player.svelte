@@ -1111,6 +1111,12 @@
     if (first.start !== 0 && _chapters.some(ch => ch?.start === 0)) { // Fix incorrect order of chapters (when start === 0 is somewhere else)
       _chapters.sort((a, b) => (a?.start ?? 0) - (b?.start ?? 0))
     }
+    const boundaryMatches = _chapters.map((ch, i) => ({ ch, i })).filter(({ ch }) => ch.start === first.end)
+    if (boundaryMatches.length > 0) { // Fix overlapping chapters where valid chapter end time matches a valid chapter start time.
+      boundaryMatches.sort((a, b) => (a.ch.end - a.ch.start) - (b.ch.end - b.ch.start))
+      const boundaryIndex = boundaryMatches[0].i
+      if (boundaryIndex > 1) _chapters.splice(1, boundaryIndex - 1)
+    }
     _chapters = _chapters.map((chapter, index, arr) => {
       if (chapter.start === chapter.end) { // Fix chapters with incorrect start/end times which causes an invisible seekbar, this happens when the start and end time are identical
         const nextChapter = arr[index + 1] // We now assume each chapter is a bookmark and use the next chapters start time and the current chapters end time.
@@ -1119,6 +1125,7 @@
       return chapter
     })
     _chapters[_chapters.length - 1].end = safeduration * 1000 // fix the final chapter so its duration actually reaches the end of the video...
+    _chapters[0].start = 0
 
     mergeMicroSkippable(_chapters)
     if (JSON.stringify(chapters) !== JSON.stringify(_chapters)) chapters = _chapters
