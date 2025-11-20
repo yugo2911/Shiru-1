@@ -91,20 +91,35 @@
       <ChangelogSk />
     {/each}
   {:then changelog}
-    {#each changelog.slice(0, 5) as { version, date, body }}
+    {#if changelog?.length}
+      {#each changelog.slice(0, 5) as { version, date, body }}
+        <hr class='my-20' />
+        <div class='row py-20 px-20 px-sm-0 position-relative text-wrap text-break'>
+          <div class='col-sm-3 order-first text-white mb-10 mb-sm-0'>
+            <div class='position-sticky top-0 pt-20'>
+              {new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </div>
+          </div>
+          <div class='col-sm-9 pre-wrap text-muted'>
+            <h2 class='mt-0 font-weight-bold text-white font-scale-34'>{version}</h2>
+            <div class='ml-10'>{@html markdownToHtml(body)}</div>
+          </div>
+        </div>
+      {/each}
+     {:else}
       <hr class='my-20' />
       <div class='row py-20 px-20 px-sm-0 position-relative text-wrap text-break'>
         <div class='col-sm-3 order-first text-white mb-10 mb-sm-0'>
           <div class='position-sticky top-0 pt-20'>
-            {new Date(date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
           </div>
         </div>
         <div class='col-sm-9 pre-wrap text-muted'>
           <h2 class='mt-0 font-weight-bold text-white font-scale-34'>{version}</h2>
-          <div class='ml-10'>{@html markdownToHtml(body)}</div>
+          <div class='ml-10'>Failed to load the changelog.<br>Possible causes include network connectivity problems, missing or inaccessible changelog files, or issues communicating with the update repository.</div>
         </div>
       </div>
-    {/each}
+    {/if}
   {:catch e}
     {#each Array(5) as _}
       <ChangelogSk />
