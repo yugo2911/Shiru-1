@@ -487,9 +487,10 @@ export default class TorrentClient extends WebTorrent {
           }
           if (this.currentFile) {
             this.currentFile.removeAllListeners('stream')
-            if (this.settings.torrentStreamedDownload && !this.currentFile._destroyed && torrent.progress < 1) this.currentFile.deselect()
+            this.currentFile.removeAllListeners('iterator')
+            if (this.settings.torrentStreamedDownload && !this.currentFile._destroyed && found.progress < 1) this.currentFile.deselect()
           }
-          if (this.settings.torrentStreamedDownload && torrent.progress < 1) {
+          if (this.settings.torrentStreamedDownload && found.progress < 1) {
             this.torrents.filter(_torrent => (_torrent.staging || _torrent.seeding) && Array.isArray(_torrent.files)).forEach(_torrent => {
               _torrent.files.forEach(file => {
                 if (!file._destroyed) file.deselect()
