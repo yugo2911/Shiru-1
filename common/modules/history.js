@@ -14,6 +14,8 @@ const debug = Debug('ui:history')
  * TODO: Support fileDetails and fileEditor overlays.. Possibly consider supporting the trailer overlay.
  */
 class HistoryManager {
+  /** @type {{view: {type: string, value: any, timestamp: number} | null, rss: {type: string, value: any, timestamp: number} | null}} */
+  pendingClosures = { view: null, rss: null }
   /** @type {Array<{type:string,value:any,timestamp:number,parentPage?:string,parentView?:string,isTemp?:boolean}>} */
   history = []
   /** @type {number} */
@@ -226,11 +228,33 @@ class HistoryManager {
     if ((type === 'view' || type === 'rss') && value == null) {
       const currentEntry = this.history[this.currentIndex]
       if (currentEntry?.type === type && currentEntry.value != null) {
-        debug(`${type === 'view' ? 'View' : 'RSS'} closed after being open, adding closure to history`)
-        this.addHistoryEntry(type, value)
+        if (this.isNavigating) { debug(`${type === 'view' ? 'View' : 'RSS'} closed during navigation, skipping`); return }
+        this.pendingClosures[type] = { type, value, timestamp: Date.now() }
+        setTimeout(() => {
+          const pendingType = this.pendingClosures[type]
+          if (pendingType) {
+            const lastEntry = this.history[this.currentIndex]
+            if (lastEntry?.type === 'page' && (Date.now() - pendingType.timestamp) <= 10) debug(`${type === 'view' ? 'View' : 'RSS'} closed due to page navigation, skipping closure log`)
+            else {
+              debug(`${type === 'view' ? 'View' : 'RSS'} closed independently, adding closure to history`)
+              this.addHistoryEntry(pendingType.type, pendingType.value)
+            }
+            this.pendingClosures[type] = null
+          }
+        }).unref?.()
       }
     } else if (value != null && ((type === 'updateState' && value === 'ready') || (type === 'notifyView' && value === true) || !['updateState', 'notifyView'].includes(type))) {
+      if (type === 'view' || type === 'rss') {
+        const altType = type === 'view' ? 'rss' : 'view'
+        const pendingType = this.pendingClosures[altType]
+        if (pendingType) {
+          debug(`${altType === 'view' ? 'View' : 'RSS'} closed to open ${type}, adding closure to history`)
+          this.addHistoryEntry(pendingType.type, pendingType.value)
+          this.pendingClosures[altType] = null
+        }
+      }
       debug('Valid change detected, adding history entry', type, JSON.stringify(value))
+      if (type === 'page') { this.pendingClosures.view = null; this.pendingClosures.rss = null }
       this.addHistoryEntry(type, value)
     }
   }
@@ -332,7 +356,7 @@ class HistoryManager {
    */
   lockNavigation() {
     this.navigationLocked = true
-    setTimeout(() => this.navigationLocked = false, 150)
+    setTimeout(() => this.navigationLocked = false, 150).unref?.()
   }
 
   /**
