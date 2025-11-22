@@ -54,6 +54,17 @@ class HistoryManager {
         }
       })
     }
+    window.addEventListener('mouseup', (event) => {
+      if (event.button === 3) {
+        debug('Mouse back button pressed')
+        event.preventDefault()
+        this.goBack()
+      } else if (event.button === 4) {
+        debug('Mouse forward button pressed')
+        event.preventDefault()
+        this.goForward()
+      }
+    })
   }
 
   /**
@@ -67,7 +78,7 @@ class HistoryManager {
     for (const [type, store] of Object.entries(storeMap)) {
       this.unsubscribers.push(
         store.subscribe(value => {
-          debug('Store change detected', type, value)
+          debug('Store change detected', type, JSON.stringify(value))
           this.handleChange(type, value)
         })
       )
@@ -106,9 +117,11 @@ class HistoryManager {
         }
       }
     }
-    if (this.currentIndex > 0 && !skipNavigation) this.navigateTo(this.currentIndex - 1, true)
-    this.syncState()
-    debug('goBack finished', JSON.stringify({ currentIndex: this.currentIndex, historyLength: this.history.length }))
+    if (this.currentIndex > 0 && !skipNavigation) {
+      this.navigateTo(this.currentIndex - 1, true)
+      this.syncState()
+      debug('goBack finished', JSON.stringify({ currentIndex: this.currentIndex, historyLength: this.history.length }))
+    }
   }
 
   /**
@@ -147,7 +160,7 @@ class HistoryManager {
    * @param {boolean} [back=false] If navigating backward
    */
   navigateTo(index, back = false) {
-    debug('navigateTo called', { index, back })
+    debug('navigateTo called', JSON.stringify({ index, back }))
     if (index < 0 || index >= this.history.length) return
     this.isNavigating = true
     this.currentIndex = index
@@ -183,7 +196,7 @@ class HistoryManager {
    */
   addHistoryEntry(type, value) {
     if (this.ignoreNext || this.isNavigating) {
-      debug(`Skipping addHistoryEntry due to ${this.ignoreNext ? 'ignoreNext' : 'isNavigating'}`, type, value)
+      debug(`Skipping addHistoryEntry due to ${this.ignoreNext ? 'ignoreNext' : 'isNavigating'}`, type, JSON.stringify(value))
       this.ignoreNext = false
       return
     }
@@ -217,7 +230,7 @@ class HistoryManager {
         this.addHistoryEntry(type, value)
       }
     } else if (value != null && ((type === 'updateState' && value === 'ready') || (type === 'notifyView' && value === true) || !['updateState', 'notifyView'].includes(type))) {
-      debug('Valid change detected, adding history entry', type, value)
+      debug('Valid change detected, adding history entry', type, JSON.stringify(value))
       this.addHistoryEntry(type, value)
     }
   }
@@ -269,7 +282,7 @@ class HistoryManager {
    * @param {any} value The view state to restore
    */
   restoreView(value) {
-    debug('restoreView called', value)
+    debug('restoreView called', JSON.stringify(value))
     const state = this.history[this.currentIndex]
     this.resetOverlays()
     this.restoreParents(state)
@@ -282,7 +295,7 @@ class HistoryManager {
    * @param {any} value The value/state to restore for the overlay
    */
   restoreOverlay(type, value) {
-    debug('restoreOverlay called', type, value)
+    debug('restoreOverlay called', type, JSON.stringify(value))
     const state = this.history[this.currentIndex]
     const overlayActions = {
       updateState: () => {
