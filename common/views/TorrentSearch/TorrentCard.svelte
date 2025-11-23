@@ -24,6 +24,7 @@
   termMapping.AACX2 = termMapping.AAC
   termMapping.AACX3 = termMapping.AAC
   termMapping.AACX4 = termMapping.AAC
+  termMapping.OPUS = { text: 'Opus', color: 'var(--octonary-color)' }
   termMapping.AC3 = { text: 'AC3', color: 'var(--octonary-color)' }
   termMapping.EAC3 = { text: 'EAC3', color: 'var(--octonary-color)' }
   termMapping['E-AC-3'] = termMapping.EAC3
@@ -35,29 +36,9 @@
   termMapping.FLACX4 = termMapping.FLAC
   termMapping.BLURAY = { text: 'Blu-ray', color: 'var(--octonary-color)' }
   termMapping.VORBIS = { text: 'Vorbis', color: 'var(--octonary-color)' }
-  termMapping.DUALAUDIO = { text: 'Dual Audio', color: 'var(--octonary-color)' }
-  termMapping.MULTISUB = { text: 'Multi Sub', color: 'var(--octonary-color)' }
-  termMapping.ENGLISHAUDIO = { text: 'English Audio', color: 'var(--octonary-color)' }
-  termMapping.CHINESEAUDIO = { text: 'Chinese Audio', color: 'var(--octonary-color)' }
-  termMapping['DUAL AUDIO'] = termMapping.DUALAUDIO
-  termMapping['DUAL-AUDIO'] = termMapping.DUALAUDIO
-  termMapping['MULTI AUDIO'] = termMapping.DUALAUDIO
-  termMapping['MULTI-AUDIO'] = termMapping.DUALAUDIO
-  termMapping['ENGLISH AUDIO'] = termMapping.ENGLISHAUDIO
-  termMapping['ENGLISH DUB'] = termMapping.ENGLISHAUDIO
-  termMapping['CN AUDIO'] = termMapping.CHINESEAUDIO
-  termMapping['CHINESE AUDIO'] = termMapping.CHINESEAUDIO
-  termMapping['CHINESE DUB'] = termMapping.CHINESEAUDIO
-  termMapping['CN DUB'] = termMapping.CHINESEAUDIO
-  termMapping['DUAL'] = termMapping.DUALAUDIO
-  termMapping['DUB'] = termMapping.ENGLISHAUDIO
-  termMapping['MULTISUBS'] = termMapping.MULTISUB
-  termMapping['MULTI-SUBS'] = termMapping.MULTISUB
-  termMapping['MULTISUB'] = termMapping.MULTISUB
-  termMapping['MULTI-SUB'] = termMapping.MULTISUB
   termMapping['BDRIP'] = termMapping.BLURAY
   termMapping['BDREMUX'] = termMapping.BLURAY
-  termMapping['BD-'] = termMapping.BLURAY
+  termMapping.BD = termMapping.BLURAY
   termMapping['10BIT'] = { text: '10 Bit', color: 'var(--tertiary-color)' }
   termMapping['10BITS'] = termMapping['10BIT']
   termMapping['10-BIT'] = termMapping['10BIT']
@@ -76,6 +57,29 @@
   termMapping['H.265'] = termMapping.HEVC
   termMapping.X265 = termMapping.HEVC
   termMapping.AV1 = { text: 'AV1', color: 'var(--tertiary-color)' }
+  termMapping.MULTISUB = { text: 'Multi Sub', color: 'var(--octonary-color)' }
+  termMapping['MULTISUBS'] = termMapping.MULTISUB
+  termMapping['MULTI-SUBS'] = termMapping.MULTISUB
+  termMapping['MULTISUB'] = termMapping.MULTISUB
+  termMapping['MULTI-SUB'] = termMapping.MULTISUB
+  termMapping.DUALAUDIO = { text: 'Dual Audio', color: 'var(--octonary-color)' }
+  termMapping.CHINESEAUDIO = { text: 'Chinese Audio', color: 'var(--octonary-color)' }
+  termMapping.ENGLISHAUDIO = { text: 'English Audio', color: 'var(--octonary-color)' }
+  termMapping['DUAL AUDIO'] = termMapping.DUALAUDIO
+  termMapping['DUAL-AUDIO'] = termMapping.DUALAUDIO
+  termMapping['MULTI AUDIO'] = termMapping.DUALAUDIO
+  termMapping['MULTI-AUDIO'] = termMapping.DUALAUDIO
+  termMapping['CN AUDIO'] = termMapping.CHINESEAUDIO
+  termMapping['CHINESE AUDIO'] = termMapping.CHINESEAUDIO
+  termMapping['CHINESE DUB'] = termMapping.CHINESEAUDIO
+  termMapping['CHI DUB'] = termMapping.CHINESEAUDIO
+  termMapping['CN DUB'] = termMapping.CHINESEAUDIO
+  termMapping['ENGLISH AUDIO'] = termMapping.ENGLISHAUDIO
+  termMapping['ENGLISH DUB'] = termMapping.ENGLISHAUDIO
+  termMapping['ENG DUB'] = termMapping.ENGLISHAUDIO
+  termMapping['EN DUB'] = termMapping.ENGLISHAUDIO
+  termMapping['DUAL'] = termMapping.DUALAUDIO
+  termMapping['DUB'] = termMapping.ENGLISHAUDIO
 
   /**
    * @param {Object} search
@@ -115,14 +119,10 @@
     }
 
     for (const key of Object.keys(termMapping)) {
-      if (fileName && (isEnglishDubbed || termMapping[key] !== termMapping.ENGLISHAUDIO) && !terms.some(existingTerm => existingTerm.term.text === termMapping[key].text)) {
+      if (fileName && (isEnglishDubbed || termMapping[key] !== termMapping.ENGLISHAUDIO) && !terms.some(existingTerm => existingTerm.key === key)) {
         if (!fileName.toLowerCase().includes(key.toLowerCase())) {
-          if (matchPhrase(key.toLowerCase(), fileName, 1)) {
-            terms.push({ key, term: termMapping[key] })
-          }
-        } else {
-          terms.push({ key, term: termMapping[key] })
-        }
+          if (matchPhrase(key.toLowerCase(), fileName, 1)) terms.push({ key, term: termMapping[key] })
+        } else terms.push({ key, term: termMapping[key] })
       }
     }
 
@@ -173,7 +173,7 @@
     [group, checksum, ...resolutions, ...video, ...audio].forEach(removeTerm)
     const sanitized = (await sanitiseTerms(search, result))
     sanitized.forEach(term => removeTerm(term.key))
-    simpleName = simpleName.replace(/[[{(]\s*[\]})]/g, '').replace(/,\s*[)\]]/g, match => match.slice(-1)).replace(/,+/g, ',').replace(/[-_.\s]{2,}/g, ' ').replace(/^[, ]+|[, ]+$/g, '').replace(/,\s*([)\]])/g, '$1').trim()
+    simpleName = simpleName.replace(/[[{(]\s*[\]})]/g, '').replace(/,\s*[)\]]/g, match => match.slice(-1)).replace(/,+/g, ',').replace(/[-_.\s]{2,}/g, ' ').replace(/^[, ]+|[, ]+$/g, '').replace(/,\s*([)\]])/g, '$1').replace(/[[(]\s*-\s*[\])]*/g, '').trim()
     titleHolders.forEach(title => simpleName = simpleName.replace(new RegExp(title.placeholder, 'g'), title.original))
     return simpleName
   }
@@ -270,18 +270,18 @@
       </div>
       <div class='secondary-metadata d-flex flex-wrap ml-auto justify-content-end'>
         {#if result.type === 'best'}
-          <div class='rounded px-15 py-5 ml-10 border text-nowrap font-weight-bold d-flex align-items-center' style='background: var(--success-color-very-dim); border-color: var(--success-color-light) !important; color: var(--success-color-light)'>
+          <div class='rounded px-15 py-5 border text-nowrap font-weight-bold d-flex align-items-center' style='background: var(--success-color-very-dim); border-color: var(--success-color-light) !important; color: var(--success-color-light); margin-top: 0.15rem'>
             Best Release
           </div>
         {:else if result.type === 'alt'}
-          <div class='rounded px-15 py-5 ml-10 border text-nowrap font-weight-bold d-flex align-items-center' style='background: var(--danger-color-very-dim); border-color: var(--danger-color) !important; color: var(--danger-color)'>
+          <div class='rounded px-15 py-5 border text-nowrap font-weight-bold d-flex align-items-center' style='background: var(--danger-color-very-dim); border-color: var(--danger-color) !important; color: var(--danger-color); margin-top: 0.15rem'>
             Alt Release
           </div>
         {/if}
         {#await sanitiseTerms({ media, episode }, result.parseObject) then termObjects}
-          {@const terms = termObjects?.map(term => term.term)}
+          {@const terms = termObjects?.map(term => term.term).filter((term, index, self) => index === self.findLastIndex(t => t.text === term.text))}
           {#each terms as term, index}
-            <div class='rounded px-15 py-5 bg-very-dark text-nowrap text-white d-flex align-items-center' class:ml-10={index !== 0} style='margin-top: 0.15rem;'>
+            <div class='rounded px-15 py-5 bg-very-dark text-nowrap text-white d-flex align-items-center' class:ml-10={index !== 0 || result.type === 'best' || result.type === 'alt'} style='margin-top: 0.15rem;'>
               {term.text}
             </div>
           {/each}

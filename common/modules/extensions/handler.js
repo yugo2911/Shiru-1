@@ -249,6 +249,10 @@ export function dedupe (entries) {
       dupe.type ??= entry.type
     } else {
       entry.title = AnimeResolver.cleanFileName(entry.title)
+      entry.seeders = entry.seeders && entry.seeders < 30000 ? entry.seeders : 0
+      entry.leechers = entry.leechers && entry.leechers < 30000 ? entry.leechers : 0
+      entry.downloads ||= 0
+      entry.date ||= new Date(Date.now() - 1_000).toUTCString()
       deduped[entry.hash] = entry
     }
   }
