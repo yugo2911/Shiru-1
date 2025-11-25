@@ -99,7 +99,7 @@ export async function add(torrentID, search, hash, magnet) {
     debug('Adding torrent', JSON.stringify({ torrentID, search, hash, magnet }))
     files.set([])
     page.set('player')
-    media.value = !hash && !search ? { media: (search?.media || media.value?.media), episode: (search?.episode || media.value?.episode), ...(media.value?.torrent ? { torrent: true } : { feed: true }) } : { torrent: true }
+    media.value = search ? { media: (search.media || media.value?.media), episode: (search.episode || media.value?.episode), ...(media.value?.torrent ? { torrent: true } : { feed: true }) } : { torrent: true }
     if (hash && search) setHash(hash, { mediaId: search.media?.id, episode: search.episode, client: true })
     window.dispatchEvent(new Event('overlay-check'))
     if (SUPPORTS.isAndroid && !settings.value.enableExternal) document.querySelector('.content-wrapper').requestFullscreen() // this WILL not work with auto-select torrents due to permissions check.

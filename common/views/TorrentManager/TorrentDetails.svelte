@@ -38,6 +38,7 @@
   $: resolvedId = resolved?.mediaId
   $: episode = resolved?.files?.length <= 1 ? !resolved?.files?.length ? resolved?.episode : (Number.isFinite(Number(resolved?.files?.[0]?.episode)) ? Number(resolved?.files?.[0]?.episode) : resolved?.episode) : null
   $: episodeRange = resolved?.files?.length <= 1 ? !resolved?.files?.length ? (resolved?.episodeRange && `${resolved.episodeRange.first} ~ ${resolved.episodeRange.last}`) : (resolved?.files?.[0]?.episodeRange && `${resolved?.files?.[0].episodeRange.first} ~ ${resolved?.files?.[0].episodeRange.last}`) || (resolved?.episodeRange && `${resolved.episodeRange.first} ~ ${resolved.episodeRange.last}`) : null
+  $: search = $mediaCache[resolvedId] ? { media: $mediaCache[resolvedId], episode, episodeRange  } : null
 
   function viewMedia() {
     $view = $mediaCache[resolvedId]
@@ -75,7 +76,7 @@
     _init(false)
   })
 </script>
-<div role='button' tabindex='0' class='details border-top py-20 text-wrap text-break-word d-flex {$_reactive && !current ? `` : `not-reactive`}' class:bg-error={completed && data.incomplete} class:current={current} class:option={!current} class:pointer={!current} class:not-allowed={current} aria-label={!current ? 'Play Torrent' : 'Currently Playing'} title={!current ? 'Play Torrent' : 'Currently Playing'} use:click={() => { if (!current) add(infoHash, null, infoHash) }} on:contextmenu|preventDefault={altClick}>
+<div role='button' tabindex='0' class='details border-top py-20 text-wrap text-break-word d-flex {$_reactive && !current ? `` : `not-reactive`}' class:bg-error={completed && data.incomplete} class:current={current} class:option={!current} class:pointer={!current} class:not-allowed={current} aria-label={!current ? 'Play Torrent' : 'Currently Playing'} title={!current ? 'Play Torrent' : 'Currently Playing'} use:click={() => { if (!current) add(infoHash, search, infoHash) }} on:contextmenu|preventDefault={altClick}>
   <div class='d-flex flex-row w-full load-in mw-0'>
     <div class='p-5 ml-20 name mw-150 flex-1 w-auto d-flex flex-column'>
       {#if resolvedId && $mediaCache[resolvedId]}
@@ -105,7 +106,7 @@
   <div class='dropdown react-{infoHash} with-arrow right-0 mr-5 mr-md-20 w-40 h-auto' class:invisible={current} use:click={toggleDropdown}>
     <span bind:this={options} class='btn btn-square h-full bg-transparent shadow-none border-0 options d-flex align-items-center muted justify-content-center flex-shrink-0 h-full w-40' title='Options'><EllipsisVertical size='2rem' /></span>
     <div class='dropdown-menu dropdown-menu-right pt-5 pb-5 ml-10 text-capitalize w-auto hm-400 text-nowrap'>
-      <div role='button' class='pointer d-none align-items-center justify-content-center font-size-16 rounded option details py-5 px-10' class:d-flex={!current} aria-label='Play Torrent' title='Play Torrent' use:click={() => { add(infoHash, null, infoHash); toggleDropdown() }}>
+      <div role='button' class='pointer d-none align-items-center justify-content-center font-size-16 rounded option details py-5 px-10' class:d-flex={!current} aria-label='Play Torrent' title='Play Torrent' use:click={() => { add(infoHash, search, infoHash); toggleDropdown() }}>
         Play
       </div>
       <div role='button' class='pointer d-none align-items-center justify-content-center font-size-16 rounded option details py-5 px-10' class:d-flex={!current} aria-label='Untrack Torrent' title='Untrack Torrent' use:click={() => { untrack(infoHash); toggleDropdown() }}>

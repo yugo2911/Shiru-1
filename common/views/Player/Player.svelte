@@ -205,6 +205,8 @@
       }
     } else {
       src = ''
+      showBuffering()
+      current = null
       currentTime = 0
       targetTime = 0
       if (subs) {
@@ -1465,7 +1467,7 @@
   class:miniplayer
   class:pip
   class:immersed={immersed}
-  class:buffering={(src || externalPlayback) && buffering}
+  class:buffering={buffering}
   class:fitWidth
   bind:this={container}
   role='none'
