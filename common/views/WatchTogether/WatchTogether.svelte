@@ -1,8 +1,8 @@
 <script context='module'>
+  import { copyToClipboard } from '@/modules/clipboard.js'
   import { EventEmitter } from 'events'
   import { writable } from 'simple-store-svelte'
   import { SUPPORTS } from '@/modules/support.js'
-  import { toast } from 'svelte-sonner'
   import { page } from '@/App.svelte'
   import IPC from '@/modules/ipc.js'
   import WPC from '@/modules/wpc.js'
@@ -36,11 +36,7 @@
   })
 
   function invite () {
-    navigator.clipboard.writeText(state.value.inviteLink)
-    toast.success('Copied to clipboard', {
-      description: 'Copied invite code to clipboard',
-      duration: 5000
-    })
+    copyToClipboard(state.value.inviteLink, 'invite code')
   }
 </script>
 

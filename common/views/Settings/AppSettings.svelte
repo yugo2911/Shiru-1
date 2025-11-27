@@ -1,55 +1,3 @@
-<script>
-  import { persisted } from 'svelte-persisted-store'
-  import { capitalize, defaults } from '@/modules/util.js'
-  import { onDestroy } from 'svelte'
-  import { updateState } from '@/views/Updater/UpdateModal.svelte'
-  import { platformMap } from '@/views/Settings/Settings.svelte'
-  import SettingCard from '@/views/Settings/SettingCard.svelte'
-  import Changelog from '@/views/Settings/Changelog.svelte'
-  import WPC from '@/modules/wpc.js'
-  import { toast } from 'svelte-sonner'
-  import Debug from 'debug'
-  const debug = persisted('debug', '', { serializer: { parse: e => e, stringify: e => e } })
-
-  export let version = ''
-  export let settings
-
-  function resetSettings () {
-    IPC.emit('set:angle', defaults.angle)
-    cache.resetSettings()
-  }
-
-  function updateDebug (debug) {
-    Debug.disable()
-    if (debug) Debug.enable(debug)
-    WPC.send('debug', debug)
-  }
-
-  $: updateDebug($debug)
-
-  onDestroy(() => {
-    IPC.off('device-info', writeAppInfo)
-  })
-
-  function writeAppInfo (info) {
-    const deviceInfo = JSON.parse(info)
-    deviceInfo.appInfo = {
-      version,
-      platform: window.version.platform,
-      userAgent: navigator.userAgent,
-      support: SUPPORTS,
-      settings
-    }
-    navigator.clipboard.writeText(JSON.stringify(deviceInfo, null, 2))
-    toast.success('Copied to clipboard', {
-      description: 'Copied device info to clipboard',
-      duration: 5000
-    })
-  }
-
-  IPC.on('device-info', writeAppInfo)
-</script>
-
 <script context='module'>
   import { click } from '@/modules/click.js'
   import { cache, caches } from '@/modules/cache.js'
@@ -64,28 +12,21 @@
     } catch (error) {
       toast.error('Failed to import settings', {
         description: 'Failed to import settings from clipboard, make sure the copied data is valid JSON.',
-        duration: 5000
+        duration: 5_000
       })
     }
-  }
-  function exportSettings () {
-    navigator.clipboard.writeText(JSON.stringify(cache.getEntry(caches.GENERAL, 'settings')))
-    toast('Copied to clipboard', {
-      description: 'Copied settings to clipboard',
-      duration: 5000
-    })
   }
 
   IPC.on('log-exported', detail => {
     if (detail.error) {
       toast.error('Log Not Saved', {
-        description: 'Failed to save the log file  to the selected location',
-        duration: 10000
+        description: 'Failed to save the log file to the selected location',
+        duration: 10_000
       })
     } else {
       toast.success('Log Saved', {
         description: 'The log file has been saved to the selected location',
-        duration: 5000
+        duration: 5_000
       })
     }
   })
@@ -102,6 +43,63 @@
       })
     }
   })
+</script>
+<script>
+  import { persisted } from 'svelte-persisted-store'
+  import { capitalize, defaults } from '@/modules/util.js'
+  import { onDestroy } from 'svelte'
+  import { updateState } from '@/views/Updater/UpdateModal.svelte'
+  import { platformMap } from '@/views/Settings/Settings.svelte'
+  import SettingCard from '@/views/Settings/SettingCard.svelte'
+  import Changelog from '@/views/Settings/Changelog.svelte'
+  import WPC from '@/modules/wpc.js'
+  import { copyToClipboard } from '@/modules/clipboard.js'
+  import { toast } from 'svelte-sonner'
+  import Debug from 'debug'
+  const debugStore = persisted('debug', '', { serializer: { parse: e => e, stringify: e => e }})
+  const debug = Debug('ui:app-settings')
+  let debugPrev = null
+
+  export let version = ''
+  export let settings
+
+  function resetSettings () {
+    IPC.emit('set:angle', defaults.angle)
+    cache.resetSettings()
+  }
+
+  function updateDebug (debug) {
+    Debug.disable()
+    if (debug) Debug.enable(debug)
+    WPC.send('debug', debug)
+  }
+
+  $: updateDebug($debugStore)
+
+  let unsubscribeDebug
+  unsubscribeDebug = debugStore.subscribe(value => {
+    if (value && debugPrev === '') setTimeout(() => debug('Current Settings: ', JSON.stringify(settings.value)));
+    debugPrev = value
+  })
+
+  onDestroy(() => {
+    unsubscribeDebug()
+    IPC.off('device-info', writeAppInfo)
+  })
+
+  function writeAppInfo (info) {
+    const deviceInfo = JSON.parse(info)
+    deviceInfo.appInfo = {
+      version,
+      platform: window.version.platform,
+      userAgent: navigator.userAgent,
+      support: SUPPORTS,
+      settings
+    }
+    copyToClipboard(JSON.stringify(deviceInfo, null, 2), 'device info')
+  }
+
+  IPC.on('device-info', writeAppInfo)
 </script>
 
 <h4 class='mb-10 font-weight-bold'>App Settings</h4>
@@ -143,14 +141,14 @@
 <SettingCard title='Settings Management' description='Import saved settings from your clipboard, export your current configuration to back it up or share with others, and restore everything back to default values if needed. This is especially useful for syncing preferences across devices, sharing settings with friends, or starting fresh with recommended defaults.'>
   <div class='d-inline-flex flex-column'>
     <button use:click={importSettings} class='btn btn-primary d-flex align-items-center justify-content-center' type='button'><span class='text-truncate'>Import from Clipboard</span></button>
-    <button use:click={exportSettings} class='btn btn-primary mt-5 d-flex align-items-center justify-content-center' type='button'><span class='text-truncate'>Export to Clipboard</span></button>
+    <button use:click={() => copyToClipboard(JSON.stringify(cache.getEntry(caches.GENERAL, 'settings')), 'settings')} class='btn btn-primary mt-5 d-flex align-items-center justify-content-center' type='button'><span class='text-truncate'>Export to Clipboard</span></button>
     <button use:click={resetSettings} class='btn btn-danger mt-5 d-flex align-items-center justify-content-center' type='button' data-toggle='tooltip' data-placement='top' data-title='Restores All Settings Back To Their Recommended Defaults'><span class='text-truncate'>Reset to Defaults</span></button> <!--TODO: Add a prompt for the user  -->
   </div>
 </SettingCard>
 
 <h4 class='mb-10 font-weight-bold'>Debug Settings</h4>
 <SettingCard title='Logging Levels' description='Enable logging of specific parts of the app.{!SUPPORTS.isAndroid ? ` These logs are saved to ${window.version?.platform === `win32` ? `%appdata%` : `~/config`}/Shiru/logs/main.log.` : ``}'>
-  <select class='form-control bg-dark mw-150 w-150 text-truncate' bind:value={$debug}>
+  <select class='form-control bg-dark mw-150 w-150 text-truncate' bind:value={$debugStore}>
     <option value='' selected>None</option>
     <option value='*'>All</option>
     <option value='torrent:*,webtorrent:*,simple-peer,bittorrent-protocol,bittorrent-dht,bittorrent-lsd,torrent-discovery,bittorrent-tracker:*,ut_metadata,nat-pmp,nat-api'>Torrent</option>
