@@ -17,21 +17,25 @@ const debug = Debug('ui:rss')
 export function parseRSSNodes (nodes) {
   return nodes.map(item => {
     const pubDate = item.querySelector('pubDate')?.textContent
-    const link = item.querySelector('enclosure')?.attributes.url.value || item.querySelector('link')?.textContent || '?'
-    let hash
-    try {
-      const match = link.match(/\b([a-fA-F0-9]{40}|[A-Z2-7]{32})\b/)
-      if (match) {
-        let foundHash = match[1].toLowerCase()
-        if (foundHash.length === 32) hash = base32toHex(foundHash)
-        else hash = foundHash
-      }
-    } catch (e) {}
-
+    const torrentLink = item.querySelector('enclosure')?.attributes.url.value || item.querySelector('link')?.textContent || '?'
+    const title = item.querySelector('title')?.textContent || '?'
+    let tracker = torrentLink?.includes(atob('bnlhYQ==')) ? encodeURIComponent(atob('aHR0cDovL255YWEudHJhY2tlci53Zjo3Nzc3L2Fubm91bmNl')) : torrentLink?.includes(atob('c3VrZWJlaQ==')) ? encodeURIComponent(atob('aHR0cDovL3N1a2ViZWkudHJhY2tlci53Zjo4ODg4L2Fubm91bmNl')) : ''
+    let infoHash = item.querySelector('infoHash')?.textContent
+    if (!infoHash) {
+      try {
+        const match = torrentLink.match(/\b([a-fA-F0-9]{40}|[A-Z2-7]{32})\b/)
+        if (match) {
+          let foundHash = match[1].toLowerCase()
+          if (foundHash.length === 32) infoHash = base32toHex(foundHash)
+          else infoHash = foundHash
+        }
+      } catch (e) {}
+    }
+    const magnetLink = torrentLink?.toLowerCase().endsWith('.torrent') && infoHash ? `magnet:?xt=urn:btih:${infoHash}&dn=${encodeURIComponent(title)}${tracker ? `&tr=${tracker}` : ''}` : ''
     return {
-      title: item.querySelector('title')?.textContent || '?',
-      link,
-      ...(hash ? { hash } : {}),
+      title,
+      link: magnetLink || torrentLink || '?',
+      ...(infoHash ? { hash: infoHash } : {}),
       seeders: item.querySelector('seeders')?.textContent ?? '?',
       leechers: item.querySelector('leechers')?.textContent ?? '?',
       downloads: item.querySelector('downloads')?.textContent ?? '?',

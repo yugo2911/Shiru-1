@@ -86,7 +86,7 @@ export default class TorrentClient extends WebTorrent {
           infoHash: currentTorrent?.infoHash,
           name: currentTorrent?.name,
           size: currentTorrent?.length,
-          current: currentTorrent.current,
+          current: currentTorrent?.current,
           progress: currentTorrent?.progress,
           numSeeders: currentTorrent?.wires?.filter(wire => wire.isSeeder).length || 0,
           totalSeeders: currentTorrent?.seeders || 0,
@@ -95,8 +95,8 @@ export default class TorrentClient extends WebTorrent {
           numPeers: currentTorrent?.numPeers || 0,
           downloadSpeed: currentTorrent?.downloadSpeed || 0,
           uploadSpeed: currentTorrent?.uploadSpeed || 0,
-          magnetURI: currentTorrent.magnetURI,
-          date: currentTorrent.date ?? new Date(Date.now() - 1_000).toUTCString(),
+          magnetURI: currentTorrent?.magnetURI,
+          date: currentTorrent?.date ?? new Date(Date.now() - 1_000).toUTCString(),
           eta: currentTorrent?.timeRemaining,
           ratio: currentTorrent?.ratio
         },
@@ -653,6 +653,7 @@ export default class TorrentClient extends WebTorrent {
             }
           } else {
             current._removal = true
+            this.dispatch('loaded', {})
             this.torrentCache.delete(current.infoHash)
             await this.remove(current, { destroyStore: true })
           }
