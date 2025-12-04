@@ -3,7 +3,6 @@
 @description Displays a comprehensive modal view for a single anime, including detailed information, episode lists, related content, and user interaction features like playing media, scoring, and favoriting.
 @tags anime, detail, modal, view, anilist, media, episodes, recommendations, relations, playback, scoring, favourite
 -->
-
 <script>
   import { getContext, onDestroy } from 'svelte'
   // Import various modules for anime data, utility functions, settings, caching, IPC, etc.
@@ -324,14 +323,14 @@
 <!-- Banner Image or Trailer -->
 {#if staticMedia?.trailer?.id}
   <!-- Auto-play trailer -->
-  <div class='w-full cover-img anime-details position-absolute ' style='height: 40vh; overflow: hidden;'>
+  <div class='w-full cover-img anime-details position-absolute' style='height: 40vh; overflow: hidden;'>
     <!-- YouTube iframe with proper scaling -->
     <div style="position: relative; width: 100%; height: 100%;">
       <iframe
         src="https://www.youtube.com/embed/{staticMedia.trailer.id}?autoplay=1&mute=1&controls=0&loop=1&playlist={staticMedia.trailer.id}&modestbranding=1&rel=0&showinfo=0"
         class="absolute-center"
         frameborder="0"
-        allow="autoplay; encrypted-media"
+        allow="autoplay; encrypted-media; picture-in-picture"
         allowfullscreen
         style="
           position: absolute;
@@ -592,4 +591,3 @@
     aspect-ratio: 7/10;
   }
 </style>
-
