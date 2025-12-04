@@ -323,14 +323,13 @@
 <!-- Banner Image or Trailer -->
 {#if staticMedia?.trailer?.id}
   <!-- Auto-play trailer -->
-  <div class='w-full cover-img anime-details position-absolute' style='height: 40vh; overflow: hidden;'>
     <!-- YouTube iframe with proper scaling -->
     <div style="position: relative; width: 100%; height: 100%;">
       <iframe
         src="https://www.youtube.com/embed/{staticMedia.trailer.id}?autoplay=1&mute=1&controls=0&loop=1&playlist={staticMedia.trailer.id}&modestbranding=1&rel=0&showinfo=0"
         class="absolute-center"
         frameborder="0"
-        allow="autoplay; encrypted-media; picture-in-picture"
+        allow="autoplay; encrypted-media"
         allowfullscreen
         style="
           position: absolute;
@@ -351,7 +350,6 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(to bottom, transparent 0%, var(--bg-dark) 80%);
       pointer-events: none;
     "></div>
   </div>
@@ -591,3 +589,4 @@
     aspect-ratio: 7/10;
   }
 </style>
+
