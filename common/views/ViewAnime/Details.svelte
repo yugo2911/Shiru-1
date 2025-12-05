@@ -28,13 +28,6 @@
   };
   const detailsMap = [
     {
-      property: "season",
-      label: "Season",
-      icon: CalendarRange,
-      custom: "property",
-    },
-    { property: "status", label: "Status", icon: MonitorPlay },
-    {
       property: "studios",
       label: "Studio",
       icon: Building2,
