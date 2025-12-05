@@ -49,6 +49,7 @@
     Hash,
     ArrowDown01,
     ArrowUp10,
+    Star,
   } from "lucide-svelte";
 
   /**
@@ -65,6 +66,28 @@
   let scrollTags = null; // Binds to the scrollable tags div.
   let scrollGenres = null; // Binds to the scrollable genres div.
   let staticMedia; // Holds the media object for display, preventing flicker during updates.
+
+  const genreColors = {
+    Action: "#ff6b6b",
+    Adventure: "#55efc4",
+    Comedy: "#feca57",
+    Drama: "#a29bfe",
+    Ecchi: "#ff9ff3",
+    Fantasy: "#9c88ff",
+    Hentai: "#ff6b81",
+    Horror: "#b33939",
+    "Mahou Shoujo": "#ff9ff3",
+    Mecha: "#54a0ff",
+    Music: "#00d2d3",
+    Mystery: "#81ecec",
+    Psychological: "#ff7675",
+    Romance: "#fd79a8",
+    "Sci-Fi": "#74b9ff",
+    "Slice of Life": "#1dd1a1",
+    Sports: "#ff9f43",
+    Supernatural: "#a29bfe",
+    Thriller: "#d63031",
+  };
 
   /**
    * @type {object | null} media - The currently displayed media object.
@@ -417,24 +440,29 @@
           min-height: 100vh;
           min-width: 177.77vh; /* 16:9 inverse */
           transform: translate(-50%, -50%);
-        "
-            ></iframe>
+        "></iframe>
           </div>
-          <!-- Dark overlay so text is readable -->
           <div
             style="
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(to bottom, transparent 0%, var(--bg-dark) 40%);
-      pointer-events: none;
-    "
+              position: absolute;
+              top: 0;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              z-index: 5;
+              background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.6) 0%,
+                rgba(0, 0, 0, 0) 25%,
+                rgba(0, 0, 0, 0) 60%,
+                var(--dark-color) 99%
+              );
+              pointer-events: none;
+              box-shadow: inset 0 0 20vh rgba(0, 0, 0, 0.7);
+            "
           ></div>
         </div>
       {:else}
-        <!-- Original banner image if no trailer -->
         <SmartImage
           class="w-full cover-img anime-details position-absolute"
           images={[
@@ -453,7 +481,10 @@
           ]}
         />
       {/if}
-      <div class="row px-20">
+      <div
+        class="row px-20"
+        style="margin-top: 10vh; position: relative; z-index: 10;"
+      >
         <!-- Left Column: Cover, Title, Details, Synopsis, Tags, Genres, Relations, Recommendations -->
         <div class="col-lg-7 col-12 pb-10">
           <div bind:this={leftColumn}>
@@ -482,68 +513,54 @@
               <div class="pl-sm-20 ml-sm-20">
                 <h1
                   class="font-weight-very-bold text-white select-all mb-0 font-scale-40"
+                  style="white-space: normal; overflow-wrap: break-word; line-height: 1.2;"
                 >
                   {anilistClient.title(staticMedia)}
                 </h1>
-                <!-- Media Statistics (Rating, Format, Episodes/Length, Reviews) -->
-                <div class="d-flex flex-row font-size-18 flex-wrap mt-5">
+                <!-- Media Statistics (Rating, Format, Episodes/Length - CINEMA STYLE) -->
+                <div class="d-flex flex-row font-size-18 flex-wrap mt-10 align-items-center" style="gap: 2rem; color: hsla(var(--white-color-hsl), 0.8);">
                   {#if staticMedia.averageScore}
                     <div
-                      class="d-flex flex-row mt-10"
-                      title="{staticMedia.averageScore /
-                        10} by {anilistClient.reviews(staticMedia)} reviews"
+                      class="d-flex flex-row align-items-center"
+                      title="{staticMedia.averageScore / 10} by {anilistClient.reviews(staticMedia)} reviews"
                     >
-                      <TrendingUp class="mx-10" size="2.2rem" />
-                      <span class="mr-20">
-                        Rating: {staticMedia.averageScore + "%"}
+                      <Star class="mr-8 icon-shadow" size="1.8rem" fill="#ffd700" color="#ffd700" />
+                      <span class="font-weight-very-bold text-white">
+                        {staticMedia.averageScore}%
                       </span>
                     </div>
                   {/if}
                   {#if staticMedia.format}
-                    <div class="d-flex flex-row mt-10">
-                      <Tv class="mx-10" size="2.2rem" />
-                      <span class="mr-20 text-capitalize">
-                        Format: {formatMap[staticMedia.format]}
+                    <div class="d-flex flex-row align-items-center">
+                      <span class="text-capitalize font-weight-bold">
+                        {formatMap[staticMedia.format]}
                       </span>
                     </div>
                   {/if}
                   {#if staticMedia.episodes !== 1}
                     {@const maxEp = getMediaMaxEp(staticMedia)}
-                    <div class="d-flex flex-row mt-10">
-                      <Clapperboard class="mx-10" size="2.2rem" />
-                      <span class="mr-20">
-                        Episodes: {maxEp && maxEp !== 0 ? maxEp : "?"}
+                    <div class="d-flex flex-row align-items-center">
+                      <span class="font-weight-bold">
+                        {maxEp && maxEp !== 0 ? maxEp : "?"} Ep
                       </span>
                     </div>
                   {:else if staticMedia.duration}
-                    <div class="d-flex flex-row mt-10">
-                      <Timer class="mx-10" size="2.2rem" />
-                      <span class="mr-20">
-                        Length: {staticMedia.duration + " min"}
+                    <div class="d-flex flex-row align-items-center">
+                      <span class="font-weight-bold">
+                        {staticMedia.duration} min
                       </span>
                     </div>
                   {/if}
-                  {#if staticMedia.averageScore && staticMedia.stats?.scoreDistribution}
-                    <div class="d-flex flex-row mt-10">
-                      <Users class="mx-10" size="2.2rem" />
-                      <span
-                        class="mr-20"
-                        title="{staticMedia.averageScore /
-                          10} by {anilistClient.reviews(staticMedia)} reviews"
-                      >
-                        Reviews: {anilistClient.reviews(staticMedia)}
-                      </span>
-                    </div>
-                  {/if}
+                  <!-- Reviews hidden for cleaner look, or move to details -->
                 </div>
                 <!-- Play button and actions (Scoring, Favorite, Trailer, Share) -->
                 <div class="d-flex flex-row flex-wrap play">
                   <button
-                    class="btn btn-lg btn-secondary w-250 text-dark font-weight-bold shadow-none border-0 d-flex align-items-center justify-content-center mr-20 mt-20"
+                    class="btn btn-primary bg-white text-dark w-250 font-weight-bold shadow-none border-0 d-flex align-items-center justify-content-center mr-20 mt-20"
                     use:click={() => play()}
                     disabled={staticMedia.status === "NOT_YET_RELEASED"}
                   >
-                    <Play class="mr-10" fill="currentColor" size="1.6rem" />
+                    <Play class="mr-10" fill="currentColor" size="2rem" />
                     {playButtonText}
                   </button>
                   <div class="mt-20 d-flex">
@@ -552,7 +569,7 @@
                     {/if}
                     {#if Helper.isAniAuth()}
                       <button
-                        class="btn bg-dark-light btn-lg btn-square d-flex align-items-center justify-content-center shadow-none border-0 mr-10"
+                        class="btn btn-icon bg-dark-light text-white d-flex align-items-center justify-content-center shadow-none border-0 mr-10"
                         data-toggle="tooltip"
                         data-placement="top"
                         data-target-breakpoint="md"
@@ -570,19 +587,17 @@
                         >
                           <Heart
                             color={media.isFavourite
-                              ? "var(--tertiary-color)"
+                              ? "#ff6b9d"
                               : "currentColor"}
-                            fill={media.isFavourite
-                              ? "var(--tertiary-color)"
-                              : "transparent"}
-                            size="1.7rem"
+                            fill={media.isFavourite ? "#ff6b9d" : "transparent"}
+                            size="2rem"
                           />
                         </div>
                       </button>
                     {/if}
                     <ViewTrailer bind:overlay {staticMedia} />
                     <button
-                      class="btn bg-dark-light btn-lg btn-square d-none align-items-center justify-content-center shadow-none border-0 mr-10"
+                      class="btn btn-icon bg-dark-light d-none align-items-center justify-content-center shadow-none border-0 mr-10"
                       class:d-flex={staticMedia.id}
                       data-toggle="tooltip"
                       data-placement="top"
@@ -606,7 +621,7 @@
                       />
                     </button>
                     <button
-                      class="btn bg-dark-light btn-lg btn-square d-none align-items-center justify-content-center shadow-none border-0"
+                      class="btn btn-icon bg-dark-light d-none align-items-center justify-content-center shadow-none border-0"
                       class:d-flex={staticMedia.idMal}
                       data-toggle="tooltip"
                       data-placement="top"
@@ -640,31 +655,44 @@
             <!-- Tags Section -->
             <div
               bind:this={scrollTags}
-              class="m-0 px-20 pb-0 pt-10 d-flex flex-row text-nowrap overflow-x-scroll text-capitalize align-items-start"
+              class="m-0 px-20 pb-0 pt-10 d-flex flex-wrap text-capitalize align-items-start"
             >
-              {#each staticMedia.tags as tag}
-                <div
-                  class="bg-dark-light px-20 py-10 mr-10 rounded text-nowrap d-flex align-items-center"
-                >
-                  <Hash class="mr-5" size="1.8rem" /><span
+              {#each staticMedia.tags.slice(0, 7) as tag}
+                <div class="genre-tag mb-10">
+                  <Hash class="mr-5" size="1.4rem" /><span
                     class="font-weight-bolder select-all">{tag.name}</span
-                  ><span class="font-weight-light">: {tag.rank}%</span>
+                  >
                 </div>
               {/each}
+              {#if staticMedia.tags.length > 7}
+                <div
+                  class="genre-tag mb-10 opacity-50"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  data-title={staticMedia.tags
+                    .slice(7)
+                    .map((t) => t.name)
+                    .join(", ")}
+                >
+                  +{staticMedia.tags.length - 7} more...
+                </div>
+              {/if}
             </div>
+            <!-- Genres Section -->
             <!-- Genres Section -->
             <div
               bind:this={scrollGenres}
-              class="m-0 px-20 pb-0 pt-10 d-flex flex-row text-nowrap overflow-x-scroll text-capitalize align-items-start"
+              class="m-0 px-20 pb-0 pt-10 d-flex flex-wrap text-capitalize align-items-start"
             >
               {#each staticMedia.genres as genre}
                 <div
-                  class="bg-dark-light px-20 py-10 mr-10 rounded text-nowrap d-flex align-items-center select-all"
+                  class="genre-tag select-all mb-10 genre-colored"
+                  style="--genre-color: {genreColors[genre] || '#ffffff'};"
                 >
                   <svelte:component
                     this={genreIcons[genre]}
                     class="mr-5"
-                    size="1.8rem"
+                    size="1.4rem"
                   />
                   {genre}
                 </div>
@@ -898,5 +926,117 @@
   /* Aspect ratio for the cover image */
   .cover {
     aspect-ratio: 7/10;
+  }
+
+  /* ==========================================================================
+     FULLBANNER STYLE PORT
+     ========================================================================== */
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-icon {
+    font-size: 1.5rem;
+    border-radius: 0.8rem;
+    transition: all 0.2s ease;
+    min-height: 4.5rem;
+  }
+
+  /* Primary button (Watch Now) - bright and prominent */
+  .btn-primary {
+    box-shadow: 0 0.4rem 1.2rem hsla(var(--black-color-hsl), 0.4);
+  }
+
+  /* Glassmorphism buttons */
+  .btn-secondary,
+  .btn-icon {
+    backdrop-filter: blur(1rem); /* ✨ Frosted glass effect */
+    border: 0.1rem solid hsla(var(--white-color-hsl), 0.2) !important;
+  }
+
+  /* Square icon button */
+  .btn-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0 !important;
+  }
+
+  /* Hover effects */
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      background: hsla(var(--white-color-hsl), 0.92) !important;
+      transform: translateY(-0.3rem); /* 🎬 Lift effect */
+      box-shadow: 0 0.6rem 1.8rem hsla(var(--black-color-hsl), 0.5);
+    }
+
+    .btn-secondary:hover {
+      background: var(--dark-color-very-light) !important;
+      transform: translateY(-0.3rem);
+    }
+
+    .btn-icon:hover {
+      background: var(--dark-color-very-light) !important;
+      transform: translateY(-0.3rem);
+    }
+  }
+
+  /* Title Style Match */
+  h1 {
+    text-shadow: 0.2rem 0.4rem 1.2rem hsla(var(--black-color-hsl), 0.9);
+  }
+
+  /* GENRE TAGS STYLE PORT */
+  /* GENRE TAGS STYLE PORT */
+  .genre-tag {
+    padding: 0.6rem 1.4rem;
+    background: hsla(var(--white-color-hsl), 0.06); /* Reduced brightness */
+    backdrop-filter: blur(1rem);
+    border-radius: 2rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: 0.1rem solid hsla(var(--white-color-hsl), 0.1);
+    color: hsla(var(--white-color-hsl), 0.9);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    white-space: nowrap;
+  }
+
+  /* Specific styling for colored genres */
+  .genre-colored {
+    border-color: var(--genre-color);
+    color: var(--genre-color);
+    background: color-mix(in srgb, var(--genre-color) 8%, transparent);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .genre-tag:hover {
+      background: hsla(var(--white-color-hsl), 0.15);
+      transform: translateY(-0.2rem);
+      color: white;
+      border-color: hsla(var(--white-color-hsl), 0.3);
+    }
+
+    .genre-colored:hover {
+      background: color-mix(in srgb, var(--genre-color) 20%, transparent);
+      color: var(--genre-color);
+      border-color: var(--genre-color);
+      box-shadow: 0 0 10px -5px var(--genre-color);
+    }
+  }
+
+  /* ==========================================================================
+     COVER ART ADJUSTMENTS
+     ========================================================================== */
+  /* Dim the cover image to avoid distraction in dark mode */
+  :global(.cover-img) {
+    filter: brightness(0.85) !important;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.6) !important; /* Heavy dark shadow override */
+    transition: filter 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  :global(.cover-img:hover) {
+    filter: brightness(1) !important;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.7) !important;
   }
 </style>

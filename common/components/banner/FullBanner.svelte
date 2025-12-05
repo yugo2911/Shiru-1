@@ -1,3 +1,228 @@
+<!-- 
+================================================================================
+MODERN ANIME BANNER COMPONENT - COMPREHENSIVE GUIDE
+================================================================================
+
+COMPONENT OVERVIEW:
+-------------------
+This is a modern, Netflix-style hero banner with:
+- Auto-rotating carousel (15s intervals)
+- Swipe gesture support
+- Featured badge with star icon
+- Rating display with stars
+- Smooth animations and transitions
+- Responsive design (desktop → tablet → mobile)
+- Glassmorphism effects (backdrop-filter)
+
+KEY FEATURES:
+-------------
+✓ Auto-advance every 15 seconds
+✓ Manual navigation with progress indicators
+✓ Swipe left/right to change media
+✓ Smooth fade transitions between items
+✓ Play/Continue/Rewatch dynamic button text
+✓ Favorite toggle with heart animation
+✓ Score display with star icon
+✓ Genre tags (limited to 4)
+✓ 18+ rating badge
+✓ Fully responsive breakpoints
+
+ARCHITECTURE:
+-------------
+Layer 1 (z--1): Background image with fade animation
+Layer 2 (z--1): Dual gradient overlay (left-to-right + bottom-to-top)
+Layer 3 (z-1):  All content (title, meta, actions, indicators)
+
+================================================================================
+CUSTOMIZATION GUIDE - QUICK TIPS
+================================================================================
+
+🎨 COLORS & THEMING
+-------------------
+• Change featured badge color:
+  Line 152: Change 'color: #ffd700' to your color
+  Line 151: Adjust 'hsla(45, 100%, 50%, 0.15)' for background
+  
+• Modify rating star color:
+  Line 224: Change '.meta-rating { color: #ffd700 }'
+  
+• Customize 18+ badge:
+  Line 228-234: Adjust red tones in .meta-adult
+  
+• Change favorite heart color:
+  Line 111-112: Modify '#ff6b9d' to your preferred color
+
+📐 LAYOUT & SIZING
+------------------
+• Banner height:
+  Line 135: Change 'height: 50rem' (desktop)
+  Line 398: Change 'height: 42rem' (tablet)
+  Line 429: Change 'height: 38rem' (mobile)
+  
+• Content max-width:
+  Line 70: Change 'w-800' to w-600, w-1000, etc.
+  
+• Title size:
+  Line 197: Change 'font-size: 4.5rem' (desktop)
+  Line 407: Change 'font-size: 3rem' (tablet)
+  Line 437: Change 'font-size: 2.4rem' (mobile)
+  
+• Description lines visible:
+  Line 102: Change 'line-4' to line-2, line-3, line-5, etc.
+  Line 420: Mobile shows 3 lines (-webkit-line-clamp: 3)
+  Line 451: Mobile shows 2 lines (-webkit-line-clamp: 2)
+
+⏱️ TIMING & ANIMATIONS
+----------------------
+• Carousel rotation speed:
+  Line 39: Change '15000' milliseconds (currently 15s)
+  Line 384: Update animation duration to match
+  
+• Fade-in duration:
+  Line 143: Change '0.8s' in banner-fade animation
+  Line 181: Change '0.8s' in content-fade-in animation
+  
+• Hover transition speed:
+  Line 257, 293, 320: Change '0.2s' for button hover effects
+
+🎯 CONTENT VISIBILITY
+---------------------
+• Hide/show featured badge:
+  Lines 72-75: Comment out or remove entire block
+  
+• Change genre count:
+  Line 98: Change '.slice(0, 4)' to show more/fewer genres
+  
+• Hide genres on tablet:
+  Add to @media (max-width: 768px) section
+  
+• Currently hides on mobile:
+  Lines 445-447: Removes genres below 480px width
+
+🔘 BUTTONS & ACTIONS
+--------------------
+• Button sizes:
+  Line 287: 'min-height: 4.5rem' (desktop)
+  Line 414: 'min-height: 4rem' (tablet)
+  Line 461: 'min-height: 3.8rem' (mobile)
+  
+• Button text on mobile:
+  Lines 456-459: Currently hides text, shows icons only
+  Remove these lines to keep text on mobile
+  
+• Button spacing:
+  Line 104: 'mb-20' (margin-bottom)
+  Line 280: 'gap: 1rem' between buttons
+  
+• Change button style:
+  Lines 286-297: Modify border-radius, backdrop-filter, etc.
+
+📊 PROGRESS INDICATORS
+----------------------
+• Indicator size:
+  Line 362: Active width 'width: 5.5rem'
+  Line 358: Inactive width 'width: 3.5rem'
+  Line 359: Height 'height: 0.4rem'
+  
+• Indicator colors:
+  Line 360: Inactive 'hsla(var(--white-color-hsl), 0.25)'
+  Line 365: Active 'hsla(var(--white-color-hsl), 0.4)'
+  Line 372: Progress fill 'background: white'
+
+🌅 GRADIENTS & OVERLAYS
+------------------------
+• Gradient opacity:
+  Lines 155-170: Adjust opacity values in hsla()
+  Higher values = darker overlay, better text readability
+  
+• Gradient direction:
+  Line 156: 'to right' (horizontal gradient)
+  Line 163: 'to top' (vertical gradient)
+  Change to 'to left', 'to bottom', etc.
+  
+• Gradient stop points:
+  Lines 157-162: Percentage values control gradient spread
+  Move percentages closer together for sharper transitions
+
+📱 RESPONSIVE BREAKPOINTS
+--------------------------
+Three breakpoints defined:
+
+1. Desktop (default): No media query, full features
+2. Tablet (768px): Line 396 - @media (max-width: 768px)
+3. Mobile (480px): Line 427 - @media (max-width: 480px)
+
+To add a new breakpoint:
+```css
+@media (max-width: 992px) {
+  .banner-title {
+    font-size: 3.8rem;
+  }
+}
+```
+
+✨ SPECIAL EFFECTS
+------------------
+• Glassmorphism (frosted glass):
+  Line 154: 'backdrop-filter: blur(1rem)'
+  Line 251: Genre tags use backdrop-filter
+  Line 294: Buttons use backdrop-filter
+  Increase blur value for stronger effect
+  
+• Text shadows for readability:
+  Line 199: Title shadow 'text-shadow: 0.2rem 0.4rem 1.2rem...'
+  Line 268: Description shadow
+  
+• Hover animations:
+  Lines 302-322: Transform and shadow changes on hover
+  Add 'transform: scale(1.05)' for grow effect
+
+🎬 SWAP OUT ICONS
+-----------------
+Currently uses lucide-svelte icons:
+- Play, Info, Heart, Star
+
+To change icons:
+Line 13: Import different icons from 'lucide-svelte'
+Then replace in template:
+- Line 73: Star icon (featured badge)
+- Line 82: Star icon (rating)
+- Line 106: Play icon (watch button)
+- Line 110: Info icon (more info button)
+- Line 119: Heart icon (favorite button)
+
+📦 COMMON MODIFICATIONS
+-----------------------
+
+1. CHANGE TO LEFT-ALIGNED LAYOUT:
+   Line 69: Change 'justify-content-end' to 'justify-content-start'
+   Line 70: Remove 'w-800 mw-full' for full width
+   
+2. CENTER ALL CONTENT:
+   Line 69: Change 'justify-content-end' to 'justify-content-center'
+   Add 'text-center' to content-wrapper
+   
+3. REMOVE AUTO-ROTATION:
+   Lines 33-41: Comment out entire schedule function
+   Line 32: Remove 'let timeout = schedule(currentIndex() + 1)'
+   
+4. MAKE TALLER/SHORTER:
+   Line 135: Adjust base height
+   Lines 398, 429: Adjust responsive heights proportionally
+   
+5. ADD MORE METADATA:
+   Lines 79-96: Insert new <span class='meta-item'> elements
+   Follow existing pattern with conditional rendering
+
+6. CHANGE ANIMATION DIRECTION:
+   Line 183: Change 'transform: translateY(2rem)' to:
+   - 'translateX(-2rem)' for slide from left
+   - 'translateX(2rem)' for slide from right
+   - 'scale(0.95)' for zoom in
+
+================================================================================
+-->
+
 <script>
   // ============================================================================
   // IMPORTS
@@ -12,19 +237,19 @@
   import AudioLabel from "@/views/ViewAnime/AudioLabel.svelte";
   import Scoring from "@/views/ViewAnime/Scoring.svelte";
   import Helper from "@/modules/helper.js";
-  import { Play, Heart } from "lucide-svelte";
+  import { Play, Info, Heart, Star } from "lucide-svelte"; // Icon library
   import { getContext } from "svelte";
 
   // ============================================================================
-  // PROPS & STATE
+  // COMPONENT PROPS & STATE
   // ============================================================================
-  export let mediaList; // Array of media items to display in the banner carousel
+  export let mediaList; // Array of media items to rotate through
 
-  // Current media being displayed (updates reactively)
+  // Current media state (reactive)
   let currentStatic = mediaList[0];
   $: current = mediaList[0];
 
-  // Subscribe to cache updates to sync current media with latest data
+  // Subscribe to cache updates for real-time data sync
   mediaCache.subscribe((value) => {
     if (
       current?.id &&
@@ -38,29 +263,29 @@
   });
 
   // ============================================================================
-  // ACTIONS & HANDLERS
+  // HANDLERS & ACTIONS
   // ============================================================================
 
-  // Navigate to detailed view of current media
+  // Navigate to detailed media view
   const view = getContext("view");
   function viewMedia() {
     $view = current;
   }
 
-  // Toggle favorite status for current media
+  // Toggle favorite status (requires AniList auth)
   function toggleFavourite() {
     current.isFavourite = anilistClient.favourite({ id: current.id });
   }
 
-  // Get index of currently displayed media in the list
+  // Get current media index in the list
   function currentIndex() {
     return mediaList.findIndex((media) => media?.id === currentStatic?.id);
   }
 
   // ============================================================================
-  // AUTO-ROTATION LOGIC
+  // AUTO-ROTATION SYSTEM
   // ============================================================================
-  // Automatically cycles through media every 15 seconds
+  // TIP: Change the 15000ms value below to adjust rotation speed
   let timeout = schedule(currentIndex() + 1);
 
   function schedule(index) {
@@ -70,10 +295,10 @@
         mediaList[index % mediaList.length];
       currentStatic = current;
       timeout = schedule(index + 1);
-    }, 15000); // Change to adjust rotation speed (milliseconds)
+    }, 15000); // ⏱️ ROTATION INTERVAL: Change this value (in milliseconds)
   }
 
-  // Manually set current media (cancels auto-rotation and restarts timer)
+  // Manually set current media (cancels and restarts auto-rotation)
   function setCurrent(media) {
     if (current?.id === media?.id) return;
     clearTimeout(timeout);
@@ -82,7 +307,7 @@
     timeout = schedule(currentIndex() + 1);
   }
 
-  // Handle swipe gestures for mobile navigation
+  // Handle swipe gestures (left = next, right = previous)
   function swipeMedia(deltaX) {
     if (deltaX < 0)
       setCurrent(mediaList[(currentIndex() + 1) % mediaList.length]);
@@ -91,317 +316,239 @@
         mediaList[(currentIndex() - 1 + mediaList.length) % mediaList.length],
       );
   }
+
+  // ============================================================================
+  // COMPUTED VALUES
+  // ============================================================================
+  // Calculate display rating (convert 0-100 to 0-10 scale)
+  $: averageRating = currentStatic.averageScore
+    ? (currentStatic.averageScore / 10).toFixed(1)
+    : null;
 </script>
 
-<!-- ============================================================================
-     LAYOUT STRUCTURE
-     ============================================================================
-     
-     The banner is composed of 4 main layers (z-index order):
-     
-     1. BACKGROUND LAYER (z--1):
-        - Banner/cover image with rotation support for adult content
-        - Two gradient overlays (bottom and left)
-        - App icon in corner
-     
-     2. CONTENT LAYER (default z-index):
-        - Main container with all text and buttons
-        - Uses flexbox column layout justified to bottom
-        
-     LAYOUT MANIPULATION HINTS:
-     ============================================================================
-     
-     To change overall positioning:
-     - Main container uses: d-flex flex-column justify-content-end h-full
-     - Change justify-content-end to:
-       * justify-content-start (top alignment)
-       * justify-content-center (center alignment)
-       * justify-content-between (spread content)
-     
-     To adjust content width:
-     - Most elements use: w-600 mw-full (max-width: 600px, then 100%)
-     - Change w-600 to w-400, w-800, etc., or remove for full width
-     
-     To change spacing:
-     - Padding: pl-20, pb-20, pt-10, etc. (numbers are relative units)
-     - Margins: mr-10, ml-20, etc.
-     
-     To modify text layout:
-     - Title uses: d-inline-block overflow-hidden text-overflow-ellipsis
-     - Description uses: line-4 overflow-hidden (limits to 4 lines)
-     - Change line-4 to line-2, line-6, etc.
-     
-     To reposition icon:
-     - Icon uses: position-absolute with conditional right-0/left-0
-     - Adjust m-10, mr-20, ml-20 for different positioning
-     
-     To adjust gradient coverage:
-     - Gradient-left uses: w-800 (width)
-     - Increase/decrease to change gradient spread
-     
-     To modify button layout:
-     - Buttons use: d-flex flex-row
-     - Change to flex-column for vertical stacking
-     - Adjust px-20 (horizontal padding) for button width
+continue ,<!-- 
+================================================================================
+TEMPLATE STRUCTURE
+================================================================================
+Main container with swipe support
+├── Background layer (image with fade animation)
+├── Overlay layer (dual gradients for text readability)
+└── Content layer
+    ├── Featured badge
+    ├── Title
+    ├── Metadata row (rating, format, episodes, season, etc.)
+    ├── Genre tags (max 4)
+    ├── Description (4 lines max)
+    ├── Action buttons (Watch, Info, Score, Favorite)
+    └── Progress indicators (dots showing position in carousel)
 -->
 
-{#key currentStatic}
-  <!-- BACKGROUND: Banner/Cover Image -->
-  <div class="position-absolute h-full w-full overflow-hidden z--1">
-    <SmartImage
-      class={`img-cover position-absolute h-full w-full ${!(currentStatic.bannerImage || currentStatic.trailer?.id) && settings.value.adult === "hentai" && settings.value.hentaiBanner ? "banner-rotated" : ""}`}
-      images={[
-        currentStatic.bannerImage,
-        ...(currentStatic.trailer?.id
-          ? [
-              `https://i.ytimg.com/vi/${currentStatic.trailer.id}/maxresdefault.jpg`,
-              `https://i.ytimg.com/vi/${currentStatic.trailer.id}/hqdefault.jpg`,
-            ]
-          : []),
-        currentStatic.coverImage?.extraLarge,
-        "./404_banner.png",
-      ]}
-    />
-  </div>
-{/key}
-
-<!-- BACKGROUND: Gradient Overlays -->
-<div class="gradient-bottom z--1 h-full position-absolute top-0 w-full" />
-<div class="gradient-left z--1 h-full position-absolute top-0 w-800" />
-
-<!-- BACKGROUND: App Icon (positioned based on platform) -->
-<img
-  src="./icon_filled.png"
-  class="position-absolute z--1 m-10 p-0 {SUPPORTS.isAndroid ||
-  window.version?.platform === `darwin`
-    ? `right-0 mr-20 ${!SUPPORTS.isAndroid ? `d-md-none d-sm-h-block` : ``}`
-    : `left-0 ml-20 d-md-none d-sm-h-block`}"
-  style="width: 4rem; height: 4rem"
-  alt="ico"
-/>
-
-<!-- MAIN CONTENT CONTAINER: Bottom-aligned flex column with swipe support -->
-<div
-  class="pl-20 pb-20 justify-content-end d-flex flex-column h-full banner mw-full grab"
-  use:drag={swipeMedia}
->
-  <!-- SECTION: Title -->
-  <div class="text-white font-weight-bold font-scale-40">
-    <span class="default-cursor title overflow-hidden d-inline-block pr-5">
-      {anilistClient.title(currentStatic)}
-    </span>
-  </div>
-
-  <!-- SECTION: Metadata Row (format, episodes, audio, rating, season) -->
-  <div
-    class="details text-white text-capitalize pt-10 pb-10 d-flex w-600 mw-full default-cursor"
-  >
-    <span class="text-nowrap d-flex align-items-center">
-      {#if currentStatic.format}
-        {formatMap[currentStatic.format]}
-      {/if}
-    </span>
-    {#if currentStatic.episodes && currentStatic.episodes !== 1}
-      <span class="text-nowrap d-flex align-items-center">
-        {#if current.mediaListEntry?.status === "CURRENT" && current.mediaListEntry?.progress}
-          {current.mediaListEntry.progress} / {currentStatic.episodes} Episodes
-        {:else}
-          {currentStatic.episodes} Episodes
-        {/if}
-      </span>
-    {:else if currentStatic.duration}
-      <span class="text-nowrap d-flex align-items-center">
-        {currentStatic.duration + " Minutes"}
-      </span>
-    {/if}
-    {#if settings.value.cardAudio}
-      <span class="text-nowrap d-flex align-items-center">
-        <AudioLabel bind:media={currentStatic} banner={true} />
-      </span>
-    {/if}
-    {#if currentStatic.isAdult}
-      <span class="text-nowrap d-flex align-items-center"> Rated 18+ </span>
-    {/if}
-    {#if currentStatic.season || currentStatic.seasonYear}
-      <span class="text-nowrap d-flex align-items-center">
-        {[currentStatic.season?.toLowerCase(), currentStatic.seasonYear]
-          .filter((s) => s)
-          .join(" ")}
-      </span>
-    {/if}
-  </div>
-
-  <!-- SECTION: Description (limited to 4 lines) -->
-  <div class="h-100">
-    <div class="text-muted line-4 overflow-hidden w-600 mw-full default-cursor">
-      {currentStatic.description
-        ?.replace(/<[^>]*>/g, "")
-        .replace(/\s+/g, " ")
-        .trim() || ""}
+<div class="banner-container grab" use:drag={swipeMedia}>
+  <!-- LAYER 1: Background Image -->
+  {#key currentStatic}
+    <div
+      class="banner-background position-absolute h-full w-full overflow-hidden z--1"
+    >
+      <SmartImage
+        class={`img-cover position-absolute h-full w-full banner-fade ${!(currentStatic.bannerImage || currentStatic.trailer?.id) && settings.value.adult === "hentai" && settings.value.hentaiBanner ? "banner-rotated" : ""}`}
+        images={[
+          currentStatic.bannerImage,
+          ...(currentStatic.trailer?.id
+            ? [
+                `https://i.ytimg.com/vi/${currentStatic.trailer.id}/maxresdefault.jpg`,
+                `https://i.ytimg.com/vi/${currentStatic.trailer.id}/hqdefault.jpg`,
+              ]
+            : []),
+          currentStatic.coverImage?.extraLarge,
+          "./404_banner.png",
+        ]}
+      />
     </div>
-  </div>
+  {/key}
 
-  <!-- SECTION: Genres Row -->
+  <!-- LAYER 2: Gradient Overlay for Text Readability -->
+  <!-- TIP: Adjust opacity values in CSS (lines 155-170) to control darkness -->
+  <div class="banner-overlay position-absolute h-full w-full z--1" />
+
+  <!-- LAYER 3: Content Container -->
   <div
-    class="details text-white text-capitalize pt-15 pb-10 d-flex w-600 mw-full default-cursor"
+    class="banner-content pl-30 pb-30 pr-30 d-flex flex-column justify-content-end h-full"
   >
-    {#each currentStatic.genres as genre}
-      <span class="text-nowrap d-flex align-items-center">
-        {genre}
-      </span>
-    {/each}
-  </div>
-
-  <!-- SECTION: Action Buttons Row -->
-  <div class="d-flex flex-row pb-10 w-600 mw-full default-cursor">
-    <!-- Watch/Continue Button -->
-    <button
-      class="btn bg-dark-light px-20 shadow-none border-0 d-flex align-items-center justify-content-center"
-      title="Watch"
-      use:click={() => playMedia(currentStatic)}
-    >
-      <Play class="mr-10" size="1.7rem" />
-      <span
-        >{current.mediaListEntry?.progress
-          ? current.mediaListEntry?.status === "COMPLETED"
-            ? "Rewatch Now"
-            : "Continue Now"
-          : "Watch Now"}</span
-      >
-    </button>
-
-    <!-- View Details Button -->
-    <button
-      class="btn bg-dark-light ml-10 px-20 shadow-none border-0 d-flex align-items-center justify-content-center"
-      title="View Details"
-      use:click={viewMedia}
-    >
-      <span>View Details</span>
-    </button>
-
-    <!-- Scoring Component (if authorized) -->
-    {#if Helper.isAuthorized()}
-      <Scoring media={current} />
-    {/if}
-
-    <!-- Favorite Button (if authenticated with AniList) -->
-    {#if Helper.isAniAuth()}
-      <button
-        class="btn bg-dark-light btn-square ml-10 d-flex align-items-center justify-content-center shadow-none border-0"
-        data-toggle="tooltip"
-        data-placement="top"
-        data-target-breakpoint="md"
-        data-title={current.isFavourite ? "Unfavourite" : "Favourite"}
-        use:click={toggleFavourite}
-        disabled={!Helper.isAniAuth()}
-      >
-        <div class="favourite d-flex align-items-center justify-content-center">
-          <Heart
-            color={current.isFavourite
-              ? "var(--tertiary-color)"
-              : "currentColor"}
-            fill={current.isFavourite ? "var(--tertiary-color)" : "transparent"}
-            size="1.7rem"
-          />
-        </div>
-      </button>
-    {/if}
-  </div>
-
-  <!-- SECTION: Progress Indicators (dots showing which media is active) -->
-  <div class="d-flex">
-    {#each mediaList as media}
-      {@const active = currentStatic?.id === media?.id}
-      {@const disabled = active || null}
-      <div
-        class="pt-10 pb-10 badge-wrapper"
-        aria-hidden="true"
-        {disabled}
-        class:pointer={!active}
-        class:default-cursor={active}
-        use:click={() => setCurrent(media)}
-      >
-        <!-- Progress bar that animates when active -->
-        <div
-          class="rounded bg-dark-light mr-10 progress-badge overflow-hidden progressive"
-          {disabled}
-          class:active
-          style="height: 3px;"
-          style:width={active ? "5rem" : "2.7rem"}
-        >
-          <div class="progress-content h-full" class:bg-white={active} />
-        </div>
+    <div class="content-wrapper w-800 mw-full">
+      <!-- FEATURED BADGE with star icon -->
+      <!-- TIP: Remove this entire block (lines 72-75) to hide featured badge -->
+      <div class="featured-badge d-inline-flex align-items-center mb-15">
+        <Star size="1.4rem" fill="currentColor" class="mr-5" />
+        <span class="font-weight-bold">Featured</span>
       </div>
-    {/each}
+
+      <!-- TITLE -->
+      <!-- TIP: Change font-size in .banner-title CSS (line 197) -->
+      <h1 class="banner-title text-white font-weight-very-bold mb-15">
+        {anilistClient.title(currentStatic)}
+      </h1>
+
+      <!-- METADATA ROW: Rating, Format, Episodes, Season, Age Rating, Audio -->
+      <!-- TIP: Add more meta items by following the pattern below -->
+      <div
+        class="banner-meta d-flex flex-wrap align-items-center mb-15 text-white"
+      >
+        <!-- Average Score with star icon -->
+        {#if averageRating}
+          <span class="meta-item meta-rating d-flex align-items-center">
+            <Star size="1.4rem" fill="currentColor" class="mr-5" />
+            <span class="font-weight-bold">{averageRating}</span>
+          </span>
+        {/if}
+
+        <!-- Media Format (TV, Movie, OVA, etc.) -->
+        {#if currentStatic.format}
+          <span class="meta-item">{formatMap[currentStatic.format]}</span>
+        {/if}
+
+        <!-- Episode Count or Duration -->
+        {#if currentStatic.episodes && currentStatic.episodes !== 1}
+          <span class="meta-item">
+            {#if current.mediaListEntry?.status === "CURRENT" && current.mediaListEntry?.progress}
+              {current.mediaListEntry.progress}/{currentStatic.episodes} Episodes
+            {:else}
+              {currentStatic.episodes} Episodes
+            {/if}
+          </span>
+        {:else if currentStatic.duration}
+          <span class="meta-item">{currentStatic.duration} Min</span>
+        {/if}
+
+        <!-- Season & Year -->
+        {#if currentStatic.season || currentStatic.seasonYear}
+          <span class="meta-item text-capitalize">
+            {[currentStatic.season?.toLowerCase(), currentStatic.seasonYear]
+              .filter((s) => s)
+              .join(" ")}
+          </span>
+        {/if}
+
+        <!-- Adult Content Badge (18+) -->
+        {#if currentStatic.isAdult}
+          <span class="meta-item meta-adult">18+</span>
+        {/if}
+
+        <!-- Audio Language Label -->
+        {#if settings.value.cardAudio}
+          <span class="meta-item">
+            <AudioLabel bind:media={currentStatic} banner={true} />
+          </span>
+        {/if}
+      </div>
+
+      <!-- GENRE TAGS (limited to first 4) -->
+      <!-- TIP: Change slice(0, 4) to show more/fewer genres (line 98) -->
+      <div class="banner-genres d-flex flex-wrap mb-15">
+        {#each currentStatic.genres?.slice(0, 4) || [] as genre}
+          <span class="genre-tag text-capitalize">{genre}</span>
+        {/each}
+      </div>
+
+      <!-- DESCRIPTION (4 lines with ellipsis overflow) -->
+      <!-- TIP: Change 'line-4' to 'line-2', 'line-3', etc. to show more/fewer lines -->
+      <p class="banner-description text-white mb-20 line-4 overflow-hidden">
+        {currentStatic.description
+          ?.replace(/<[^>]*>/g, "")
+          .replace(/\s+/g, " ")
+          .trim() || ""}
+      </p>
+
+      <!-- ACTION BUTTONS ROW -->
+      <div class="banner-actions d-flex flex-wrap mb-20">
+        <!-- Primary Action: Watch/Continue/Rewatch -->
+        <!-- TIP: Button text changes based on watch progress -->
+        <button
+          class="btn banner-play-btn d-flex align-items-center mr-10 shadow-none"
+          use:click={() => playMedia(currentStatic)}
+        >
+          <Play size="2.4rem" fill="currentColor" class="mr-15" />
+          <span class="font-weight-bold text-uppercase letter-spacing-1"
+            >{current.mediaListEntry?.progress
+              ? current.mediaListEntry?.status === "COMPLETED"
+                ? "Rewatch"
+                : "Continue"
+              : "Watch Now"}</span
+          >
+        </button>
+
+        <!-- Secondary Action: View Details -->
+        <button
+          class="btn banner-info-btn d-flex align-items-center mr-10 shadow-none"
+          use:click={viewMedia}
+        >
+          <Info size="2.4rem" class="mr-15" />
+          <span class="font-weight-bold text-uppercase letter-spacing-1">More Info</span>
+        </button>
+
+        <!-- Scoring Component (if user is authorized) -->
+        {#if Helper.isAuthorized()}
+          <div class="mr-10">
+            <Scoring media={current} />
+          </div>
+        {/if}
+
+        <!-- Favorite Toggle (if authenticated with AniList) -->
+        {#if Helper.isAniAuth()}
+          <button
+            class="btn btn-icon bg-dark-light text-white btn-square shadow-none border-0 d-flex align-items-center justify-content-center"
+            use:click={toggleFavourite}
+            title={current.isFavourite ? "Unfavourite" : "Favourite"}
+          >
+            <Heart
+              size="2rem"
+              color={current.isFavourite ? "#ff6b9d" : "currentColor"}
+              fill={current.isFavourite ? "#ff6b9d" : "transparent"}
+            />
+          </button>
+        {/if}
+      </div>
+
+      <!-- PROGRESS INDICATORS (carousel position dots) -->
+      <!-- TIP: Adjust sizes in CSS (lines 358-373) -->
+      <div class="banner-indicators d-flex">
+        {#each mediaList as media}
+          {@const active = currentStatic?.id === media?.id}
+          <button
+            class="indicator-btn bg-transparent border-0 p-0 mr-10"
+            class:pointer={!active}
+            use:click={() => setCurrent(media)}
+            aria-label={`View ${anilistClient.title(media)}`}
+            disabled={active}
+          >
+            <div class="indicator-bar rounded" class:active>
+              <div class="indicator-progress rounded" />
+            </div>
+          </button>
+        {/each}
+      </div>
+    </div>
   </div>
 </div>
 
 <style>
-  /* ============================================================================
-     GRADIENTS
-     ============================================================================ */
-  .gradient-bottom {
-    background: var(--banner-gradient-bottom);
-  }
-  .gradient-left {
-    background: var(--banner-gradient-left);
-  }
+  /* ==========================================================================
+     CONTAINER & LAYOUT
+     ========================================================================== */
 
-  /* ============================================================================
-     PROGRESS INDICATORS
-     ============================================================================ */
-  .progress-badge {
-    transition: width 0.8s ease; /* Smooth width transition when becoming active */
-  }
-  .progress-badge.active .progress-content {
-    animation: fill 15s linear; /* Fills over 15 seconds (matches rotation timer) */
-    will-change: width;
-  }
-
-  @keyframes fill {
-    from {
-      width: 0;
-    }
-    to {
-      width: 100%;
-    }
-  }
-
-  /* ============================================================================
-     METADATA STYLING
-     ============================================================================ */
-  /* Adds bullet separators between metadata items */
-  .details span + span::before {
-    content: "•";
-    padding: 0 0.5rem;
-    font-size: 0.6rem;
-    align-self: center;
-    white-space: normal;
-    color: var(--dm-muted-text-color) !important;
-  }
-
-  /* ============================================================================
-     TEXT STYLING
-     ============================================================================ */
-  .title {
-    display: inline-block;
-    white-space: nowrap;
+  .banner-container {
+    position: relative;
+    width: 100%;
+    height: 50rem; /* 🎯 MAIN HEIGHT: Adjust for taller/shorter banner */
     overflow: hidden;
-    text-overflow: ellipsis; /* Shows "..." when text is too long */
-    max-width: 100%;
-    text-shadow: 2px 2px 4px hsla(var(--black-color-hsl), 1); /* Readability shadow */
+    margin-bottom: 2rem;
   }
 
-  /* ============================================================================
-     ANIMATIONS
-     ============================================================================ */
-  .banner,
-  img {
-    animation: fadeIn ease 0.8s; /* Smooth fade-in when media changes */
-    will-change: opacity;
+  /* Background fade-in animation when changing media */
+  .banner-background {
+    animation: banner-fade 0.8s ease; /* ⏱️ Adjust duration here */
   }
 
-  @keyframes fadeIn {
+  @keyframes banner-fade {
     from {
       opacity: 0;
     }
@@ -410,10 +557,609 @@
     }
   }
 
-  /* ============================================================================
-     UTILITY
-     ============================================================================ */
-  .default-cursor {
+  /* ==========================================================================
+     GRADIENT OVERLAY
+     ========================================================================== 
+     
+     This creates the dark overlay that makes text readable over images.
+     Two gradients combined:
+     1. Left-to-right: Dark on left, transparent on right
+     2. Bottom-to-top: Dark on bottom, transparent on top
+     
+     TIP: Increase opacity values for darker overlay, better text contrast
+  */
+  .banner-overlay {
+    background: linear-gradient(
+        to right,
+        hsla(var(--dark-color-hsl), 0.98) 0%,
+        /* Darkest point (left) */ hsla(var(--dark-color-hsl), 0.85) 35%,
+        /* Fade point 1 */ hsla(var(--dark-color-hsl), 0.6) 55%,
+        /* Fade point 2 */ hsla(var(--dark-color-hsl), 0.3) 75%,
+        /* Fade point 3 */ transparent 100% /* Fully transparent (right) */
+      ),
+      linear-gradient(
+        to top,
+        hsla(var(--dark-color-hsl), 0.95) 0%,
+        /* Darkest point (bottom) */ hsla(var(--dark-color-hsl), 0.6) 25%,
+        /* Fade point 1 */ hsla(var(--dark-color-hsl), 0.3) 50%,
+        /* Fade point 2 */ transparent 100% /* Fully transparent (top) */
+      );
+  }
+
+  /* ==========================================================================
+     CONTENT POSITIONING & ANIMATION
+     ========================================================================== */
+
+  .banner-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Fade-in and slide-up animation for content */
+  .content-wrapper {
+    animation: content-fade-in 0.8s ease 0.2s both; /* 0.2s delay for stagger */
+  }
+
+  @keyframes content-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(
+        2rem
+      ); /* 🎬 Change to translateX for horizontal slide */
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ==========================================================================
+     FEATURED BADGE
+     ========================================================================== */
+
+  .featured-badge {
+    background: hsla(45, 100%, 50%, 0.15); /* 🎨 Gold background */
+    color: #ffd700; /* 🎨 Gold text */
+    padding: 0.6rem 1.4rem;
+    border-radius: 2rem;
+    font-size: 1.3rem;
+    backdrop-filter: blur(1rem); /* ✨ Glassmorphism effect */
+    border: 0.1rem solid hsla(45, 100%, 50%, 0.3);
+  }
+
+  /* ==========================================================================
+     TITLE STYLING
+     ========================================================================== */
+
+  .banner-title {
+    font-size: 4.5rem; /* 📐 DESKTOP SIZE: Main title size */
+    line-height: 1.1;
+    text-shadow: 0.2rem 0.4rem 1.2rem hsla(var(--black-color-hsl), 0.9); /* Readability */
+    letter-spacing: -0.05rem; /* Tight spacing for modern look */
+    max-width: 100%;
+    
+    /* ✂️ Multi-line Truncation (Cinema Style) */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+  }
+
+  /* ==========================================================================
+     METADATA ROW
+     ========================================================================== */
+
+  .banner-meta {
+    font-size: 1.5rem;
+    font-weight: 600;
+    gap: 1.2rem; /* Space between metadata items */
+  }
+
+  .meta-item {
+    display: flex;
+    align-items: center;
+    color: hsla(var(--white-color-hsl), 0.9);
+  }
+
+  /* Rating display with gold star */
+  .meta-rating {
+    color: #ffd700; /* 🎨 Gold for rating */
+  }
+
+  /* 18+ Adult content badge */
+  .meta-adult {
+    background: hsla(0, 75%, 50%, 0.2); /* 🎨 Red background */
+    color: #ef4444; /* 🎨 Red text */
+    padding: 0.4rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 700;
+    border: 0.1rem solid hsla(0, 75%, 50%, 0.4);
+  }
+
+  /* ==========================================================================
+     GENRE TAGS
+     ========================================================================== */
+
+  .banner-genres {
+    gap: 1rem;
+  }
+
+  .genre-tag {
+    padding: 0.6rem 1.4rem;
+    background: hsla(var(--white-color-hsl), 0.12); /* Semi-transparent */
+    backdrop-filter: blur(1rem); /* ✨ Glassmorphism */
+    border-radius: 2rem; /* Pill shape */
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: 0.1rem solid hsla(var(--white-color-hsl), 0.2);
+    color: white;
+    transition: all 0.2s ease;
+  }
+
+  /* Hover effect for genre tags (desktop only) */
+  @media (hover: hover) and (pointer: fine) {
+    .genre-tag:hover {
+      background: hsla(var(--white-color-hsl), 0.22);
+      transform: translateY(-0.2rem); /* Subtle lift */
+    }
+  }
+
+  /* ==========================================================================
+     DESCRIPTION
+     ========================================================================== */
+
+  .banner-description {
+    font-size: 1.5rem;
+    line-height: 1.7;
+    color: hsla(var(--white-color-hsl), 0.88);
+    text-shadow: 0.1rem 0.2rem 0.6rem hsla(var(--black-color-hsl), 0.7); /* Readability */
+    max-width: 70rem; /* Prevent description from being too wide */
+  }
+
+  /* ==========================================================================
+     ACTION BUTTONS
+     ========================================================================== */
+
+  .banner-actions {
+    gap: 1rem;
+  }
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-icon {
+    font-size: 1.5rem;
+    border-radius: 0.8rem;
+    transition: all 0.2s ease; /* ⏱️ Hover animation speed */
+    min-height: 4.5rem;
+  }
+
+  /* Primary button (Watch Now) - bright and prominent */
+  .btn-primary {
+    box-shadow: 0 0.4rem 1.2rem hsla(var(--black-color-hsl), 0.4);
+  }
+
+  /* Secondary buttons with glassmorphism */
+  .btn-secondary,
+  .btn-icon {
+    backdrop-filter: blur(1rem); /* ✨ Frosted glass effect */
+    border: 0.1rem solid hsla(var(--white-color-hsl), 0.2) !important;
+  }
+
+  /* Square icon button (favorite heart) */
+  .btn-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0 !important;
+  }
+
+  /* Hover effects for buttons (desktop only) */
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      background: hsla(var(--white-color-hsl), 0.92) !important;
+      transform: translateY(-0.3rem); /* 🎬 Lift effect */
+      box-shadow: 0 0.6rem 1.8rem hsla(var(--black-color-hsl), 0.5);
+    }
+
+    .btn-secondary:hover {
+      background: var(--dark-color-very-light) !important;
+      transform: translateY(-0.3rem);
+    }
+
+    .btn-icon:hover {
+      background: var(--dark-color-very-light) !important;
+      transform: translateY(-0.3rem);
+    }
+  }
+
+  /* ==========================================================================
+     PROGRESS INDICATORS (Carousel Dots)
+     ========================================================================== */
+
+  .banner-indicators {
+    gap: 1rem;
+  }
+
+  .indicator-btn {
+    cursor: pointer;
+  }
+
+  .indicator-btn[disabled] {
     cursor: default;
+  }
+
+  /* Indicator bar styling */
+  .indicator-bar {
+    width: 3.5rem; /* 📐 Inactive width */
+    height: 0.4rem; /* 📐 Bar height */
+    background: hsla(var(--white-color-hsl), 0.25); /* Dim when inactive */
+    overflow: hidden;
+    transition: all 0.4s ease;
+  }
+
+  /* Active indicator (current media) */
+  .indicator-bar.active {
+    width: 5.5rem; /* 📐 Expands when active */
+    background: hsla(var(--white-color-hsl), 0.4); /* Brighter when active */
+  }
+
+  /* Progress fill animation inside active indicator */
+  .indicator-progress {
+    height: 100%;
+    width: 0;
+    background: white;
+    transition: none;
+  }
+
+  .indicator-bar.active .indicator-progress {
+    animation: banner-progress-fill 15s linear; /* ⏱️ MUST MATCH rotation interval */
+    will-change: width;
+  }
+
+  @keyframes banner-progress-fill {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+
+  /* ==========================================================================
+     RESPONSIVE BREAKPOINTS
+     ========================================================================== */
+
+  /* TABLET: 768px and below */
+  @media (max-width: 768px) {
+    .banner-container {
+      height: 42rem; /* 📏 Adjust tablet height */
+    }
+
+    .banner-content {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      padding-bottom: 2rem;
+    }
+
+    .content-wrapper {
+      max-width: 100%;
+    }
+
+    .banner-title {
+      font-size: 3rem; /* 📏 Smaller title for tablet */
+      line-height: 1.15;
+    }
+
+    .banner-meta {
+      font-size: 1.4rem;
+    }
+
+    .banner-description {
+      font-size: 1.4rem;
+      max-width: 100%;
+      -webkit-line-clamp: 3; /* 📏 Show fewer lines on tablet */
+      line-clamp: 3;
+    }
+
+    .banner-actions .btn {
+      min-height: 4rem; /* 📏 Smaller buttons */
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+
+    .btn-icon {
+      width: 4rem;
+      height: 4rem;
+    }
+  }
+
+  /* MOBILE: 480px and below */
+  @media (max-width: 480px) {
+    .banner-container {
+      height: 38rem; /* 📏 Adjust mobile height */
+    }
+
+    .banner-content {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+
+    .banner-title {
+      font-size: 2.4rem; /* 📏 Even smaller title for mobile */
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .banner-meta {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .featured-badge {
+      font-size: 1.2rem;
+      padding: 0.5rem 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .banner-description {
+      font-size: 1.3rem;
+      margin-bottom: 1.5rem;
+      -webkit-line-clamp: 2; /* 📏 Fewest lines on mobile */
+      line-clamp: 2;
+    }
+
+    /* Hide genres on very small screens */
+    .banner-genres {
+      display: none;
+    }
+
+    .banner-actions {
+      margin-bottom: 1.5rem;
+    }
+
+    .banner-actions .btn {
+      min-height: 3.8rem;
+      font-size: 1.4rem;
+      padding-left: 1.2rem;
+      padding-right: 1.2rem;
+    }
+
+    /* Hide button text, show only icons on mobile */
+    .banner-actions .btn span {
+      display: none;
+    }
+
+    .banner-actions .btn .lucide {
+      margin-right: 0 !important;
+    }
+
+    .btn-icon {
+      width: 3.8rem;
+      height: 3.8rem;
+    }
+
+    /* Smaller progress indicators */
+    .indicator-bar {
+      width: 3rem;
+    }
+
+    .indicator-bar.active {
+      width: 4.5rem;
+    }
+  }
+
+  /* ==========================================================================
+     UTILITY CLASSES (if not already defined elsewhere)
+     ========================================================================== */
+
+  .position-absolute {
+    position: absolute;
+  }
+  .position-relative {
+    position: relative;
+  }
+  .h-full {
+    height: 100%;
+  }
+  .w-full {
+    width: 100%;
+  }
+  .w-800 {
+    width: 80rem;
+  }
+  .mw-full {
+    max-width: 100%;
+  }
+  .z--1 {
+    z-index: -1;
+  }
+  .z-1 {
+    z-index: 1;
+  }
+
+  .d-flex {
+    display: flex;
+  }
+  .d-inline-flex {
+    display: inline-flex;
+  }
+  .flex-column {
+    flex-direction: column;
+  }
+  .flex-wrap {
+    flex-wrap: wrap;
+  }
+  .justify-content-end {
+    justify-content: flex-end;
+  }
+  .justify-content-center {
+    justify-content: center;
+  }
+  .justify-content-start {
+    justify-content: flex-start;
+  }
+  .align-items-center {
+    align-items: center;
+  }
+
+  .text-white {
+    color: white;
+  }
+  .text-dark {
+    color: var(--dark-color);
+  }
+  .text-capitalize {
+    text-transform: capitalize;
+  }
+  .text-center {
+    text-align: center;
+  }
+
+  .font-weight-bold {
+    font-weight: 600;
+  }
+  .font-weight-very-bold {
+    font-weight: 700;
+  }
+
+  .mb-5 {
+    margin-bottom: 0.5rem;
+  }
+  .mb-10 {
+    margin-bottom: 1rem;
+  }
+  .mb-15 {
+    margin-bottom: 1.5rem;
+  }
+  .mb-20 {
+    margin-bottom: 2rem;
+  }
+  .mr-5 {
+    margin-right: 0.5rem;
+  }
+  .mr-10 {
+    margin-right: 1rem;
+  }
+  .mr-15 {
+    margin-right: 1.5rem;
+  }
+
+  .pl-30 {
+    padding-left: 3rem;
+  }
+  .pr-30 {
+    padding-right: 3rem;
+  }
+  .pb-30 {
+    padding-bottom: 3rem;
+  }
+
+  .px-20 {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+  .py-10 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .rounded {
+    border-radius: 0.4rem;
+  }
+
+  .overflow-hidden {
+    overflow: hidden;
+  }
+
+  .grab {
+    cursor: grab;
+  }
+  .grab:active {
+    cursor: grabbing;
+  }
+
+  .bg-white {
+    background-color: white;
+  }
+  .bg-dark-light {
+    background-color: var(--dark-color-light);
+  }
+  .bg-transparent {
+    background-color: transparent;
+  }
+
+  .border-0 {
+    border: none;
+  }
+  .shadow-none {
+    box-shadow: none;
+  }
+
+  .line-4 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+  }
+
+  .img-cover {
+    object-fit: cover;
+  }
+
+  /* Custom class for rotated banner images for adult content */
+  .banner-rotated {
+    transform: rotate(180deg);
+  }
+
+  /* ==========================================================================
+     CUSTOM BUTTONS
+     ========================================================================== */
+  .banner-play-btn {
+    background: rgba(255, 255, 255, 0.1); /* Transparent/Subtle fill */
+    border: 0.2rem solid rgba(255, 255, 255, 0.85); /* Stylish White Border */
+    color: white;
+    padding: 1.6rem 4.5rem; /* Huge Padding */
+    font-size: 1.8rem; /* Huge Font */
+    font-weight: 800;
+    backdrop-filter: blur(1.5rem);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    box-shadow: 0 1rem 2.5rem rgba(0,0,0,0.25);
+  }
+
+  .banner-play-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-0.3rem) scale(1.02);
+    box-shadow: 0 0.5rem 3rem rgba(255, 255, 255, 0.3);
+    border-color: white;
+  }
+
+  .banner-info-btn {
+    background: rgba(100, 100, 100, 0.45); /* Darker Glass */
+    border: 0.2rem solid transparent; /* Align size with play button */
+    color: hsla(var(--white-color-hsl), 0.9);
+    padding: 1.6rem 3.5rem;
+    font-size: 1.6rem;
+    font-weight: 700;
+    backdrop-filter: blur(1.5rem);
+    border-radius: 1rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.15rem;
+  }
+
+  .banner-info-btn:hover {
+    background: rgba(120, 120, 120, 0.65);
+    color: white;
+    transform: translateY(-0.3rem);
+    box-shadow: 0 0.5rem 2rem rgba(0,0,0,0.3);
   }
 </style>
