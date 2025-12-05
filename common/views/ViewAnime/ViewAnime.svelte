@@ -551,6 +551,20 @@
                       </span>
                     </div>
                   {/if}
+                  {#if staticMedia.seasonYear}
+                    <div class="d-flex flex-row align-items-center">
+                      <span class="font-weight-bold">
+                        {staticMedia.seasonYear}
+                      </span>
+                    </div>
+                  {/if}
+                  {#if staticMedia.status}
+                    <div class="d-flex flex-row align-items-center">
+                      <span class="text-capitalize font-weight-bold">
+                        {staticMedia.status.replace(/_/g, ' ').toLowerCase()}
+                      </span>
+                    </div>
+                  {/if}
                   <!-- Reviews hidden for cleaner look, or move to details -->
                 </div>
                 <!-- Play button and actions (Scoring, Favorite, Trailer, Share) -->
@@ -1000,6 +1014,7 @@
     align-items: center;
     margin-right: 1rem;
     white-space: nowrap;
+    animation: none !important; /* Prevent any inherited progress animations */
   }
 
   /* Specific styling for colored genres */
