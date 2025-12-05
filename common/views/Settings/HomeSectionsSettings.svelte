@@ -172,8 +172,8 @@
         <ArrowDownUp size='1.8rem' />
       </span>
     </div>
-    <div class='position-relative flex-shrink-1 mw-full'>
-      <select class='form-control flex-shrink-1 bg-dark fix-border text-truncate' on:change={(event) => { if (event.target.value !== homeSections[index][0]) homeSections[index] = allowedHomeSections.find(([title]) => title === event.target.value) }} bind:value={homeSections[index][0]}>
+    <div class='position-relative flex-shrink-1 w-170 mw-full'>
+      <select class='form-control flex-shrink-1 bg-dark fix-border text-truncate w-full' on:change={(event) => { if (event.target.value !== homeSections[index][0]) homeSections[index] = allowedHomeSections.find(([title]) => title === event.target.value) }} bind:value={homeSections[index][0]}>
         {#each allowedHomeSections as section}
           {#if !homeSections.some(([title]) => title === section[0]) || homeSections[index][0] === section[0]}
             <option>{section[0]}</option>
