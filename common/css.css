@@ -99,6 +99,26 @@
   --quattuordenary-color: #FA68B6 !important;
 
   /* Genre Colors */
+  --genre-action: #ff6b6b;
+  --genre-adventure: #55efc4;
+  --genre-comedy: #feca57;
+  --genre-drama: #a29bfe;
+  --genre-ecchi: #ff9ff3;
+  --genre-fantasy: #9c88ff;
+  --genre-hentai: #ff6b81;
+  --genre-horror: #b33939;
+  --genre-mahou-shoujo: #ff9ff3;
+  --genre-mecha: #54a0ff;
+  --genre-music: #00d2d3;
+  --genre-mystery: #81ecec;
+  --genre-psychological: #ff7675;
+  --genre-romance: #fd79a8;
+  --genre-sci-fi: #74b9ff;
+  --genre-slice-of-life: #1dd1a1;
+  --genre-sports: #ff9f43;
+  --genre-supernatural: #a29bfe;
+  --genre-thriller: #d63031;
+
   --border-color-sp: hsla(var(--gray-color-dim-hsl), 0.2);
   --dm-input-border-color: none;
   --dm-link-text-color: var(--dm-muted-text-color) !important;
