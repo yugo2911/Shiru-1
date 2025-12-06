@@ -98,6 +98,7 @@
   --duodenary-color: #FFFFF0 !important;
   --quattuordenary-color: #FA68B6 !important;
 
+  /* Genre Colors */
   --border-color-sp: hsla(var(--gray-color-dim-hsl), 0.2);
   --dm-input-border-color: none;
   --dm-link-text-color: var(--dm-muted-text-color) !important;
