@@ -64,12 +64,12 @@ importers:
         specifier: 5.1.0
         version: 5.1.0(bufferutil@4.0.8)(utf-8-validate@6.0.4)(webpack-cli@6.0.1)(webpack@5.103.0)
       webtorrent:
-        specifier: ^2.8.4
-        version: 2.8.4
+        specifier: ^2.8.5
+        version: 2.8.5
     devDependencies:
       '@cloudflare/workers-types':
-        specifier: ^4.20251127.0
-        version: 4.20251127.0
+        specifier: ^4.20251202.0
+        version: 4.20251202.0
       npm-run-all:
         specifier: ^4.1.5
         version: 4.1.5
@@ -77,50 +77,50 @@ importers:
   capacitor:
     dependencies:
       '@capacitor/android':
-        specifier: ^6.1.2
-        version: 6.1.2(patch_hash=c94a4679400f9edbaab7f82e73b25787c1dd44e9f170b0f61f4166cff5699d22)(@capacitor/core@6.1.2)
+        specifier: ^6.2.1
+        version: 6.2.1(patch_hash=c94a4679400f9edbaab7f82e73b25787c1dd44e9f170b0f61f4166cff5699d22)(@capacitor/core@6.2.1)
       '@capacitor/app':
-        specifier: ^6.0.1
-        version: 6.0.1(@capacitor/core@6.1.2)
+        specifier: ^6.0.3
+        version: 6.0.3(@capacitor/core@6.2.1)
       '@capacitor/app-launcher':
-        specifier: ^6.0.2
-        version: 6.0.2(@capacitor/core@6.1.2)
+        specifier: ^6.0.4
+        version: 6.0.4(@capacitor/core@6.2.1)
       '@capacitor/browser':
-        specifier: ^6.0.2
-        version: 6.0.2(@capacitor/core@6.1.2)
+        specifier: ^6.0.6
+        version: 6.0.6(@capacitor/core@6.2.1)
       '@capacitor/core':
-        specifier: ^6.1.2
-        version: 6.1.2
+        specifier: ^6.2.1
+        version: 6.2.1
       '@capacitor/device':
-        specifier: ^6.0.1
-        version: 6.0.1(@capacitor/core@6.1.2)
+        specifier: ^6.0.3
+        version: 6.0.3(@capacitor/core@6.2.1)
       '@capacitor/ios':
-        specifier: ^6.1.2
-        version: 6.1.2(@capacitor/core@6.1.2)
+        specifier: ^6.2.1
+        version: 6.2.1(@capacitor/core@6.2.1)
       '@capacitor/keyboard':
-        specifier: ^6.0.2
-        version: 6.0.3(@capacitor/core@6.1.2)
+        specifier: ^6.0.4
+        version: 6.0.4(@capacitor/core@6.2.1)
       '@capacitor/local-notifications':
-        specifier: ^6.1.0
-        version: 6.1.0(patch_hash=92e9cb4b54ea8684b0027c29ec61d24c886b142730b548ae3199be718f58a638)(@capacitor/core@6.1.2)
+        specifier: ^6.1.3
+        version: 6.1.3(patch_hash=92e9cb4b54ea8684b0027c29ec61d24c886b142730b548ae3199be718f58a638)(@capacitor/core@6.2.1)
       '@capacitor/status-bar':
-        specifier: ^6.0.1
-        version: 6.0.1(@capacitor/core@6.1.2)
+        specifier: ^6.0.3
+        version: 6.0.3(@capacitor/core@6.2.1)
       '@capawesome-team/capacitor-android-foreground-service':
-        specifier: ^6.0.1
-        version: 6.2.0(@capacitor/core@6.1.2)
+        specifier: ^6.2.0
+        version: 6.2.0(@capacitor/core@6.2.1)
       capacitor-folder-picker:
         specifier: ^0.0.2
-        version: 0.0.2(@capacitor/core@6.1.2)
+        version: 0.0.2(@capacitor/core@6.2.1)
       capacitor-intent-uri:
-        specifier: ^0.0.1
-        version: 0.0.1(@capacitor/core@6.1.2)
+        specifier: ^0.0.2
+        version: 0.0.2(@capacitor/core@6.2.1)
       capacitor-nodejs:
         specifier: https://github.com/funniray/Capacitor-NodeJS/releases/download/nodejs-18/capacitor-nodejs-1.0.0-beta.6.tgz
-        version: https://github.com/funniray/Capacitor-NodeJS/releases/download/nodejs-18/capacitor-nodejs-1.0.0-beta.6.tgz(@capacitor/core@6.1.2)
+        version: https://github.com/funniray/Capacitor-NodeJS/releases/download/nodejs-18/capacitor-nodejs-1.0.0-beta.6.tgz(@capacitor/core@6.2.1)
       capacitor-plugin-safe-area:
-        specifier: ^3.0.3
-        version: 3.0.3(@capacitor/core@6.1.2)
+        specifier: ^3.0.4
+        version: 3.0.4(@capacitor/core@6.2.1)
       common:
         specifier: workspace:*
         version: link:../common
@@ -140,8 +140,8 @@ importers:
         specifier: ^4.2.2
         version: 4.2.2
       fake-indexeddb:
-        specifier: ^6.0.0
-        version: 6.0.0
+        specifier: ^6.2.5
+        version: 6.2.5
       fsctl:
         specifier: ^2.0.0
         version: 2.0.0
@@ -150,8 +150,8 @@ importers:
         specifier: ^3.0.5
         version: 3.0.5(@types/node@22.18.8)(encoding@0.1.13)(typescript@5.5.4)
       '@capacitor/cli':
-        specifier: ^6.1.2
-        version: 6.1.2
+        specifier: ^6.2.1
+        version: 6.2.1
       cordova-res:
         specifier: ^0.15.4
         version: 0.15.4
@@ -245,9 +245,6 @@ importers:
       video-deband:
         specifier: ^1.0.9
         version: 1.0.9
-      webpack-merge:
-        specifier: ^6.0.1
-        version: 6.0.1
 
   electron:
     dependencies:
@@ -288,9 +285,6 @@ importers:
       electron-updater:
         specifier: ^6.7.2
         version: 6.7.2
-      webpack-merge:
-        specifier: ^6.0.1
-        version: 6.0.1
 
 packages:
 
@@ -313,18 +307,18 @@ packages:
     resolution: {integrity: sha512-EStJpq4OuY8xYfhGVXngigBJRWxftKX9ksiGDnmlY3o7B/V7KIAc9X4oiK87uPJSc/vs5L869bem5fhZa8caZw==}
     engines: {node: '>=6.9.0'}
 
-  '@capacitor/android@6.1.2':
-    resolution: {integrity: sha512-Yh0gQDY1bgRrL25J6ecIlvvs2kF8iNSwIPXjyw6Yz9mnwYxBazF5KZbjpKtGPnJgicJhFkYGsqOkEtxrve0EoQ==}
+  '@capacitor/android@6.2.1':
+    resolution: {integrity: sha512-8gd4CIiQO5LAIlPIfd5mCuodBRxMMdZZEdj8qG8m+dQ1sQ2xyemVpzHmRK8qSCHorsBUCg3D62j2cp6bEBAkdw==}
     peerDependencies:
-      '@capacitor/core': ^6.1.0
+      '@capacitor/core': ^6.2.0
 
-  '@capacitor/app-launcher@6.0.2':
-    resolution: {integrity: sha512-g1hLHTnb7240HYcM28TBN3HbCkc6HV4242sj5/xxQyQ4N4R61DfJLpZDLtp0Wq9WkLlFCJ2B2svHU7ZvA3Tvgg==}
+  '@capacitor/app-launcher@6.0.4':
+    resolution: {integrity: sha512-tOQOChwul08k8y8RFx/OzMhNoxN8tbuc7CdWTwr3D9gffKCnyQ6vYhNZztDt1kIAo/qTJG5n8etDhV3XiQutHA==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
-  '@capacitor/app@6.0.1':
-    resolution: {integrity: sha512-0kXbOl7LPPMFVcAii3u/7Ps0DvXlr7dtHT97r9J1faDlgdQLQUvtGp48tjvFm48gqHI0aOPRJnTBr5JXW4ETYg==}
+  '@capacitor/app@6.0.3':
+    resolution: {integrity: sha512-4gFUCbcVz0N/YYN32OBFerocWXslIv3Nc90gDiRsBkJc0plwK6kIUT6PKa5WtW2kfhteUeCVXQbvArH2fH+0Ug==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
@@ -333,8 +327,8 @@ packages:
     engines: {node: '>=10.3.0'}
     hasBin: true
 
-  '@capacitor/browser@6.0.2':
-    resolution: {integrity: sha512-mJjdKbpdCAaaDVZD/vjzpJJxL1VvwsGTcEGn+4PpCQyPu3+yNQO7vgjwBV7ZYS6+mZIKeYn5swWq0BFuAcDqFg==}
+  '@capacitor/browser@6.0.6':
+    resolution: {integrity: sha512-VHOPkMR+JqKz2mf5YncnnOWvFdVYFTTLnPW+JRcsP1LobXmA0gtchER35PQ7XXqXU16eeacrehX+XF+rC6wmQw==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
@@ -343,36 +337,36 @@ packages:
     engines: {node: '>=16.0.0'}
     hasBin: true
 
-  '@capacitor/cli@6.1.2':
-    resolution: {integrity: sha512-HKCNGE0RP8U7aiEF2vg5wTivJROS8BVfu8a3yYJb1mRQvzv+czpmtHNsTWS/WukvwoxUjyjRmsNQSAACHfMTmQ==}
+  '@capacitor/cli@6.2.1':
+    resolution: {integrity: sha512-JKl0FpFge8PgQNInw12kcKieQ4BmOyazQ4JGJOfEpVXlgrX1yPhSZTPjngupzTCiK3I7q7iGG5kjun0fDqgSCA==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
-  '@capacitor/core@6.1.2':
-    resolution: {integrity: sha512-xFy1/4qLFLp5WCIzIhtwUuVNNoz36+V7/BzHmLqgVJcvotc4MMjswW/TshnPQaLLujEOaLkA4h8ZJ0uoK3ImGg==}
+  '@capacitor/core@6.2.1':
+    resolution: {integrity: sha512-urZwxa7hVE/BnA18oCFAdizXPse6fCKanQyEqpmz6cBJ2vObwMpyJDG5jBeoSsgocS9+Ax+9vb4ducWJn0y2qQ==}
 
-  '@capacitor/device@6.0.1':
-    resolution: {integrity: sha512-Tlz67DAO5GKb5YAfupXiENZxDww6mHnG9iKI+8D5SVF82VLpEv5r9qwKtiounuQB2y2HWiHV8tlOk7DqnLVUqQ==}
+  '@capacitor/device@6.0.3':
+    resolution: {integrity: sha512-AmPtVuWeW31Ui+UMIl5zgCzwMU4fL4hIvYYvbAhXXyKWjxi1nk+CAh9B3k4OYUQLJI5nan0PoJ4GiiJ7x6DT/A==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
-  '@capacitor/ios@6.1.2':
-    resolution: {integrity: sha512-HaeW68KisBd/7TmavzPDlL2bpoDK5AjR2ZYrqU4TlGwM88GtQfvduBCAlSCj20X0w/4+rWMkseD9dAAkacjiyQ==}
+  '@capacitor/ios@6.2.1':
+    resolution: {integrity: sha512-tbMlQdQjxe1wyaBvYVU1yTojKJjgluZQsJkALuJxv/6F8QTw5b6vd7X785O/O7cMpIAZfUWo/vtAHzFkRV+kXw==}
     peerDependencies:
-      '@capacitor/core': ^6.1.0
+      '@capacitor/core': ^6.2.0
 
-  '@capacitor/keyboard@6.0.3':
-    resolution: {integrity: sha512-V/mURxBI68HvClYjrGBlOriWkwYN7r+cWid/igJz/3scNc/V81DgQ9fpoLr4W0I5NY7YxOesjIJLuLO+LT18mQ==}
-    peerDependencies:
-      '@capacitor/core': ^6.0.0
-
-  '@capacitor/local-notifications@6.1.0':
-    resolution: {integrity: sha512-EjEnbApdFiZYeJgxKIDtgFRNSmeHySnyAeyoTn6HUTYMkTOaHFGAd7NU964k7gbX4al/CBp0cMA8iMG0c7kh1w==}
+  '@capacitor/keyboard@6.0.4':
+    resolution: {integrity: sha512-tNeyQGxIOTiSv3g+dTxJ/plVpGMnB4daJuCHz1E2Kelo+jOx+FKlyFY9L1Ow144SCzuXK48NXr8WoxXfXgQEKA==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
-  '@capacitor/status-bar@6.0.1':
-    resolution: {integrity: sha512-Usd9hZZQVAqy+jJfL7jRcYI7dcsxN09Na1yttwdl+F1bk3Ztoukk7CGPDm5VgKUSs53ihQBOy1+sczCACxhNiw==}
+  '@capacitor/local-notifications@6.1.3':
+    resolution: {integrity: sha512-AsVVPmuYoSzHX4kbLBwjdrV7q3KBagpJtngNyz6FFwNk9C5osyQATWxKWXwqJgMcMm0CqZ5yvpm+beHKBYsHYw==}
+    peerDependencies:
+      '@capacitor/core': ^6.0.0
+
+  '@capacitor/status-bar@6.0.3':
+    resolution: {integrity: sha512-nFlgSmtx6Zwaw0tEvZgQsWHBeOfWWB/AvEoCApopLT4mHkBVoSrwkLvy2PjZs5wxCbsmqvQczr3XCyTwaDZVQg==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
@@ -381,8 +375,8 @@ packages:
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
-  '@cloudflare/workers-types@4.20251127.0':
-    resolution: {integrity: sha512-3hGAWcQTlR10HjnwDb0DVDlXTBByBqgDidHmBQ844FTiwO3doecOCufSh1HUM0ztbiIm7Lf7N43CHO22TSRwPg==}
+  '@cloudflare/workers-types@4.20251202.0':
+    resolution: {integrity: sha512-Q7m1Ivu2fbKalOPm00KLpu6GfRaq4TlrPknqugvZgp/gDH96OYKINO4x7jvCIBvCz/aK9vVoOj8tlbSQBervVA==}
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -563,10 +557,6 @@ packages:
 
   '@ionic/utils-process@2.1.11':
     resolution: {integrity: sha512-Uavxn+x8j3rDlZEk1X7YnaN6wCgbCwYQOeIjv/m94i1dzslqWhqIHEqxEyeE8HsT5Negboagg7GtQiABy+BLbA==}
-    engines: {node: '>=16.0.0'}
-
-  '@ionic/utils-process@2.1.12':
-    resolution: {integrity: sha512-Jqkgyq7zBs/v/J3YvKtQQiIcxfJyplPgECMWgdO0E1fKrrH8EF0QGHNJ9mJCn6PYe2UtHNS8JJf5G21e09DfYg==}
     engines: {node: '>=16.0.0'}
 
   '@ionic/utils-stream@3.1.5':
@@ -878,8 +868,8 @@ packages:
     resolution: {integrity: sha512-xzvBr1Q1c4lCe7i6sRnrofxeO1QTP/LKQ6A6qy0iB4x5yfiSfARMEQEghojzTNALDTcv8En04qYNIco9/K9eZQ==}
     engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
 
-  '@silentbot1/nat-api@0.4.8':
-    resolution: {integrity: sha512-DBz/1gGzaYIbUdGTBQ7l4NrI7a+DFZgdZShmjmBGgJR4PvQ64wKNMwle2rrW8pdiOesN+DV6/8ZN/PLuksNyTg==}
+  '@silentbot1/nat-api@0.4.9':
+    resolution: {integrity: sha512-Bm2Fr0sJyGr4B/XgKjQxjGe7Rzs/OlK91OIHsghObxhP3Y4j2y8o7Xjlledu/pxzFEIWaTbZIBSl8ABqoP/WhQ==}
     engines: {node: '>=10.0.0'}
 
   '@sindresorhus/is@4.6.0':
@@ -1678,8 +1668,8 @@ packages:
     peerDependencies:
       '@capacitor/core': ^5.0.0
 
-  capacitor-intent-uri@0.0.1:
-    resolution: {integrity: sha512-5Yx1VOoCkHFCz7OrHgYpY5lUt6H+9sv7HU7bwQtW81c8cZJgX9kMnMsfGeTOly+RmTkv69+G5q3DZDlAgi0s0w==}
+  capacitor-intent-uri@0.0.2:
+    resolution: {integrity: sha512-tJGOZNua82Ib5sgmBt/s/5R+zVoSwBJOc8A1TxJ0Na3ckiFqLv3lLWSfotpCvh9f8203jRlTwDyGaiBPLgQ8Cw==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
@@ -1689,8 +1679,8 @@ packages:
     peerDependencies:
       '@capacitor/core': ^5.0.0
 
-  capacitor-plugin-safe-area@3.0.3:
-    resolution: {integrity: sha512-pDM8GQIDC9xxKLZxoO4rrshDuzZqQo6jq7Ni18cYdp2JwmLvlhTYRrvriPAicY1En59UAZ574sIvGlgUBLH3Yw==}
+  capacitor-plugin-safe-area@3.0.4:
+    resolution: {integrity: sha512-Ccw0MMSo+IPDWZT5qGS6PSV5ifRBBrq/TnejVHZeIULgxkMeTxzdwoPRczCTF/oAZgcLVeaahQrF7c8Gh9wqVw==}
     peerDependencies:
       '@capacitor/core': ^6.0.0
 
@@ -2633,8 +2623,8 @@ packages:
     resolution: {integrity: sha512-Wrk35e8ydCKDj/ArClo1VrPVmN8zph5V4AtHwIuHhvMXsKf73UT3BOD+azBIW+3wOJ4FhEH7zyaJCFvChjYvMA==}
     engines: {'0': node >=0.6.0}
 
-  fake-indexeddb@6.0.0:
-    resolution: {integrity: sha512-YEboHE5VfopUclOck7LncgIqskAqnv4q0EWbYCaxKKjAvO93c+TJIaBuGy8CBFdbg9nKdpN3AuPRwVBJ4k7NrQ==}
+  fake-indexeddb@6.2.5:
+    resolution: {integrity: sha512-CGnyrvbhPlWYMngksqrSSUT1BAVP49dZocrHuK0SvtR0D5TMs5wP0o3j7jexDJW01KSadjBp1M/71o/KR3nD1w==}
     engines: {node: '>=18'}
 
   fast-deep-equal@3.1.3:
@@ -5680,8 +5670,8 @@ packages:
     resolution: {integrity: sha512-OqedPIGOfsDlo31UNwYbCFMSaO9m9G/0faIHj5/dZFDMFqPTcx6UwqyOy3COEaEOg/9VsGIpdqn62W5KhoKSpg==}
     engines: {node: '>=0.8.0'}
 
-  webtorrent@2.8.4:
-    resolution: {integrity: sha512-OTzeMVa6r9GXzjj428HC5gSi6oRKFEqOpR5cwQ8+GtbYgQz6PF6y3tzqnVFf6xWvnKcoZiabpHud3gx01Cbt2A==}
+  webtorrent@2.8.5:
+    resolution: {integrity: sha512-oIjpuBrypApJ+RCZ8RRaHEncVSkt2cd25/I4Trb2sk9nlaEF92Dg1u8BCwqA4eJR7wIZQM95GyO7Wo4QTbrUUA==}
     engines: {node: '>=16'}
 
   whatwg-fetch@3.6.20:
@@ -5875,17 +5865,17 @@ snapshots:
       js-tokens: 4.0.0
       picocolors: 1.1.1
 
-  '@capacitor/android@6.1.2(patch_hash=c94a4679400f9edbaab7f82e73b25787c1dd44e9f170b0f61f4166cff5699d22)(@capacitor/core@6.1.2)':
+  '@capacitor/android@6.2.1(patch_hash=c94a4679400f9edbaab7f82e73b25787c1dd44e9f170b0f61f4166cff5699d22)(@capacitor/core@6.2.1)':
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
-  '@capacitor/app-launcher@6.0.2(@capacitor/core@6.1.2)':
+  '@capacitor/app-launcher@6.0.4(@capacitor/core@6.2.1)':
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
-  '@capacitor/app@6.0.1(@capacitor/core@6.1.2)':
+  '@capacitor/app@6.0.3(@capacitor/core@6.2.1)':
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
   '@capacitor/assets@3.0.5(@types/node@22.18.8)(encoding@0.1.13)(typescript@5.5.4)':
     dependencies:
@@ -5909,9 +5899,9 @@ snapshots:
       - supports-color
       - typescript
 
-  '@capacitor/browser@6.0.2(@capacitor/core@6.1.2)':
+  '@capacitor/browser@6.0.6(@capacitor/core@6.2.1)':
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
   '@capacitor/cli@5.7.8':
     dependencies:
@@ -5935,15 +5925,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@capacitor/cli@6.1.2':
+  '@capacitor/cli@6.2.1':
     dependencies:
       '@ionic/cli-framework-output': 2.2.8
       '@ionic/utils-fs': 3.1.7
-      '@ionic/utils-process': 2.1.12
       '@ionic/utils-subprocess': 2.1.11
       '@ionic/utils-terminal': 2.3.5
       commander: 9.5.0
-      debug: 4.3.6
+      debug: 4.4.1
       env-paths: 2.2.1
       kleur: 4.1.5
       native-run: 2.0.1
@@ -5951,42 +5940,42 @@ snapshots:
       plist: 3.1.0
       prompts: 2.4.2
       rimraf: 4.4.1
-      semver: 7.6.3
+      semver: 7.7.2
       tar: 6.2.1
       tslib: 2.6.3
       xml2js: 0.5.0
     transitivePeerDependencies:
       - supports-color
 
-  '@capacitor/core@6.1.2':
+  '@capacitor/core@6.2.1':
     dependencies:
       tslib: 2.6.3
 
-  '@capacitor/device@6.0.1(@capacitor/core@6.1.2)':
+  '@capacitor/device@6.0.3(@capacitor/core@6.2.1)':
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
-  '@capacitor/ios@6.1.2(@capacitor/core@6.1.2)':
+  '@capacitor/ios@6.2.1(@capacitor/core@6.2.1)':
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
-  '@capacitor/keyboard@6.0.3(@capacitor/core@6.1.2)':
+  '@capacitor/keyboard@6.0.4(@capacitor/core@6.2.1)':
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
-  '@capacitor/local-notifications@6.1.0(patch_hash=92e9cb4b54ea8684b0027c29ec61d24c886b142730b548ae3199be718f58a638)(@capacitor/core@6.1.2)':
+  '@capacitor/local-notifications@6.1.3(patch_hash=92e9cb4b54ea8684b0027c29ec61d24c886b142730b548ae3199be718f58a638)(@capacitor/core@6.2.1)':
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
-  '@capacitor/status-bar@6.0.1(@capacitor/core@6.1.2)':
+  '@capacitor/status-bar@6.0.3(@capacitor/core@6.2.1)':
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
-  '@capawesome-team/capacitor-android-foreground-service@6.2.0(@capacitor/core@6.1.2)':
+  '@capawesome-team/capacitor-android-foreground-service@6.2.0(@capacitor/core@6.2.1)':
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
-  '@cloudflare/workers-types@4.20251127.0': {}
+  '@cloudflare/workers-types@4.20251202.0': {}
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
@@ -6287,17 +6276,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@ionic/utils-process@2.1.12':
-    dependencies:
-      '@ionic/utils-object': 2.1.6
-      '@ionic/utils-terminal': 2.3.5
-      debug: 4.4.1
-      signal-exit: 3.0.7
-      tree-kill: 1.2.2
-      tslib: 2.6.3
-    transitivePeerDependencies:
-      - supports-color
-
   '@ionic/utils-stream@3.1.5':
     dependencies:
       debug: 4.4.1
@@ -6319,7 +6297,7 @@ snapshots:
       '@ionic/utils-process': 2.1.10
       '@ionic/utils-stream': 3.1.5
       '@ionic/utils-terminal': 2.3.3
-      cross-spawn: 7.0.3
+      cross-spawn: 7.0.6
       debug: 4.4.1
       tslib: 2.6.3
     transitivePeerDependencies:
@@ -6726,7 +6704,7 @@ snapshots:
 
   '@sapphire/snowflake@3.5.5': {}
 
-  '@silentbot1/nat-api@0.4.8':
+  '@silentbot1/nat-api@0.4.9':
     dependencies:
       chrome-dgram: 3.0.6
       cross-fetch-ponyfill: 1.0.3
@@ -7842,21 +7820,21 @@ snapshots:
 
   caniuse-lite@1.0.30001749: {}
 
-  capacitor-folder-picker@0.0.2(@capacitor/core@6.1.2):
+  capacitor-folder-picker@0.0.2(@capacitor/core@6.2.1):
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
-  capacitor-intent-uri@0.0.1(@capacitor/core@6.1.2):
+  capacitor-intent-uri@0.0.2(@capacitor/core@6.2.1):
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
-  capacitor-nodejs@https://github.com/funniray/Capacitor-NodeJS/releases/download/nodejs-18/capacitor-nodejs-1.0.0-beta.6.tgz(@capacitor/core@6.1.2):
+  capacitor-nodejs@https://github.com/funniray/Capacitor-NodeJS/releases/download/nodejs-18/capacitor-nodejs-1.0.0-beta.6.tgz(@capacitor/core@6.2.1):
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
-  capacitor-plugin-safe-area@3.0.3(@capacitor/core@6.1.2):
+  capacitor-plugin-safe-area@3.0.4(@capacitor/core@6.2.1):
     dependencies:
-      '@capacitor/core': 6.1.2
+      '@capacitor/core': 6.2.1
 
   centra@2.7.0:
     dependencies:
@@ -9021,7 +8999,7 @@ snapshots:
   extsprintf@1.4.1:
     optional: true
 
-  fake-indexeddb@6.0.0: {}
+  fake-indexeddb@6.2.5: {}
 
   fast-deep-equal@3.1.3: {}
 
@@ -12151,9 +12129,9 @@ snapshots:
 
   websocket-extensions@0.1.4: {}
 
-  webtorrent@2.8.4:
+  webtorrent@2.8.5:
     dependencies:
-      '@silentbot1/nat-api': 0.4.8
+      '@silentbot1/nat-api': 0.4.9
       '@thaunknown/simple-peer': 10.0.11
       '@webtorrent/http-node': 1.3.0
       addr-to-ip-port: 2.0.0

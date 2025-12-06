@@ -26,7 +26,6 @@
     "svelte-loader": "^3.2.4",
     "svelte-persisted-store": "^0.12.0",
     "svelte-sonner": "^0.3.28",
-    "video-deband": "^1.0.9",
-    "webpack-merge": "^6.0.1"
+    "video-deband": "^1.0.9"
   }
 }

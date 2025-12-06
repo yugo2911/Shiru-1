@@ -102,7 +102,7 @@
   <div class='ml-auto pr-5 pl-5 font-size-12 glow text-muted pointer btn d-none align-items-center justify-content-center' class:d-flex={!SUPPORTS.isAndroid} aria-hidden='true' use:click={() => scrollCarousel('left')}><ChevronLeft strokeWidth='3' size='2rem' /></div>
   <div class='pr-5 pl-5 ml-10 font-size-12 glow text-muted pointer btn d-none align-items-center justify-content-center' class:d-flex={!SUPPORTS.isAndroid} aria-hidden='true' use:click={() => scrollCarousel('right')}><ChevronRight strokeWidth='3' size='2rem' /></div>
 </span>
-<div class='position-relative'>
+<div class='position-relative' class:isRSS={opts.isRSS}>
   <div class='pb-10 w-full d-flex flex-row justify-content-start gallery' use:dragScroll bind:this={scrollContainer}>
     {#each ($preview || fakecards).slice(0, visibleLength || previewLength) as card}
       <Card {card} variables={{...opts.variables, section: true}} />
@@ -136,6 +136,10 @@
     .glow:hover {
       color: var(--dm-link-text-color-hover) !important;
     }
+  }
+  .position-relative.isRSS .gallery::after {
+    height: calc(100% - 15rem) !important;
+    z-index: 1;
   }
   .gallery:after {
     content: '';

@@ -312,7 +312,7 @@ class AnimeSchedule {
         res.catch(error => {
             if (settings.value.toasts.includes('All') || settings.value.toasts.includes('Errors')) {
                 toast.error('Search Failed', {
-                    description: `Failed to load media for home feed for ${type}!` + error.message
+                    description: `Failed to load media for home feed for ${type}!\n` + error.message
                 })
             }
             debug(`Failed to load media for home feed for ${type}`, error.stack)
@@ -390,7 +390,7 @@ class AnimeSchedule {
                     const addedAt = Math.floor(new Date(media.episode.addedAt).getTime() / 1000)
                     const notify = (!media?.mediaListEntry && settings.value.releasesNotify?.includes('NOTONLIST')) || (media?.mediaListEntry && settings.value.releasesNotify?.includes(media?.mediaListEntry?.status))
                     debug(`Attempting to notify for ${media?.id}:${media?.title?.userPreferred}...`)
-                    if (notify && (type === 'Dub' || !settings.value.preferDubs || (mediaCache.value[episode.id]?.status === 'FINISHED' && !['WATCHING', 'REPEATING']?.includes(mediaCache.value[episode.id]?.mediaListEntry?.status)) || !(await malDubs.isDubMedia(media)) || await isSubbedProgress(media)) && media.format !== 'MUSIC') {
+                    if (notify && (type === 'Dub' || !settings.value.preferDubs || (media?.status === 'FINISHED' && !['WATCHING', 'REPEATING']?.includes(media?.mediaListEntry?.status)) || !(await malDubs.isDubMedia(media)) || await isSubbedProgress(media)) && media.format !== 'MUSIC') {
                         window.dispatchEvent(new CustomEvent('notification-app', {
                             detail: {
                                 id: media?.id,
@@ -413,7 +413,7 @@ class AnimeSchedule {
                         }))
                         debug(`Successfully notified for ${media?.id}:${media?.title?.userPreferred}!`)
                     } else {
-                        debug(`Failed to notify for ${media?.id}:${media?.title?.userPreferred}:${notify}:${(type === 'Dub' || !settings.value.preferDubs || (mediaCache.value[episode.id]?.status === 'FINISHED' && !['WATCHING', 'REPEATING']?.includes(mediaCache.value[episode.id]?.mediaListEntry?.status)) || !(await malDubs.isDubMedia(media)) || await isSubbedProgress(media))}:${(media.format !== 'MUSIC')}`)
+                        debug(`Failed to notify for ${media?.id}:${media?.title?.userPreferred}:${notify}:${(type === 'Dub' || !settings.value.preferDubs || (media?.status === 'FINISHED' && !['WATCHING', 'REPEATING']?.includes(media?.mediaListEntry?.status)) || !(await malDubs.isDubMedia(media)) || await isSubbedProgress(media))}:${(media.format !== 'MUSIC')}`)
                     }
                 }
             }
