@@ -33,8 +33,6 @@
 
   let modal
   let container = null
-  let scrollTags = null
-  let scrollGenres = null
   let staticMedia
   $: media = mediaCache.value[$view?.id] || $view
   $: {
@@ -69,12 +67,7 @@
   $: staticMedia && (modal?.focus(), setOverlay(), (container && container.scrollTo({top: 0, behavior: 'smooth'})))
   $: staticMedia && (overlay.length === 1 && overlay.includes('viewanime') && modal?.focus())
   $: !staticMedia && close()
-  $: {
-    if (staticMedia) {
-      if (scrollTags) scrollTags.scrollLeft = 0
-      if (scrollGenres) scrollGenres.scrollLeft = 0
-    }
-  }
+
   function setOverlay() {
     if (!overlay.includes('viewanime')) overlay = [...overlay, 'viewanime']
   }
@@ -277,30 +270,30 @@ function getGenreColor(genre) {
               </div>
             </div>
             <Details media={staticMedia} alt={recommendations} />
-              <!-- Tags Section -->
-              <div bind:this={scrollTags} class="m-0 px-20 pb-0 pt-10 d-flex flex-wrap text-capitalize align-items-start">
-                {#each staticMedia.tags.slice(0, 7) as tag}
-                  <div class="genre-tag select-all mb-10">
-                    <Hash class="mr-5" size="1.4rem" />
-                    <span class="font-weight-bolder select-all">{tag.name}</span>
-                  </div>
-                {/each}
-                {#if staticMedia.tags.length > 7}
-                  <div class="genre-tag mb-10 opacity-50" data-toggle="tooltip" data-placement="top" data-title={staticMedia.tags.slice(7).map((t) => t.name).join(", ")}>
-                    +{staticMedia.tags.length - 7} more...
-                  </div>
-                {/if}
-              </div>
+<!-- Tags Section -->
+<div class="m-0 pb-0 pt-10 d-flex flex-wrap text-capitalize align-items-start">
+  {#each staticMedia.tags.slice(0, 7) as tag}
+    <div class="genre-tag mb-10 mr-10">
+      <Hash class="mr-5" size="1.4rem" />
+      {tag.name}
+    </div>
+  {/each}
+  {#if staticMedia.tags.length > 7}
+    <div class="genre-tag mb-10 mr-10 opacity-50" data-toggle="tooltip" data-placement="top" data-title={staticMedia.tags.slice(7).map((t) => t.name).join(", ")}>
+      +{staticMedia.tags.length - 7} more...
+    </div>
+  {/if}
+</div>
 
-              <!-- Genres Section -->
-              <div bind:this={scrollGenres} class="m-0 px-20 pb-0 pt-10 d-flex flex-wrap text-capitalize align-items-start">
-                {#each staticMedia.genres as genre}
-                  <div class="genre-tag select-all mb-10 genre-colored" style="--genre-color: {getGenreColor(genre)};">
-                    <svelte:component this={genreIcons[genre]} class="mr-5" size="1.4rem" />
-                    {genre}
-                  </div>
-                {/each}
-              </div>
+<!-- Genres Section -->
+<div class="m-0 pb-0 pt-10 d-flex flex-wrap text-capitalize align-items-start">
+  {#each staticMedia.genres as genre}
+    <div class="genre-tag mb-10 mr-10 genre-colored" style="--genre-color: {getGenreColor(genre)};">
+      <svelte:component this={genreIcons[genre]} class="mr-5" size="1.4rem" />
+      {genre}
+    </div>
+  {/each}
+</div>
             {#if staticMedia.description}
               <div class='w-full d-flex flex-row align-items-center pt-20 mt-10'>
                 <hr class='w-full' />
