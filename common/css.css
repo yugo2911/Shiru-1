@@ -1021,6 +1021,10 @@ img[src=''], img[src=' '] {
   }
 }
 
+/* Title Style Match */
+h1 {
+  text-shadow: 0.2rem 0.4rem 1.2rem hsla(var(--black-color-hsl), 0.9);
+}
 
 /* BASE TAG STYLES (Shared between detail-tag and genre-tag) */
 .detail-tag,
@@ -1111,5 +1115,95 @@ img[src=''], img[src=' '] {
     .btn-icon:hover {
       background: var(--dark-color-very-light) !important;
       transform: translateY(-0.3rem);
+    }
+  }
+  
+  /* ==========================================================================
+     FULLBANNER STYLE PORT
+     ========================================================================== */
+
+  .btn-primary,
+  .btn-secondary,
+  .btn-icon {
+    font-size: 1.5rem;
+    border-radius: 0.8rem;
+    transition: all 0.2s ease;
+    min-height: 4.5rem;
+  }
+
+  /* Primary button (Watch Now) - bright and prominent */
+  .btn-primary {
+    box-shadow: 0 0.4rem 1.2rem hsla(var(--black-color-hsl), 0.4);
+  }
+
+  /* Glassmorphism buttons */
+  .btn-secondary,
+  .btn-icon {
+    border: 0.1rem solid hsla(var(--white-color-hsl), 0.2) !important;
+  }
+
+  /* Square icon button */
+  .btn-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0 !important;
+  }
+
+  /* Hover effects */
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      background: hsla(var(--white-color-hsl), 0.92) !important;
+      transform: translateY(-0.3rem); /* 🎬 Lift effect */
+      box-shadow: 0 0.6rem 1.8rem hsla(var(--black-color-hsl), 0.5);
+    }
+
+    .btn-secondary:hover {
+      background: var(--dark-color-very-light) !important;
+      transform: translateY(-0.3rem);
+    }
+
+    .btn-icon:hover {
+      background: var(--dark-color-very-light) !important;
+      transform: translateY(-0.3rem);
+    }
+  }
+
+  /* GENRE TAGS STYLE PORT */
+  .genre-tag {
+    padding: 0.6rem 1.4rem;
+    background: hsla(var(--white-color-hsl), 0.06); /* Reduced brightness */
+    border-radius: 2rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border: 0.1rem solid hsla(var(--white-color-hsl), 0.1);
+    color: hsla(var(--white-color-hsl), 0.9);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    white-space: nowrap;
+    animation: none !important; /* Prevent any inherited progress animations */
+  }
+
+  /* Specific styling for colored genres */
+  .genre-colored {
+    border-color: var(--genre-color);
+    color: var(--genre-color);
+    background: color-mix(in srgb, var(--genre-color) 8%, transparent);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .genre-tag:hover {
+      background: hsla(var(--white-color-hsl), 0.15);
+      transform: translateY(-0.2rem);
+      color: white;
+      border-color: hsla(var(--white-color-hsl), 0.3);
+    }
+
+    .genre-colored:hover {
+      background: color-mix(in srgb, var(--genre-color) 20%, transparent);
+      color: var(--genre-color);
+      border-color: var(--genre-color);
+      box-shadow: 0 0 10px -5px var(--genre-color);
     }
   }
