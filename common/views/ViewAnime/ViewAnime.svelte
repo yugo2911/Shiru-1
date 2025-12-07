@@ -999,11 +999,9 @@
   }
 
   /* GENRE TAGS STYLE PORT */
-  /* GENRE TAGS STYLE PORT */
   .genre-tag {
     padding: 0.6rem 1.4rem;
     background: hsla(var(--white-color-hsl), 0.06); /* Reduced brightness */
-    backdrop-filter: blur(1rem);
     border-radius: 2rem;
     font-size: 1.3rem;
     font-weight: 600;
