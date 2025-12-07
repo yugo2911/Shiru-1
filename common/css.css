@@ -1018,3 +1018,49 @@ img[src=''], img[src=' '] {
     scale: 1.01;
   }
 }
+
+
+/* BASE TAG STYLES (Shared between detail-tag and genre-tag) */
+.detail-tag,
+.genre-tag {
+  padding: 0.6rem 1.4rem;
+  background: hsla(var(--white-color-hsl), 0.06);
+  border-radius: 2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  border: 0.1rem solid hsla(var(--white-color-hsl), 0.1);
+  color: hsla(var(--white-color-hsl), 0.9);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+/* GENRE TAG SPECIFIC */
+.genre-tag {
+  margin-right: 1rem;
+}
+
+.genre-colored {
+  border-color: var(--genre-color);
+  color: var(--genre-color);
+  background: color-mix(in srgb, var(--genre-color) 8%, transparent);
+}
+
+/* HOVER STATES */
+@media (hover: hover) and (pointer: fine) {
+  .detail-tag:hover,
+  .genre-tag:hover {
+    background: hsla(var(--white-color-hsl), 0.15);
+    transform: translateY(-0.2rem);
+    color: white;
+    border-color: hsla(var(--white-color-hsl), 0.3);
+  }
+
+  .genre-colored:hover {
+    background: color-mix(in srgb, var(--genre-color) 20%, transparent);
+    color: var(--genre-color);
+    border-color: var(--genre-color);
+    box-shadow: 0 0 10px -5px var(--genre-color);
+  }
+}
