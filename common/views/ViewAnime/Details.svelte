@@ -157,7 +157,6 @@
   .detail-tag {
     padding: 0.6rem 1.4rem;
     background: hsla(var(--white-color-hsl), 0.06); /* Reduced from 0.12 */
-    backdrop-filter: blur(1rem); /* ✨ Glassmorphism */
     border-radius: 2rem; /* Pill shape */
     font-size: 1.3rem;
     font-weight: 600;
