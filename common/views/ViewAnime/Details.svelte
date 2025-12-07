@@ -65,7 +65,7 @@
 </script>
 
 <div
-  class='m-0 px-20 pb-0 d-flex flex-wrap text-capitalize align-items-start'
+  class='m-0 pb-0 d-flex flex-wrap text-capitalize align-items-start'
 >
   {#each detailsMap as detail}
     {#await getProperty(detail.property, media) then property}
