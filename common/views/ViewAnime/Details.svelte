@@ -5,10 +5,6 @@
 
   export let media = null
   export let alt = null
-
-  let scrollDetails
-  $: if (media && scrollDetails) scrollDetails.scrollLeft = 0
-
   const countryMap = {
     JP: 'Japan',
     KR: 'South Korea',
@@ -68,7 +64,9 @@
   }
 </script>
 
-<div bind:this={scrollDetails} class='card m-0 px-20 pb-0 pt-10 d-flex flex-row overflow-x-scroll text-capitalize align-items-start bg-dark-light'>
+<div
+  class='m-0 px-20 pb-0 d-flex flex-wrap text-capitalize align-items-start'
+>
   {#each detailsMap as detail}
     {#await getProperty(detail.property, media) then property}
       {#if property}
