@@ -169,6 +169,12 @@
   }
 
   onDestroy(() => resizeObserver?.disconnect())
+
+  // Helper function to convert genre names to CSS variable format
+function getGenreColor(genre) {
+  const cssName = genre.toLowerCase().replace(/\s+/g, '-');
+  return `var(--genre-${cssName})`;
+}
 </script>
 
 <div class='modal modal-full z-50' class:show={staticMedia} on:keydown={checkClose} tabindex='-1' role='button' bind:this={modal}>
