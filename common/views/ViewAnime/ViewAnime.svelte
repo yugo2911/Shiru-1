@@ -963,7 +963,6 @@
   /* Glassmorphism buttons */
   .btn-secondary,
   .btn-icon {
-    backdrop-filter: blur(1rem); /* ✨ Frosted glass effect */
     border: 0.1rem solid hsla(var(--white-color-hsl), 0.2) !important;
   }
 
