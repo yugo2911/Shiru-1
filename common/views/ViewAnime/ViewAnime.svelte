@@ -33,8 +33,6 @@
 
   let modal
   let container = null
-  let scrollTags = null
-  let scrollGenres = null
   let staticMedia
   $: media = mediaCache.value[$view?.id] || $view
   $: {
@@ -71,8 +69,6 @@
   $: !staticMedia && close()
   $: {
     if (staticMedia) {
-      if (scrollTags) scrollTags.scrollLeft = 0
-      if (scrollGenres) scrollGenres.scrollLeft = 0
     }
   }
   function setOverlay() {
