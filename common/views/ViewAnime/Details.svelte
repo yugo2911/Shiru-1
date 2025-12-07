@@ -76,7 +76,6 @@
           {#if detail.custom !== 'icon'}
             <svelte:component size='2rem' this={detail.icon} class='mr-10' />
           {:else}
-            <div class='mr-10 d-flex align-items-center text-nowrap font-size-12 font-weight-bold line-height-normal'>
               {detail.icon}
             </div>
           {/if}
