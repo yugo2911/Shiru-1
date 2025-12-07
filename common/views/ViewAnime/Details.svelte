@@ -20,9 +20,7 @@
     { property: 'source', label: 'Source', icon: FolderKanban },
     { property: 'countryOfOrigin', label: 'Country', icon: Earth, custom: 'property' },
     { property: 'isAdult', label: 'Adult', icon: Adult },
-    { property: 'english', label: 'English', icon: Type },
-    { property: 'romaji', label: 'Romaji', icon: Languages },
-    { property: 'native', label: 'Native', icon: '語', custom: 'icon' }
+    { property: 'romaji', label: 'Romaji', icon: Languages }
   ]
 
   let studio
@@ -68,18 +66,18 @@
   {#each detailsMap as detail}
     {#await getProperty(detail.property, media) then property}
       {#if property}
-        <div class='detail-tag mb-10 mr-10'>
+        <div class='detail-tag mb-10 mr-10' data-toggle={detail.property === 'romaji' ? 'tooltip' : undefined} data-placement='top' data-title={detail.property === 'romaji' ? [media.title.english, media.title.romaji, media.title.native].filter(f => f).join('\n') : undefined}>
           {#if detail.custom !== 'icon'}
             <svelte:component this={detail.icon} size='1.4rem' class='mr-5' />
           {:else}
-            <div class='mr-5'>
-              {detail.icon}
-            </div>
+            <div class='mr-5'>{detail.icon}</div>
           {/if}
           <div class='d-flex flex-column justify-content-center text-nowrap'>
             <div class='font-weight-bold select-all line-height-normal'>
               {#if detail.custom === 'property'}
                 {getCustomProperty(detail.property, media)}
+              {:else if detail.property === 'romaji'}
+                {property.length > 40 ? property.substring(0, 40) + '...' : property}
               {:else}
                 {property.toString().replace(/_/g, ' ').toLowerCase()}
               {/if}
