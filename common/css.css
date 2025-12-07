@@ -1066,3 +1066,50 @@ img[src=''], img[src=' '] {
     box-shadow: 0 0 10px -5px var(--genre-color);
   }
 }
+/* button styles */
+  .btn-primary,
+  .btn-secondary,
+  .btn-icon {
+    font-size: 1.5rem;
+    border-radius: 0.8rem;
+    transition: all 0.2s ease; /* ⏱️ Hover animation speed */
+    min-height: 4.5rem;
+  }
+
+  /* Primary button (Watch Now) - bright and prominent */
+  .btn-primary {
+    box-shadow: 0 0.4rem 1.2rem hsla(var(--black-color-hsl), 0.4);
+  }
+
+  /* Secondary buttons with glassmorphism */
+  .btn-secondary,
+  .btn-icon {
+    backdrop-filter: blur(1rem); /* ✨ Frosted glass effect */
+    border: 0.1rem solid hsla(var(--white-color-hsl), 0.2) !important;
+  }
+
+  /* Square icon button (favorite heart) */
+  .btn-icon {
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0 !important;
+  }
+
+  /* Hover effects for buttons (desktop only) */
+  @media (hover: hover) and (pointer: fine) {
+    .btn-primary:hover {
+      background: hsla(var(--white-color-hsl), 0.92) !important;
+      transform: translateY(-0.3rem); /* 🎬 Lift effect */
+      box-shadow: 0 0.6rem 1.8rem hsla(var(--black-color-hsl), 0.5);
+    }
+
+    .btn-secondary:hover {
+      background: var(--dark-color-very-light) !important;
+      transform: translateY(-0.3rem);
+    }
+
+    .btn-icon:hover {
+      background: var(--dark-color-very-light) !important;
+      transform: translateY(-0.3rem);
+    }
+  }
