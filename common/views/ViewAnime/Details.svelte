@@ -64,17 +64,15 @@
   }
 </script>
 
-<div
-  class='m-0 px-20 pb-0 d-flex flex-wrap text-capitalize align-items-start'
->
+<div class='m-0 pb-0 d-flex flex-wrap text-capitalize align-items-start'>
   {#each detailsMap as detail}
     {#await getProperty(detail.property, media) then property}
       {#if property}
         <div class='detail-tag mb-10 mr-10'>
           {#if detail.custom !== 'icon'}
-            <svelte:component this={detail.icon} size='1.4rem' class='mr-10' />
+            <svelte:component this={detail.icon} size='1.4rem' class='mr-5' />
           {:else}
-            <div class='mr-10 d-flex align-items-center text-nowrap font-size-12 font-weight-bold line-height-normal'>
+            <div class='mr-5'>
               {detail.icon}
             </div>
           {/if}
